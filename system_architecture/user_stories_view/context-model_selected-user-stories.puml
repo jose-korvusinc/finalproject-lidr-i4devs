@@ -1,0 +1,59 @@
+@startuml
+title Modelo de Contexto — Historias de Usuario seleccionadas (2.3: HU1–HU4)
+
+state "REGISTRO_TENANT\n(HU1)" as registro
+state "CONFIGURACION_AGENDA\n(HU2)" as agenda
+state "GESTION_CATALOGO\n(HU3)" as catalogo
+state "RESERVA_PUBLICA\n(HU4)" as reserva
+
+note right of registro
+  **HU1 — Registrar negocio**
+  - Registrar negocio
+  - Validar subdominio único
+  - Crear espacio aislado (tenant)
+end note
+
+note right of agenda
+  **HU2 — Configurar agenda**
+  - Definir días laborables
+  - Configurar horarios de apertura/cierre
+  - Guardar reglas de disponibilidad
+end note
+
+note right of catalogo
+  **HU3 — Gestionar catálogo**
+  - Crear servicio
+  - Crear empleado
+  - Asignar servicio a empleado
+end note
+
+note right of reserva
+  **HU4 — Reservar cita pública**
+  - Seleccionar servicio
+  - Elegir empleado y hueco
+  - Consultar disponibilidad
+  - Bloquear slot pendiente
+end note
+
+[*] --> registro : iniciarSistema
+
+registro --> agenda : configurarAgenda
+registro --> catalogo : gestionarCatalogo
+registro --> reserva : abrirWidgetReserva
+registro --> [*] : cerrarSistema
+
+agenda --> catalogo : gestionarCatalogo
+agenda --> reserva : abrirWidgetReserva
+agenda --> registro : registrarNegocio
+agenda --> [*] : cerrarSistema
+
+catalogo --> agenda : configurarAgenda
+catalogo --> reserva : abrirWidgetReserva
+catalogo --> registro : registrarNegocio
+catalogo --> [*] : cerrarSistema
+
+reserva --> agenda : configurarAgenda
+reserva --> catalogo : gestionarCatalogo
+reserva --> registro : registrarNegocio
+reserva --> [*] : cerrarSistema
+@enduml

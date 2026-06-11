@@ -1,0 +1,33 @@
+@startuml
+title Diagrama de Estados — HU4: Reserva Pública (mensajes Cliente Final ↔ Sistema ↔ Email)
+
+' Refina el estado-contexto RESERVA_PUBLICA (HU4).
+' Actores: Cliente Final <-> Sistema; Sistema -> Servicio de Email (OTP).
+
+state "SELECCIONANDO_SERVICIO" as servicio
+state "CONSULTANDO_DISPONIBILIDAD" as disponibilidad
+state "SELECCIONANDO_HUECO" as hueco
+state "RELLENANDO_DATOS" as datos
+state "SLOT_PENDIENTE\n(hueco bloqueado temporalmente)" as pendiente
+state "HUECO_NO_DISPONIBLE\n(conflicto de concurrencia)" as ocupado
+
+[*] --> servicio : Cliente→Sistema: abrirWidget
+
+servicio --> disponibilidad : Cliente→Sistema: seleccionarServicioYEmpleado
+disponibilidad --> hueco : Sistema→Cliente: mostrarHuecos\n[respuesta < 200 ms]
+
+hueco --> datos : Cliente→Sistema: elegirHueco
+hueco --> ocupado : Sistema→Cliente: huecoNoDisponible\n[bloqueado por otro cliente]
+ocupado --> disponibilidad : Cliente→Sistema: elegirOtroHueco
+
+datos --> pendiente : Cliente→Sistema: enviarDatos(nombre, email, teléfono)\n[datos válidos] / Sistema: bloquearSlot(Pendiente)
+datos --> datos : Sistema→Cliente: errorValidación\n[email con formato inválido]
+
+pendiente --> [*] : Sistema→Email: enviarCódigoOTP\n/ iniciarVerificación (HU5)
+
+note right of pendiente
+  HU4 termina al dejar el slot en
+  estado "Pendiente" e iniciar el
+  flujo de verificación OTP (HU5).
+end note
+@enduml

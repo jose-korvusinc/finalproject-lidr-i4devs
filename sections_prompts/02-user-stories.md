@@ -162,3 +162,20 @@ Crea un subagente de Claude Code llamado `diagramador-uml` y guárdalo en `.clau
   Notas:
   - La pieza importante es que el subagente delega en la skill (que a su vez lee las rules), de modo que mantienes una sola fuente de verdad en tres capas: rules → skill → subagente.
   - El prompt destaca el caso de uso donde un subagente aporta más valor: generar varios diagramas de golpe manteniendo coherencia de nombres entre ellos, descargando ese trabajo del contexto principal.
+
+**Prompt 9: Generar diagrama de actores con las 4 historias de usuario seleccionadas para el proyecto (Claude Opus 4.8)**
+
+Haz un diagrama de casos de uso UML de las historias de usuario seleccionadas en el punto 2.3 del fichero `sections_readme/02-user-stories.md`
+
+**Prompt 10: Generar diagrama de contexto (Claude Opus 4.8)**
+
+Añadir una nueva sección "2.4 Modelo de contexto" en el fichero @sections_readme/02-user-stories.md donde se añade:
+  1. Una pequeña descripción de lo que es un modelo de contexto en RUP (diagrama de estados donde las transiciones son las historias de usuario) y que se va a diagramar SOLO para las 4
+  historias de usuario seleccionadas en el punto 2.3. Este diagrama sirve para ver como colaboran los casos de uso entre si.
+  2. Crear el diagrama UML de contexto usando el agente `uml-diagrams-maker.md` semejante al de la imagen adjunta de ejemplo
+  3. Guarda el diagrama UML en formato .puml en `system_architecture/user_stories_view`
+
+**Prompt 11: Crear diagrama de estado por cada historia de usuario (Claude Opus 4.8)**
+
+Crear un diagrama de estado UML especifico para cada caso de uso HU1-HU4 donde las transiciones serán mensajes que se mandan entre los actores y el sistema y los nodos son los estados que aparecen en el
+diagrama de contexto `system_architecture/user_stories_view/context-model_selected-user-stories.puml`. Guardar estos cuatro ficheros .puml en la carpeta `system_architecture/user_stories_view`

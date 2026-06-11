@@ -1,0 +1,20 @@
+@startuml
+title Diagrama de Actores — Historias de Usuario seleccionadas (2.3: HU1–HU4)
+
+actor "Administrador del Negocio\n(Tenant)" as admin
+actor "Cliente Final" as cliente
+
+usecase "HU1: Registrar negocio y\ncrear espacio aislado (Tenant)" as UC1
+usecase "HU2: Configurar agenda y\nhorarios laborales" as UC2
+usecase "HU3: Gestionar catálogo de\nservicios y empleados" as UC3
+usecase "HU4: Reservar cita pública\nsin registro" as UC4
+
+' --- Actor primario: Administrador del Negocio (HU1, HU2, HU3) ---
+admin --> UC1
+admin --> UC2
+admin --> UC3
+
+' --- Actor primario: Cliente Final (HU4) ---
+cliente --> UC4
+
+@enduml

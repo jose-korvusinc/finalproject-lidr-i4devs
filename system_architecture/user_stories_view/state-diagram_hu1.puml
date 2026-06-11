@@ -1,0 +1,28 @@
+@startuml
+title Diagrama de Estados — HU1: Registro de Negocio (mensajes Administrador ↔ Sistema)
+
+' Refina el estado-contexto REGISTRO_TENANT (HU1).
+' Actores: Administrador del Negocio (Tenant) <-> Sistema.
+
+state "ESPERANDO_DATOS\n(formulario de registro)" as datos
+state "VALIDANDO_SUBDOMINIO" as validando
+state "TENANT_CREADO\n(espacio aislado habilitado)" as creado
+state "REGISTRO_RECHAZADO\n(conflicto de subdominio)" as rechazado
+
+[*] --> datos : Admin→Sistema: abrirRegistro
+
+datos --> validando : Admin→Sistema: enviarFormulario(nombre, email, subdominio)
+
+validando --> creado : Sistema→Admin: altaConfirmada\n[subdominio libre] / crearTenant(tenant_id), habilitarSubdominio
+validando --> rechazado : Sistema→Admin: conflictoSubdominio\n[subdominio ocupado]
+
+rechazado --> datos : Admin→Sistema: corregirSubdominio
+
+creado --> [*] : Sistema→Admin: accesoHabilitado(mi-negocio.tuplataforma.com)
+
+note right of creado
+  Aislamiento multitenant:
+  toda consulta del Admin se filtra
+  por su tenant_id.
+end note
+@enduml

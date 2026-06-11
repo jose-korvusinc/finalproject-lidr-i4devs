@@ -403,3 +403,50 @@ Las historias de usuario seleccionadas para analizar, diseñar, implementar y te
 - **HU2:** Configuración de la Agenda y Horarios Laborales
 - **HU3:** Gestión del Catálogo de Servicios y Empleados
 - **HU4:** Reserva Pública de Citas sin Registro (Widget de Reserva)
+
+---
+
+### 2.4 Diagrama de historias de usuario
+
+![Diagrama de historias de usuario — HU1 a HU4](../system_architecture/user_stories_view/usecases_diagrams.png)
+
+---
+
+### 2.5 Diagrama de contexto
+
+El **diagrama de contexto** es un diagrama de máquina de estados que representa los distintos contextos funcionales del sistema y las transiciones entre ellos. Cada **estado** agrupa las acciones disponibles en un ámbito concreto y cada **transición** se etiqueta con la historia de usuario o acción que permite pasar de un contexto a otro. El objetivo es visualizar **cómo colaboran los casos de uso entre sí** y qué caminos de navegación existen en el producto.
+
+Este diagrama se ha elaborado **únicamente** para las cuatro historias de usuario seleccionadas en el apartado 2.3 (HU1–HU4), que constituyen el núcleo del MVP. Los estados reflejan el onboarding del tenant (HU1), la configuración operativa del negocio (HU2 y HU3) y el flujo público de reserva (HU4); las flechas muestran las transiciones que el administrador o el cliente final pueden realizar entre contextos.
+
+![Diagrama de contexto — HU1 a HU4](../system_architecture/user_stories_view/context-model_selected-user-stories.png)
+
+---
+
+### 2.6 Diagramas de estados por historia de usuario
+
+Cada historia de usuario seleccionado (HU1–HU4) se detalla en su propio **diagrama de máquina de estados**, que **refina** el estado-contexto correspondiente del apartado 2.5. En estos diagramas los **nodos** son los estados internos de la historia de usuario y las **transiciones** son los **mensajes intercambiados entre los actores y el sistema**, etiquetados con la convención `Emisor→Receptor: mensaje [guarda] / acción` y derivados de los criterios de aceptación (BDD) de cada historia.
+
+#### 2.6.1 HU1 — Registro de Negocio (Tenant)
+
+Estados del alta del tenant y mensajes entre el **Administrador del Negocio** y el **Sistema**: captura de datos, validación del subdominio único, creación del espacio aislado o rechazo por conflicto.
+
+![Diagrama de estados — HU1: Registro de Negocio](../system_architecture/user_stories_view/state-diagram_hu1.png)
+
+#### 2.6.2 HU2 — Configuración de la Agenda
+
+Estados de la configuración de horarios y mensajes entre el **Administrador del Negocio** y el **Sistema**: definición de jornada (días, horarios y descanso), guardado de reglas y actualización del motor de disponibilidad.
+
+![Diagrama de estados — HU2: Configuración de la Agenda](../system_architecture/user_stories_view/state-diagram_hu2.png)
+
+#### 2.6.3 HU3 — Gestión del Catálogo
+
+Estados de la gestión del catálogo y mensajes entre el **Administrador del Negocio** y el **Sistema**: alta de servicios y empleados, asignación servicio–empleado, publicación en el widget y bloqueo de eliminación de servicios con citas futuras.
+
+![Diagrama de estados — HU3: Gestión del Catálogo](../system_architecture/user_stories_view/state-diagram_hu3.png)
+
+#### 2.6.4 HU4 — Reserva Pública de Citas
+
+Estados del flujo de reserva pública y mensajes entre el **Cliente Final**, el **Sistema** y el **Servicio de Email**: selección de servicio/empleado, consulta de disponibilidad, bloqueo temporal del hueco en estado "Pendiente" e inicio de la verificación OTP (HU5).
+
+![Diagrama de estados — HU4: Reserva Pública de Citas](../system_architecture/user_stories_view/state-diagram_hu4.png)
+

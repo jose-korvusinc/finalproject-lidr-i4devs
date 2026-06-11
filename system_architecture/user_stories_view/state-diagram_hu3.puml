@@ -1,0 +1,31 @@
+@startuml
+title Diagrama de Estados — HU3: Gestión de Catálogo (mensajes Administrador ↔ Sistema)
+
+' Refina el estado-contexto GESTION_CATALOGO (HU3).
+' Actores: Administrador del Negocio <-> Sistema.
+
+state "PANEL_CATALOGO" as panel
+state "SERVICIO_CREADO" as servicio
+state "EMPLEADO_CREADO" as empleado
+state "SERVICIO_ASIGNADO\n(visible en widget público)" as asignado
+state "ELIMINACION_BLOQUEADA\n(servicio con citas futuras)" as bloqueado
+
+[*] --> panel : Admin→Sistema: abrirCatalogo
+
+panel --> servicio : Admin→Sistema: crearServicio(nombre, precio, duración)
+panel --> empleado : Admin→Sistema: crearEmpleado
+
+servicio --> asignado : Admin→Sistema: asignarServicioAEmpleado(EmpleadoX)\n/ Sistema: vincular, publicarEnWidget
+empleado --> asignado : Admin→Sistema: asignarServicioAEmpleado(EmpleadoX)
+
+asignado --> bloqueado : Admin→Sistema: eliminarServicio\n[tiene citas futuras] / Sistema: impedirBorrado, informarAdmin
+bloqueado --> asignado : Sistema→Admin: servicioDesactivado(sin borrar citas)
+
+asignado --> [*] : Admin→Sistema: cerrarCatalogo
+
+note right of empleado
+  Empleado sin servicios asignados:
+  el Sistema no lo expone como
+  opción seleccionable en el widget.
+end note
+@enduml

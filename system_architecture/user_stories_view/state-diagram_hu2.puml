@@ -1,0 +1,27 @@
+@startuml
+title Diagrama de Estados — HU2: Configuración de Agenda (mensajes Administrador ↔ Sistema)
+
+' Refina el estado-contexto CONFIGURACION_AGENDA (HU2).
+' Actores: Administrador del Negocio (autenticado) <-> Sistema.
+
+state "PANEL_HORARIOS\n(admin autenticado)" as panel
+state "DEFINIENDO_JORNADA\n(días, horarios, descanso)" as definiendo
+state "REGLAS_GUARDADAS\n(motor de disponibilidad actualizado)" as guardadas
+
+[*] --> panel : Admin→Sistema: abrirPanelHorarios
+
+panel --> definiendo : Admin→Sistema: definirDiasYHorarios(L-V 09:00-18:00, descanso 14:00-15:00)
+
+definiendo --> guardadas : Admin→Sistema: guardarCambios\n/ Sistema: persistirReglas(tenant_id), actualizarMotorDisponibilidad
+guardadas --> panel : Sistema→Admin: confirmarGuardado
+
+guardadas --> definiendo : Admin→Sistema: modificarHorario(cierre 18:00→17:00)
+
+guardadas --> [*] : Admin→Sistema: cerrarPanel
+
+note right of guardadas
+  Día no laborable (p. ej. sábado):
+  el motor no ofrece huecos reservables.
+  Las citas ya confirmadas no se alteran.
+end note
+@enduml

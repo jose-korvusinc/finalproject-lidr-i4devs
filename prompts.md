@@ -15,6 +15,12 @@ Puedes añadir adicionalmente la conversación completa como link o archivo adju
 
 ---
 
+> Nota sobre la organización: las secciones de este fichero no tienen por qué
+> reflejar un orden cronológico estricto de ejecución.
+> Están agrupadas según el área del proyecto a la que aplica cada conjunto de prompts.
+> Dentro de cada sección, sí se mantiene el orden de uso: el prompt 1 se utilizó antes que el prompt 2.
+
+
 ## 0. Investigación del área de negocio
 
 [Ver prompts de investigación del área de negocio](sections_prompts/00-business-area-research.md)

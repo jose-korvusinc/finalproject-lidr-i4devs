@@ -1,3 +1,5 @@
+[<- Volver al README principal](../readme.md)
+
 ## 3. Arquitectura del Sistema
 
 ### **3.1. Tecnologías:**

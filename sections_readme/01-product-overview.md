@@ -1,3 +1,5 @@
+[<- Volver al README principal](../readme.md)
+
 ## 1. Descripción general del producto
 
 El proyecto consiste en el diseño, desarrollo e implementación de una plataforma de software como servicio (**SaaS**) bajo una arquitectura **Multitenant** (Multi-inquilino). El sistema está concebido para permitir que múltiples negocios independientes (clínicas, barberías, consultorías, centros estéticos, etc.), denominados **Tenants**, gestionen de forma autónoma sus agendas, recursos humanos y catálogos de servicios utilizando una única infraestructura de aplicación y base de datos compartida.

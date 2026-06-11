@@ -1,3 +1,5 @@
+[<- Volver al README principal](../readme.md)
+
 ## 2. Historias de Usuario
 
 ### 2.1 Catálogo global de historias de usuario

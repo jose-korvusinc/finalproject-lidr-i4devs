@@ -1,0 +1,64 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="hu4-wireframe" name="HU4 - Reserva Publica">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="420" pageHeight="640" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="hu4-win" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;arcSize=6;" vertex="1" parent="1">
+          <mxGeometry x="60" y="40" width="300" height="560" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-bar" value="barberia-paco.tuplataforma.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=center;fontColor=#5f6368;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="40" width="300" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-h" value="Reserva tu cita" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="80" y="84" width="260" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-l1" value="Servicio" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#5f6368;" vertex="1" parent="1">
+          <mxGeometry x="80" y="122" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-dd1" value="Corte de pelo (30 min)                  ▼" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;align=left;spacingLeft=8;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="80" y="142" width="260" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-l2" value="Profesional" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#5f6368;" vertex="1" parent="1">
+          <mxGeometry x="80" y="184" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-dd2" value="Empleado X                                   ▼" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;align=left;spacingLeft=8;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="80" y="204" width="260" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-l3" value="Hora disponible" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#5f6368;" vertex="1" parent="1">
+          <mxGeometry x="80" y="246" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-t1" value="10:00" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=#1a73e8;fontColor=#ffffff;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="266" width="60" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-t2" value="10:30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="148" y="266" width="60" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-t3" value="11:00" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="216" y="266" width="60" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-t4" value="11:30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="284" y="266" width="56" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-l4" value="Tus datos" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#5f6368;" vertex="1" parent="1">
+          <mxGeometry x="80" y="312" width="260" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-i1" value="Nombre" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;align=left;spacingLeft=8;fontColor=#9aa0a6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="332" width="260" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-i2" value="Email" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;align=left;spacingLeft=8;fontColor=#9aa0a6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="372" width="260" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-i3" value="Teléfono" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;align=left;spacingLeft=8;fontColor=#9aa0a6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="412" width="260" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-bp" value="Continuar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#1a73e8;strokeColor=#1a73e8;fontColor=#ffffff;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="80" y="464" width="260" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="hu4-note" value="Te enviaremos un código por email para confirmar la reserva." style="text;html=1;align=center;verticalAlign=middle;fontSize=11;fontStyle=2;fontColor=#9aa0a6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="512" width="260" height="32" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

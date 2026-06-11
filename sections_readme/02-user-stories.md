@@ -450,3 +450,41 @@ Estados del flujo de reserva pública y mensajes entre el **Cliente Final**, el 
 
 ![Diagrama de estados — HU4: Reserva Pública de Citas](../system_architecture/user_stories_view/state-diagram_hu4.png)
 
+---
+
+### 2.7 Vistas de interfaz (prototipo de Iniciación)
+
+Como parte de la documentación de la fase de **Iniciación (Inception)** de RUP, se incluyen wireframes de **baja fidelidad** que ilustran la interfaz prevista para cada historia de usuario seleccionada (HU1–HU4). El objetivo en esta fase es validar el alcance y el entendimiento de los flujos, no el diseño visual final. Los prototipos se han elaborado con **draw.io**; el fuente editable (`.drawio`) se versiona junto a la imagen exportada.
+
+#### 2.7.1 HU1 — Registro de Negocio (Tenant)
+
+Formulario de alta del negocio: nombre, email corporativo y subdominio único (con sufijo `.tuplataforma.com`), más las acciones de cancelar y crear.
+
+![Wireframe — HU1: Registro de Negocio](../system_architecture/user_stories_view/wireframe_hu1-tenant-registration.png)
+
+**Fuente editable (draw.io):** [`system_architecture/user_stories_view/wireframe_hu1-tenant-registration.drawio`](../system_architecture/user_stories_view/wireframe_hu1-tenant-registration.drawio)
+
+#### 2.7.2 HU2 — Configuración de la Agenda
+
+Panel de horarios: selección de días laborables (L–V), horario de apertura/cierre y turno de descanso, con la acción de guardar cambios.
+
+![Wireframe — HU2: Configuración de la Agenda](../system_architecture/user_stories_view/wireframe_hu2-schedule-configuration.png)
+
+**Fuente editable (draw.io):** [`system_architecture/user_stories_view/wireframe_hu2-schedule-configuration.drawio`](../system_architecture/user_stories_view/wireframe_hu2-schedule-configuration.drawio)
+
+#### 2.7.3 HU3 — Gestión del Catálogo
+
+Catálogo de servicios y empleados: listado de servicios (nombre, duración y precio), empleados y asignación servicio–empleado.
+
+![Wireframe — HU3: Gestión del Catálogo](../system_architecture/user_stories_view/wireframe_hu3-catalog-management.png)
+
+**Fuente editable (draw.io):** [`system_architecture/user_stories_view/wireframe_hu3-catalog-management.drawio`](../system_architecture/user_stories_view/wireframe_hu3-catalog-management.drawio)
+
+#### 2.7.4 HU4 — Reserva Pública de Citas
+
+Widget público móvil: selección de servicio y profesional, elección de hueco disponible y captura de datos de contacto, con aviso de verificación por email (OTP).
+
+![Wireframe — HU4: Reserva Pública de Citas](../system_architecture/user_stories_view/wireframe_hu4-public-booking.png)
+
+**Fuente editable (draw.io):** [`system_architecture/user_stories_view/wireframe_hu4-public-booking.drawio`](../system_architecture/user_stories_view/wireframe_hu4-public-booking.drawio)
+

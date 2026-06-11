@@ -4,122 +4,59 @@ Puedes añadir adicionalmente la conversación completa como link o archivo adju
 
 ## Índice
 
-1. [Descripción general del producto](#1-descripción-general-del-producto)
-2. [Arquitectura del sistema](#2-arquitectura-del-sistema)
-3. [Modelo de datos](#3-modelo-de-datos)
-4. [Especificación de la API](#4-especificación-de-la-api)
-5. [Historias de usuario](#5-historias-de-usuario)
-6. [Tickets de trabajo](#6-tickets-de-trabajo)
-7. [Pull requests](#7-pull-requests)
+0. [Investigación del área de negocio](sections_prompts/00-business-area-research.md)
+1. [Descripción general del producto](sections_prompts/01-product-overview.md)
+2. [Historias de usuario](sections_prompts/02-user-stories.md)
+3. [Arquitectura del sistema](sections_prompts/03-system-architecture.md)
+4. [Modelo de datos](sections_prompts/04-data-model.md)
+5. [Especificación de la API](sections_prompts/05-api-specification.md)
+6. [Tickets de trabajo](sections_prompts/06-work-tickets.md)
+7. [Pull requests](sections_prompts/07-pull-requests.md)
+
+---
+
+## 0. Investigación del área de negocio
+
+[Ver prompts de investigación del área de negocio](sections_prompts/00-business-area-research.md)
 
 ---
 
 ## 1. Descripción general del producto
 
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
+[Ver prompts de descripción general del producto](sections_prompts/01-product-overview.md)
 
 ---
 
-## 2. Arquitectura del Sistema
+## 2. Historias de Usuario
 
-### **2.1. Diagrama de arquitectura:**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
-
-### **2.2. Descripción de componentes principales:**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
-
-### **2.3. Descripción de alto nivel del proyecto y estructura de ficheros**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
-
-### **2.4. Infraestructura y despliegue**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
-
-### **2.5. Seguridad**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
-
-### **2.6. Tests**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
+[Ver prompts de historias de usuario](sections_prompts/02-user-stories.md)
 
 ---
 
-### 3. Modelo de Datos
+### 3. Arquitectura del Sistema
 
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
+[Ver prompts de arquitectura del sistema](sections_prompts/03-system-architecture.md)
 
 ---
 
-### 4. Especificación de la API
+### 4. Modelo de Datos
 
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
+[Ver prompts de modelo de datos](sections_prompts/04-data-model.md)
 
 ---
 
-### 5. Historias de Usuario
+### 5. Especificación de la API
 
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
+[Ver prompts de especificación de la API](sections_prompts/05-api-specification.md)
 
 ---
 
 ### 6. Tickets de Trabajo
 
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
+[Ver prompts de tickets de trabajo](sections_prompts/06-work-tickets.md)
 
 ---
 
 ### 7. Pull Requests
 
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
+[Ver prompts de pull requests](sections_prompts/07-pull-requests.md)

@@ -1,0 +1,30 @@
+@startuml c1_system_context
+' =====================================================================
+' C4 Model - Level 1: System Context
+' Sistema SaaS Multitenant de Gestion de Reservas y Citas (MVP)
+' Etiquetas en ingles, descripciones en espanol.
+' =====================================================================
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title System Context diagram - Booking & Appointments SaaS Platform
+
+Person(superAdmin, "Super-Admin", "Propietario del SaaS. Supervisa metricas globales y suspende/activa cuentas de negocios.")
+Person(tenantAdmin, "Tenant Admin / Business Owner", "Dueno del negocio. Configura su negocio, horarios, servicios y empleados.")
+Person(employee, "Employee / Staff", "Atiende las citas y consulta su agenda diaria.")
+Person(customer, "Final Customer", "Cliente final que reserva una cita desde el widget publico, sin registro.")
+
+System(bookingPlatform, "Booking & Appointments SaaS Platform", "Plataforma multitenant en la nube para digitalizar agendas, gestionar reservas y proteger las agendas del spam.")
+
+System_Ext(googleCalendar, "Google Calendar", "Calendario externo del empleado para sincronizar las citas confirmadas.")
+System_Ext(emailProvider, "Email Provider", "Servicio de correo para envio de codigos OTP y recordatorios.")
+
+Rel(customer, bookingPlatform, "Reserva citas y verifica su identidad (OTP)", "HTTPS")
+Rel(tenantAdmin, bookingPlatform, "Configura el negocio y gestiona la agenda", "HTTPS")
+Rel(employee, bookingPlatform, "Consulta y reorganiza su agenda", "HTTPS")
+Rel(superAdmin, bookingPlatform, "Administra tenants y planes", "HTTPS")
+
+Rel(bookingPlatform, googleCalendar, "Sincroniza las citas confirmadas", "HTTPS / Google Calendar API")
+Rel(bookingPlatform, emailProvider, "Envia codigos OTP y recordatorios", "SMTP / API")
+
+SHOW_LEGEND()
+@enduml

@@ -1,0 +1,52 @@
+@startuml domain_model
+' =====================================================================
+' Domain Model - Appointment & Booking reality (single business scope)
+' RUP / UML conceptual class diagram: NO attributes, NO methods.
+' Purpose: model the real-world domain (not software), establish a
+' shared vocabulary of the business reality of scheduling appointments.
+' =====================================================================
+
+hide circle
+hide empty members
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+
+' ---- Core domain concepts (business objects & real-world things) ----
+class Business
+class BusinessOwner
+class Employee
+class Customer
+class Service
+class WorkingHours
+class TimeSlot
+class Appointment
+class Reminder
+
+' ---- Appointment lifecycle states modeled as subtypes (events) -------
+class PendingAppointment
+class ConfirmedAppointment
+class CancelledAppointment
+
+' ---- Relationships (links between domain concepts) ------------------
+BusinessOwner --> Business : owns
+Business            --  "1..*" Employee    : employs >
+Business            --  "1..*" Service     : offers >
+Business            --  "1..*" WorkingHours : defines >
+
+Employee      "1..*" -- "1..*" Service     : is qualified for >
+WorkingHours         -- "0..*" TimeSlot    : delimits availability of >
+Employee             -- "0..*" TimeSlot    : is available in >
+
+Customer             -- "0..*" Appointment : books >
+Appointment   "0..*" --        Service     : is for >
+Appointment   "0..*" --        Employee    : is attended by >
+Appointment          --       TimeSlot    : occupies >
+Appointment          -- "0..*" Reminder    : triggers >
+Reminder      "0..*" --       Customer    : is sent to >
+
+' ---- Generalization: an Appointment is in exactly one state ---------
+Appointment <|-- PendingAppointment
+Appointment <|-- ConfirmedAppointment
+Appointment <|-- CancelledAppointment
+
+@enduml

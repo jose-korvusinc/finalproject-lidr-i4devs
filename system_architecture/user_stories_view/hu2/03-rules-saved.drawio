@@ -1,0 +1,34 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="d1" name="HU2 · REGLAS_GUARDADAS">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="580" pageHeight="480" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="500" height="400" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="Panel · Configuración de horarios" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=left;spacingLeft=12;fontColor=#5f6368;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="500" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" value="Horario guardado. El motor de disponibilidad está actualizado." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#34a853;align=left;spacingLeft=10;fontColor=#137333;" vertex="1" parent="1">
+          <mxGeometry x="64" y="96" width="412" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" value="Tu jornada laboral" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="64" y="148" width="400" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" value="Lunes a Viernes  ·  09:00 – 18:00" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#9aa0a6;align=left;spacingLeft=12;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="64" y="190" width="412" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" value="Descanso  ·  14:00 – 15:00" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#9aa0a6;align=left;spacingLeft=12;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="64" y="236" width="412" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" value="Sábado y Domingo  ·  No laborable" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#9aa0a6;align=left;spacingLeft=12;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="64" y="282" width="412" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" value="Editar horario" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="64" y="340" width="160" height="38" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

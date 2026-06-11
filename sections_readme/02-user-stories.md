@@ -479,3 +479,89 @@ Catálogo de servicios y empleados: listado de servicios (nombre, duración y pr
 Widget público móvil: selección de servicio y profesional, elección de hueco disponible y captura de datos de contacto, con aviso de verificación por email (OTP).
 
 ![Wireframe — HU4: Reserva Pública de Citas](../system_architecture/user_stories_view/wireframe_hu4-public-booking.png)
+
+---
+
+### 2.8 Pantallas por estado
+
+Para cada historia de usuario se incluye una **pantalla por cada estado** de su diagrama de estados (apartado 2.6), mostrando cómo se vería la interfaz en ese punto del flujo. Cada vista se ha elaborado con **draw.io**; el fuente editable (`.drawio`) se versiona junto a la imagen exportada, en una carpeta por historia de usuario (`hu1/`–`hu4/`).
+
+#### 2.8.1 HU1 — Registro de Negocio (Tenant)
+
+**Estado `ESPERANDO_DATOS` — formulario de registro vacío**
+
+![HU1 · ESPERANDO_DATOS](../system_architecture/user_stories_view/hu1/01-data-entry-form.png)
+
+**Estado `VALIDANDO_SUBDOMINIO` — comprobando disponibilidad del subdominio**
+
+![HU1 · VALIDANDO_SUBDOMINIO](../system_architecture/user_stories_view/hu1/02-validating-subdomain.png)
+
+**Estado `TENANT_CREADO` — espacio aislado habilitado**
+
+![HU1 · TENANT_CREADO](../system_architecture/user_stories_view/hu1/03-tenant-created.png)
+
+**Estado `REGISTRO_RECHAZADO` — conflicto de subdominio**
+
+![HU1 · REGISTRO_RECHAZADO](../system_architecture/user_stories_view/hu1/04-registration-rejected.png)
+
+#### 2.8.2 HU2 — Configuración de la Agenda
+
+**Estado `PANEL_HORARIOS` — panel del administrador autenticado**
+
+![HU2 · PANEL_HORARIOS](../system_architecture/user_stories_view/hu2/01-schedule-panel.png)
+
+**Estado `DEFINIENDO_JORNADA` — definición de días, horarios y descanso**
+
+![HU2 · DEFINIENDO_JORNADA](../system_architecture/user_stories_view/hu2/02-defining-workday.png)
+
+**Estado `REGLAS_GUARDADAS` — motor de disponibilidad actualizado**
+
+![HU2 · REGLAS_GUARDADAS](../system_architecture/user_stories_view/hu2/03-rules-saved.png)
+
+#### 2.8.3 HU3 — Gestión del Catálogo
+
+**Estado `PANEL_CATALOGO` — catálogo vacío**
+
+![HU3 · PANEL_CATALOGO](../system_architecture/user_stories_view/hu3/01-catalog-panel.png)
+
+**Estado `SERVICIO_CREADO` — servicio dado de alta, sin asignar**
+
+![HU3 · SERVICIO_CREADO](../system_architecture/user_stories_view/hu3/02-service-created.png)
+
+**Estado `EMPLEADO_CREADO` — empleado dado de alta**
+
+![HU3 · EMPLEADO_CREADO](../system_architecture/user_stories_view/hu3/03-employee-created.png)
+
+**Estado `SERVICIO_ASIGNADO` — servicio visible en el widget público**
+
+![HU3 · SERVICIO_ASIGNADO](../system_architecture/user_stories_view/hu3/04-service-assigned.png)
+
+**Estado `ELIMINACION_BLOQUEADA` — servicio con citas futuras**
+
+![HU3 · ELIMINACION_BLOQUEADA](../system_architecture/user_stories_view/hu3/05-deletion-blocked.png)
+
+#### 2.8.4 HU4 — Reserva Pública de Citas
+
+**Estado `SELECCIONANDO_SERVICIO` — elección de servicio**
+
+![HU4 · SELECCIONANDO_SERVICIO](../system_architecture/user_stories_view/hu4/01-selecting-service.png)
+
+**Estado `CONSULTANDO_DISPONIBILIDAD` — búsqueda de huecos**
+
+![HU4 · CONSULTANDO_DISPONIBILIDAD](../system_architecture/user_stories_view/hu4/02-checking-availability.png)
+
+**Estado `SELECCIONANDO_HUECO` — huecos disponibles mostrados**
+
+![HU4 · SELECCIONANDO_HUECO](../system_architecture/user_stories_view/hu4/03-selecting-slot.png)
+
+**Estado `RELLENANDO_DATOS` — captura de datos de contacto**
+
+![HU4 · RELLENANDO_DATOS](../system_architecture/user_stories_view/hu4/04-filling-data.png)
+
+**Estado `SLOT_PENDIENTE` — hueco bloqueado, verificación OTP**
+
+![HU4 · SLOT_PENDIENTE](../system_architecture/user_stories_view/hu4/05-slot-pending.png)
+
+**Estado `HUECO_NO_DISPONIBLE` — conflicto de concurrencia**
+
+![HU4 · HUECO_NO_DISPONIBLE](../system_architecture/user_stories_view/hu4/06-slot-unavailable.png)

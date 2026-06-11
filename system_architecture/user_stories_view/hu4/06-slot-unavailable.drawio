@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net" type="device">
+  <diagram id="d1" name="HU4 · HUECO_NO_DISPONIBLE">
+    <mxGraphModel dx="900" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="400" pageHeight="410" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;arcSize=4;" vertex="1" parent="1">
+          <mxGeometry x="60" y="40" width="300" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" value="barberia-paco.tuplataforma.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=center;fontColor=#5f6368;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="60" y="40" width="300" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" value="Reserva tu cita" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="80" y="84" width="260" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" value="Ese hueco acaba de ocuparse. Elige otro." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fce8e6;strokeColor=#ea4335;align=left;spacingLeft=10;fontColor=#c5221f;" vertex="1" parent="1">
+          <mxGeometry x="80" y="116" width="260" height="36" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" value="Hora disponible" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#5f6368;" vertex="1" parent="1">
+          <mxGeometry x="80" y="164" width="260" height="16" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" value="10:00" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#dadce0;align=left;spacingLeft=8;fontColor=#9aa0a6;" vertex="1" parent="1">
+          <mxGeometry x="80" y="184" width="56" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" value="10:30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="142" y="184" width="56" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c9" value="11:00" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="204" y="184" width="56" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" value="11:30" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="266" y="184" width="56" height="32" as="geometry" />
+        </mxCell>
+        <mxCell id="c11" value="Ver otros huecos" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;fontColor=#202124;" vertex="1" parent="1">
+          <mxGeometry x="80" y="236" width="260" height="38" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -179,3 +179,14 @@ Añadir una nueva sección "2.4 Modelo de contexto" en el fichero @sections_read
 
 Crear un diagrama de estado UML especifico para cada caso de uso HU1-HU4 donde las transiciones serán mensajes que se mandan entre los actores y el sistema y los nodos son los estados que aparecen en el
 diagrama de contexto `system_architecture/user_stories_view/context-model_selected-user-stories.puml`. Guardar estos cuatro ficheros .puml en la carpeta `system_architecture/user_stories_view`
+
+**Prompt 12: Crear vista de interfaz para cada historia de usuario (Claude Opus 4.8)**
+
+Dibujar unas vistas de interfaz para estos 4 casos de uso HU1-HU4 para adjuntarlas como documentación en la fase de Iniciación de RUP con draw.io
+
+**Prompt 13: Crear vistas de interfaz especificas siguiendo el diagrama de estados de cada historia de usuario (Claude Opus 4.8)**
+
+Genera con draw.io un conjunto de vistas para cada historia de usuario HU1-HU4 para mostrar como se veran las pantalla de cada estado que aparece en el diagrama de estados especifico de historia de usuario.
+Los diagramas de estados de cada historia de usuario son: @system_architecture/user_stories_view/state-diagram_hu1.png , @system_architecture/user_stories_view/state-diagram_hu2.png,
+  @system_architecture/user_stories_view/state-diagram_hu3.png y @system_architecture/user_stories_view/state-diagram_hu4.png
+Almacena estas vistas en una carpeta por historia de usuario en @system_architecture/user_stories_view

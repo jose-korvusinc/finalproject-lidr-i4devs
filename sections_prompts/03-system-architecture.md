@@ -42,7 +42,8 @@ El resultado debe ser añadir la descripción de los componentes principales en 
 
 TRABAJO MANUAL: Revisar que cada descripción se corresponde con la implementación real y completar los matices de despliegue/seguridad.
 
-**Prompt 3: Crear diagrama de clases para fase de analisis de RUP**
+**Prompt 4: Crear diagrama de clases para fase de analisis de RUP**
+
 Usa el subagente uml-diagrams-maker en la fase de analisis de RUP para crear un diagrama UML de clases que separe las vistas, controladores y modelos, de forma que cada caso de uso sera un controlador, cada vista de la interfaz sera un vista y los modelos saldran del diagrama del modelo del dominio pero solo con los modelos necesarios para los 4 casos de usos elegidos HU1-HU4:
 Todos los diagramas estan y  seran creados en formato puml.
 Te paso la ruta a todos los diagramas que necesitas para crear el diagrama de clases.

@@ -11,7 +11,7 @@
 allowmixing
 ' --------------------------------
 
-title Analysis Class Diagram (BCE) — Selected User Stories (HU1–HU4)
+title Analysis Class Diagram MVC — Version 2 with transitions - Selected User Stories (HU1–HU4)
 
 ' ====================== ACTORS ======================
 actor "Business Administrator\n(Tenant)" as admin

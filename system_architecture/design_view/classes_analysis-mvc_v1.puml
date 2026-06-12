@@ -1,0 +1,41 @@
+@startuml
+' =====================================================================
+' Analysis Class Diagram (BCE / robustness pattern = MVC)
+' Logical View (4+1) - Elaboration phase (analysis) of RUP
+' Scope: HU1-HU4 (section 2.3)
+' This variant shows ONLY the MVC layer separation (no actors,
+' no relationships/transitions).
+' =====================================================================
+
+title Analysis Class Diagram MVC — Version 1 - Selected User Stories (HU1–HU4)
+
+' ============== VIEW LAYER (boundary) ============
+package "Views (boundary)" {
+  class TenantRegistrationView <<boundary>>
+  class ScheduleConfigurationView <<boundary>>
+  class CatalogManagementView <<boundary>>
+  class PublicBookingView <<boundary>>
+}
+
+' =========== CONTROLLER LAYER (control) =========
+package "Controllers (control)" {
+  class TenantRegistrationController <<control>>
+  class ScheduleConfigurationController <<control>>
+  class CatalogManagementController <<control>>
+  class PublicBookingController <<control>>
+}
+
+' ============ MODEL LAYER (entity) ================
+' Names IDENTICAL to domain_model.puml (domain traceability).
+package "Domain Model (entity)" {
+  class Business <<entity>>
+  class BusinessOwner <<entity>>
+  class WorkingHours <<entity>>
+  class Service <<entity>>
+  class Employee <<entity>>
+  class Customer <<entity>>
+  class TimeSlot <<entity>>
+  class Appointment <<entity>>
+  class PendingAppointment <<entity>>
+}
+@enduml

@@ -61,18 +61,32 @@ A continuación se describen los componentes principales del sistema, agrupados 
 - **Platform Admin Module**: da soporte a la consola del Super-Admin con las métricas globales, la gestión de planes y la suspensión de tenants.
 - **Persistence Layer** *(Mongoose Repositories)*: capa de acceso a datos que fuerza el filtrado por `tenant_id` en cada operación contra MongoDB.
 
-### **3.4. Estructura de ficheros**
+### **3.4. Diagramas de análisis**
+
+Diagramas de clases de análisis (patrón BCE = MVC) de la fase de Elaboración de RUP, acotados a las historias de usuario seleccionadas (HU1–HU4). Separan las clases en tres capas: vistas (`boundary`), controladores (`control`) y modelo del dominio (`entity`).
+
+Versión 1: muestra **únicamente** la separación en las tres capas MVC, sin actores ni relaciones.
+Permite identificar de un vistazo a qué capa pertenece cada clase, sin el ruido de las transiciones.
+
+![Diagrama de clases de análisis (MVC) — Versión 1](../system_architecture/analysis_view/classes_analysis-mvc_v1.png)
+
+Versión 2: añade los actores y las transiciones entre capas (actor → vista → controlador → modelo) y las relaciones del modelo de dominio.
+Refleja cómo colaboran las clases para realizar cada caso de uso, manteniendo los mismos nombres que el modelo de dominio.
+
+![Diagrama de clases de análisis (MVC) — Versión 2 con transiciones](../system_architecture/analysis_view/classes_analysis-mvc_v2.png)
+
+### **3.5. Estructura de ficheros**
 
 > Representa la estructura del proyecto y explica brevemente el propósito de las carpetas principales, así como si obedece a algún patrón o arquitectura específica.
 
-### **3.5. Infraestructura y despliegue**
+### **3.6. Infraestructura y despliegue**
 
 > Detalla la infraestructura del proyecto, incluyendo un diagrama en el formato que creas conveniente, y explica el proceso de despliegue que se sigue
 
-### **3.6. Seguridad**
+### **3.7. Seguridad**
 
 > Enumera y describe las prácticas de seguridad principales que se han implementado en el proyecto, añadiendo ejemplos si procede
 
-### **3.7. Tests**
+### **3.8. Tests**
 
 > Describe brevemente algunos de los tests realizados

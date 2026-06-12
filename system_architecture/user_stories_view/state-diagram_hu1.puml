@@ -1,28 +1,28 @@
 @startuml
-title Diagrama de Estados — HU1: Registro de Negocio (mensajes Administrador ↔ Sistema)
+title State Diagram — HU1: Business Registration (Administrator ↔ System messages)
 
-' Refina el estado-contexto REGISTRO_TENANT (HU1).
-' Actores: Administrador del Negocio (Tenant) <-> Sistema.
+' Refines the context-state TENANT_REGISTRATION (HU1).
+' Actors: Business Administrator (Tenant) <-> System.
 
-state "ESPERANDO_DATOS\n(formulario de registro)" as datos
-state "VALIDANDO_SUBDOMINIO" as validando
-state "TENANT_CREADO\n(espacio aislado habilitado)" as creado
-state "REGISTRO_RECHAZADO\n(conflicto de subdominio)" as rechazado
+state "AWAITING_DATA\n(registration form)" as data
+state "VALIDATING_SUBDOMAIN" as validating
+state "TENANT_CREATED\n(isolated space enabled)" as created
+state "REGISTRATION_REJECTED\n(subdomain conflict)" as rejected
 
-[*] --> datos : Admin→Sistema: abrirRegistro
+[*] --> data : Admin→System: openRegistration
 
-datos --> validando : Admin→Sistema: enviarFormulario(nombre, email, subdominio)
+data --> validating : Admin→System: submitForm(name, email, subdomain)
 
-validando --> creado : Sistema→Admin: altaConfirmada\n[subdominio libre] / crearTenant(tenant_id), habilitarSubdominio
-validando --> rechazado : Sistema→Admin: conflictoSubdominio\n[subdominio ocupado]
+validating --> created : System→Admin: registrationConfirmed\n[subdomain available] / createTenant(tenant_id), enableSubdomain
+validating --> rejected : System→Admin: subdomainConflict\n[subdomain taken]
 
-rechazado --> datos : Admin→Sistema: corregirSubdominio
+rejected --> data : Admin→System: correctSubdomain
 
-creado --> [*] : Sistema→Admin: accesoHabilitado(mi-negocio.tuplataforma.com)
+created --> [*] : System→Admin: accessEnabled(my-business.yourplatform.com)
 
-note right of creado
-  Aislamiento multitenant:
-  toda consulta del Admin se filtra
-  por su tenant_id.
+note right of created
+  Multitenant isolation:
+  every Admin query is filtered
+  by its tenant_id.
 end note
 @enduml

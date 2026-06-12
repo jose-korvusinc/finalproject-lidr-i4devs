@@ -12,8 +12,8 @@ Decide *qué* diagrama crear con `uml-rup.md`; usa *esta* regla para escribirlo.
 ## 1. Reglas generales del archivo `.puml`
 
 - Todo diagrama empieza con `@startuml` y termina con `@enduml`.
-- Pon un **título** descriptivo: `title Diagrama de Casos de Uso — Gestión de reservas`.
-- Un archivo `.puml` por diagrama; nómbralo por su contenido y vista, p. ej. `logical_view/clases_reserva.puml`.
+- Pon un **título** descriptivo: `title Use Case Diagram — Booking management`.
+- Un archivo `.puml` por diagrama; nómbralo por su contenido y vista, p. ej. `logical_view/classes_booking.puml`.
 - Añade el bloque de estilo común al inicio para uniformidad:
 
 ```plantuml
@@ -30,34 +30,34 @@ left to right direction
 ```
 
 - Comentarios con comilla simple `'` (línea) o `/' ... '/` (bloque).
-- Idioma de etiquetas: **español** (coherente con `uml-rup.md`).
+- Idioma de etiquetas: **inglés** (coherente con `uml-rup.md`). Es decir, todo el texto que aparece dentro del diagrama (títulos, actores, clases, casos de uso, estados, mensajes, etiquetas de relación) se escribe en inglés, coherente con el modelo de datos y el código.
 - Prefiere `!theme plain` o el `skinparam` anterior antes que estilos ad hoc.
 
 ## 2. Casos de Uso
 
 ```plantuml
 @startuml
-title Casos de Uso — Reservas
+title Use Cases — Bookings
 left to right direction
 skinparam packageStyle rectangle
 
-actor "Cliente" as cliente
-actor "Profesional" as pro
-actor "Sistema de Pago" as pago
+actor "Customer" as customer
+actor "Professional" as pro
+actor "Payment System" as payment
 
-rectangle "Plataforma de Reservas" {
-  usecase "Reservar cita" as UC1
-  usecase "Cancelar reserva" as UC2
-  usecase "Autenticar usuario" as UC3
-  usecase "Procesar pago" as UC4
+rectangle "Booking Platform" {
+  usecase "Book appointment" as UC1
+  usecase "Cancel booking" as UC2
+  usecase "Authenticate user" as UC3
+  usecase "Process payment" as UC4
 }
 
-cliente --> UC1
-cliente --> UC2
+customer --> UC1
+customer --> UC2
 pro --> UC2
 UC1 ..> UC3 : <<include>>
 UC1 ..> UC4 : <<extend>>
-UC4 --> pago
+UC4 --> payment
 @enduml
 ```
 
@@ -69,39 +69,39 @@ UC4 --> pago
 
 ```plantuml
 @startuml
-title Diagrama de Clases — Dominio de Reservas
+title Class Diagram — Booking Domain
 skinparam linetype ortho
 
-interface IRepositorioReservas <<interface>> {
-  + buscar(id): Reserva
-  + guardar(r: Reserva): void
+interface IBookingRepository <<interface>> {
+  + find(id): Booking
+  + save(b: Booking): void
 }
 
-abstract class Usuario {
+abstract class User {
   # id: string
-  + nombre: string
+  + name: string
 }
 
-class Cliente extends Usuario {
+class Customer extends User {
   + email: string
 }
 
-class Reserva {
+class Booking {
   + id: string
-  + fechaInicio: Date
-  + estado: EstadoReserva
-  + confirmar(): void
+  + startDate: Date
+  + status: BookingStatus
+  + confirm(): void
 }
 
-enum EstadoReserva {
-  PENDIENTE
-  CONFIRMADA
-  CANCELADA
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
 }
 
-Cliente "1" --> "0..*" Reserva : realiza
-Reserva *-- "1" EstadoReserva
-Reserva ..|> IRepositorioReservas
+Customer "1" --> "0..*" Booking : makes
+Booking *-- "1" BookingStatus
+Booking ..|> IBookingRepository
 @enduml
 ```
 
@@ -114,25 +114,25 @@ Reserva ..|> IRepositorioReservas
 
 ```plantuml
 @startuml
-title Secuencia — Reservar cita (flujo principal)
-actor Cliente
-participant "WidgetReserva" as UI
-participant "ReservasService" as Svc
+title Sequence — Book appointment (main flow)
+actor Customer
+participant "BookingWidget" as UI
+participant "BookingService" as Svc
 database "MongoDB" as DB
 
-Cliente -> UI : seleccionar horario
+Customer -> UI : select time slot
 activate UI
-UI -> Svc : crearReserva(datos)
+UI -> Svc : createBooking(data)
 activate Svc
-alt horario disponible
-  Svc -> DB : insertar(reserva)
+alt slot available
+  Svc -> DB : insert(booking)
   DB --> Svc : ok
-  Svc --> UI : reservaConfirmada
-else horario ocupado
-  Svc --> UI : errorNoDisponible
+  Svc --> UI : bookingConfirmed
+else slot taken
+  Svc --> UI : errorNotAvailable
 end
 deactivate Svc
-UI --> Cliente : mostrar resultado
+UI --> Customer : show result
 deactivate UI
 @enduml
 ```
@@ -146,14 +146,14 @@ deactivate UI
 
 ```plantuml
 @startuml
-title Estados — Reserva
-[*] --> Pendiente
-Pendiente --> Confirmada : confirmar [pagoOk] / enviarEmail
-Pendiente --> Cancelada : cancelar
-Confirmada --> Completada : finalizarCita
-Confirmada --> Cancelada : cancelar [dentroDePlazo]
-Cancelada --> [*]
-Completada --> [*]
+title States — Booking
+[*] --> Pending
+Pending --> Confirmed : confirm [paymentOk] / sendEmail
+Pending --> Cancelled : cancel
+Confirmed --> Completed : finishAppointment
+Confirmed --> Cancelled : cancel [withinDeadline]
+Cancelled --> [*]
+Completed --> [*]
 @enduml
 ```
 
@@ -165,21 +165,21 @@ Completada --> [*]
 
 ```plantuml
 @startuml
-title Actividad — Proceso de reserva
-|Cliente|
+title Activity — Booking process
+|Customer|
 start
-:Seleccionar servicio;
-:Elegir horario;
-|Sistema|
-if (¿horario disponible?) then (sí)
-  :Crear reserva;
+:Select service;
+:Choose time slot;
+|System|
+if (slot available?) then (yes)
+  :Create booking;
   fork
-    :Enviar confirmación;
+    :Send confirmation;
   fork again
-    :Notificar profesional;
+    :Notify professional;
   end fork
 else (no)
-  :Mostrar alternativas;
+  :Show alternatives;
 endif
 stop
 @enduml
@@ -195,15 +195,15 @@ stop
 
 ```plantuml
 @startuml
-title Componentes — Backend NestJS
+title Components — NestJS Backend
 component "AuthModule" as auth
-component "ReservasModule" as reservas
-component "NotificacionesModule" as notif
-interface "API REST" as api
+component "BookingModule" as booking
+component "NotificationModule" as notif
+interface "REST API" as api
 
-api - reservas
-reservas ..> auth : usa
-reservas ..> notif : publica eventos
+api - booking
+booking ..> auth : uses
+booking ..> notif : publishes events
 @enduml
 ```
 
@@ -214,15 +214,15 @@ reservas ..> notif : publica eventos
 
 ```plantuml
 @startuml
-title Paquetes — Organización del backend
+title Packages — Backend organization
 package "domain" {
-  [Entidades]
+  [Entities]
 }
 package "application" {
-  [Servicios]
+  [Services]
 }
 package "infrastructure" {
-  [Repositorios]
+  [Repositories]
 }
 application ..> domain
 infrastructure ..> domain
@@ -236,17 +236,17 @@ infrastructure ..> domain
 
 ```plantuml
 @startuml
-title Despliegue — Producción
-node "Navegador" {
-  artifact "App Angular"
+title Deployment — Production
+node "Browser" {
+  artifact "Angular App"
 }
-node "Servidor de Aplicación" {
-  artifact "API NestJS"
+node "Application Server" {
+  artifact "NestJS API"
 }
-database "Cluster MongoDB" as mongo
+database "MongoDB Cluster" as mongo
 
-"App Angular" --> "API NestJS" : HTTPS/REST
-"API NestJS" --> mongo : TLS (tenant_id)
+"Angular App" --> "NestJS API" : HTTPS/REST
+"NestJS API" --> mongo : TLS (tenant_id)
 @enduml
 ```
 

@@ -42,9 +42,13 @@ El resultado debe ser añadir la descripción de los componentes principales en 
 
 TRABAJO MANUAL: Revisar que cada descripción se corresponde con la implementación real y completar los matices de despliegue/seguridad.
 
-**Prompt 2:**
-
-**Prompt 3:**
+**Prompt 3: Crear diagrama de clases para fase de analisis de RUP**
+Usa el subagente uml-diagrams-maker en la fase de analisis de RUP para crear un diagrama UML de clases que separe las vistas, controladores y modelos, de forma que cada caso de uso sera un controlador, cada vista de la interfaz sera un vista y los modelos saldran del diagrama del modelo del dominio pero solo con los modelos necesarios para los 4 casos de usos elegidos HU1-HU4:
+Todos los diagramas estan y  seran creados en formato puml.
+Te paso la ruta a todos los diagramas que necesitas para crear el diagrama de clases.
+Diagramas de casos de uso: @system_architecture/user_stories_view/state-diagram_hu1.puml @system_architecture/user_stories_view/state-diagram_hu2.puml @system_architecture/user_stories_view/state-diagram_hu3.puml @system_architecture/user_stories_view/state-diagram_hu4.puml
+Vistas de interfaz: @system_architecture/user_stories_view/wireframe_hu1-tenant-registration.png @system_architecture/user_stories_view/wireframe_hu2-schedule-configuration.png @system_architecture/user_stories_view/wireframe_hu3-catalog-management.png @system_architecture/user_stories_view/wireframe_hu4-public-booking.drawio @system_architecture/user_stories_view/hu1 @system_architecture/user_stories_view/hu2 @system_architecture/user_stories_view/hu3 @system_architecture/user_stories_view/hu4
+Diagrama del modelo del dominio: @system_architecture/domain_model/domain_model.puml
 
 ### **3.3. Descripción de alto nivel del proyecto y estructura de ficheros**
 

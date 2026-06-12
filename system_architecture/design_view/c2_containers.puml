@@ -1,42 +1,42 @@
 @startuml c2_containers
 ' =====================================================================
 ' C4 Model - Level 2: Containers
-' Unidades desplegables de la plataforma y su comunicacion.
-' Stack del PRD: Angular 22, NestJS 11, MongoDB 8.3, Redis, Nginx.
+' Deployable units of the platform and their communication.
+' PRD stack: Angular 22, NestJS 11, MongoDB 8.3, Redis, Nginx.
 ' =====================================================================
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
 
 title Container diagram - Booking & Appointments SaaS Platform
 
-Person(superAdmin, "Super-Admin", "Propietario del SaaS.")
-Person(tenantAdmin, "Tenant Admin / Business Owner", "Dueno del negocio.")
-Person(employee, "Employee / Staff", "Personal que atiende citas.")
-Person(customer, "Final Customer", "Cliente final que reserva sin registro.")
+Person(superAdmin, "Super-Admin", "SaaS owner.")
+Person(tenantAdmin, "Tenant Admin / Business Owner", "Business owner.")
+Person(employee, "Employee / Staff", "Staff who handle appointments.")
+Person(customer, "End Customer", "End customer who books without registration.")
 
-System_Ext(googleCalendar, "Google Calendar", "Calendario externo del empleado.")
-System_Ext(emailProvider, "Email Provider", "Servicio de envio de correo.")
+System_Ext(googleCalendar, "Google Calendar", "Employee's external calendar.")
+System_Ext(emailProvider, "Email Provider", "Email sending service.")
 
 System_Boundary(platform, "Booking & Appointments SaaS Platform") {
-    Container(reverseProxy, "Reverse Proxy", "Nginx", "Enrutamiento wildcard (*.tuplataforma.com), resuelve el subdominio del tenant, sirve la SPA y proxia el API.")
-    Container(webApp, "Web Application", "Angular 22, FullCalendar.io", "SPA que ofrece el backoffice (panel admin/empleado, calendario drag&drop) y el widget publico de reservas.")
-    Container(api, "API Application", "NestJS 11 (TypeScript), OpenAPI", "Logica de negocio: reservas, disponibilidad, OTP, notificaciones y resolucion de contexto multitenant.")
-    ContainerDb(mongo, "Operational Database", "MongoDB 8.3", "Shared Database/Collection con tenant_id indexado: negocios, servicios, empleados, horarios, citas.")
-    ContainerDb(redis, "Cache & Temporal Store", "Redis", "Codigos OTP con TTL y bloqueo temporal de huecos (slot locking).")
+    Container(reverseProxy, "Reverse Proxy", "Nginx", "Wildcard routing (*.yourplatform.com), resolves the tenant subdomain, serves the SPA and proxies the API.")
+    Container(webApp, "Web Application", "Angular 22, FullCalendar.io", "SPA providing the backoffice (admin/employee panel, drag&drop calendar) and the public booking widget.")
+    Container(api, "API Application", "NestJS 11 (TypeScript), OpenAPI", "Business logic: bookings, availability, OTP, notifications and multitenant context resolution.")
+    ContainerDb(mongo, "Operational Database", "MongoDB 8.3", "Shared Database/Collection with indexed tenant_id: businesses, services, employees, working hours, appointments.")
+    ContainerDb(redis, "Cache & Temporal Store", "Redis", "OTP codes with TTL and temporary slot locking.")
 }
 
-Rel(customer, reverseProxy, "Accede al widget publico de su negocio", "HTTPS")
-Rel(tenantAdmin, reverseProxy, "Gestiona su negocio y agenda", "HTTPS")
-Rel(employee, reverseProxy, "Consulta su agenda diaria", "HTTPS")
-Rel(superAdmin, reverseProxy, "Administra tenants y planes", "HTTPS")
+Rel(customer, reverseProxy, "Accesses the public widget of their business", "HTTPS")
+Rel(tenantAdmin, reverseProxy, "Manages their business and schedule", "HTTPS")
+Rel(employee, reverseProxy, "Checks their daily schedule", "HTTPS")
+Rel(superAdmin, reverseProxy, "Manages tenants and plans", "HTTPS")
 
-Rel(reverseProxy, webApp, "Sirve los recursos estaticos de la SPA", "HTTPS")
-Rel(reverseProxy, api, "Proxia las llamadas de API (inyecta el subdominio/tenant)", "HTTPS / REST")
-Rel(webApp, api, "Consume el API (citas, disponibilidad, OTP)", "JSON / HTTPS")
+Rel(reverseProxy, webApp, "Serves the SPA static assets", "HTTPS")
+Rel(reverseProxy, api, "Proxies API calls (injects the subdomain/tenant)", "HTTPS / REST")
+Rel(webApp, api, "Consumes the API (appointments, availability, OTP)", "JSON / HTTPS")
 
-Rel(api, mongo, "Lee y persiste datos filtrados por tenant_id", "MongoDB Wire Protocol")
-Rel(api, redis, "Almacena OTP y bloqueos de hueco con TTL", "RESP")
-Rel(api, googleCalendar, "Inyecta eventos de citas confirmadas (async)", "HTTPS / Google Calendar API")
-Rel(api, emailProvider, "Envia OTP y recordatorios", "SMTP / API")
+Rel(api, mongo, "Reads and persists data filtered by tenant_id", "MongoDB Wire Protocol")
+Rel(api, redis, "Stores OTP and slot locks with TTL", "RESP")
+Rel(api, googleCalendar, "Injects confirmed appointment events (async)", "HTTPS / Google Calendar API")
+Rel(api, emailProvider, "Sends OTP and reminders", "SMTP / API")
 
 SHOW_LEGEND()
 @enduml

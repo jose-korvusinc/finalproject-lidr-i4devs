@@ -1,27 +1,27 @@
 @startuml
-title Diagrama de Estados — HU2: Configuración de Agenda (mensajes Administrador ↔ Sistema)
+title State Diagram — HU2: Schedule Configuration (Administrator ↔ System messages)
 
-' Refina el estado-contexto CONFIGURACION_AGENDA (HU2).
-' Actores: Administrador del Negocio (autenticado) <-> Sistema.
+' Refines the context-state SCHEDULE_CONFIGURATION (HU2).
+' Actors: Business Administrator (authenticated) <-> System.
 
-state "PANEL_HORARIOS\n(admin autenticado)" as panel
-state "DEFINIENDO_JORNADA\n(días, horarios, descanso)" as definiendo
-state "REGLAS_GUARDADAS\n(motor de disponibilidad actualizado)" as guardadas
+state "SCHEDULE_PANEL\n(authenticated admin)" as panel
+state "DEFINING_WORKDAY\n(days, hours, break)" as defining
+state "RULES_SAVED\n(availability engine updated)" as saved
 
-[*] --> panel : Admin→Sistema: abrirPanelHorarios
+[*] --> panel : Admin→System: openSchedulePanel
 
-panel --> definiendo : Admin→Sistema: definirDiasYHorarios(L-V 09:00-18:00, descanso 14:00-15:00)
+panel --> defining : Admin→System: defineDaysAndHours(Mon-Fri 09:00-18:00, break 14:00-15:00)
 
-definiendo --> guardadas : Admin→Sistema: guardarCambios\n/ Sistema: persistirReglas(tenant_id), actualizarMotorDisponibilidad
-guardadas --> panel : Sistema→Admin: confirmarGuardado
+defining --> saved : Admin→System: saveChanges\n/ System: persistRules(tenant_id), updateAvailabilityEngine
+saved --> panel : System→Admin: confirmSaved
 
-guardadas --> definiendo : Admin→Sistema: modificarHorario(cierre 18:00→17:00)
+saved --> defining : Admin→System: modifySchedule(closing 18:00→17:00)
 
-guardadas --> [*] : Admin→Sistema: cerrarPanel
+saved --> [*] : Admin→System: closePanel
 
-note right of guardadas
-  Día no laborable (p. ej. sábado):
-  el motor no ofrece huecos reservables.
-  Las citas ya confirmadas no se alteran.
+note right of saved
+  Non-working day (e.g. Saturday):
+  the engine offers no bookable slots.
+  Already confirmed appointments are not altered.
 end note
 @enduml

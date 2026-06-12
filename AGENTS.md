@@ -17,9 +17,9 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
   convenciones de modelado. Aplica al crear/editar diagramas UML o ficheros `.puml`.
 
 - **Sintaxis PlantUML (CÓMO escribirlo)** → `.claude/rules/plantuml-syntax.md`
-  Define cómo escribir cada `.puml` (estilo base, relaciones, multiplicidades, estereotipos,
-  fragmentos). Las etiquetas de los diagramas van en **español**; los nombres de fichero, en
-  inglés (regla de nomenclatura).
+ Define cómo escribir cada `.puml` (estilo base, relaciones, multiplicidades, estereotipos,
+ fragmentos). Las etiquetas de los diagramas van en **inglés**; los nombres de fichero, en
+ inglés (regla de nomenclatura).
 
 > Si hay conflicto entre una suposición y estas rules, **mandan las rules**.
 

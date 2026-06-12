@@ -41,7 +41,7 @@ RUP es iterativo. Los diagramas se refinan a lo largo de las fases; esta tabla i
 - **Contenido**: actores (humanos y sistemas externos), casos de uso, relaciones `<<include>>`, `<<extend>>` y generalización.
 - **Reglas**:
   - Un actor representa un **rol**, no una persona concreta.
-  - Nombra los casos de uso con verbo + objeto en infinitivo ("Reservar cita", "Cancelar reserva").
+  - Nombra los casos de uso con verbo + objeto en inglés ("Book appointment", "Cancel booking").
   - Usa `<<include>>` para comportamiento obligatorio reutilizado; `<<extend>>` para comportamiento opcional/condicional.
   - Acompaña cada caso de uso relevante con su **especificación textual** (flujo principal, alternativos, precondiciones, postcondiciones).
 
@@ -63,7 +63,7 @@ RUP es iterativo. Los diagramas se refinan a lo largo de las fases; esta tabla i
   - Refleja el retorno con flechas discontinuas solo cuando aporta claridad.
 
 ### 3.4. Diagrama de Máquina de Estados (Vista Lógica)
-- **Cuándo**: para entidades con ciclo de vida no trivial (p. ej. una "Reserva": pendiente → confirmada → cancelada/completada).
+- **Cuándo**: para entidades con ciclo de vida no trivial (p. ej. un "Appointment": pending → confirmed → cancelled/completed).
 - **Reglas**:
   - Incluye estado inicial (●) y, si aplica, final (◉).
   - Etiqueta transiciones con `evento [guarda] / acción`.
@@ -93,7 +93,7 @@ RUP es iterativo. Los diagramas se refinan a lo largo de las fases; esta tabla i
 
 ## 4. Convenciones transversales
 
-- **Idioma**: nombres de elementos y etiquetas en **español**, salvo identificadores técnicos que en el código sean en inglés.
+- **Idioma**: nombres de elementos y etiquetas en **inglés**, coherentes con el modelo de datos y el código (que están en inglés). La documentación explicativa del proyecto puede seguir en español, pero **lo que aparece dentro del diagrama** (títulos, actores, clases, casos de uso, estados, mensajes, etiquetas de relación) va en inglés.
 - **Coherencia de nombres**: una entidad debe llamarse igual en todos los diagramas y coincidir con el modelo de datos y el código.
 - **Trazabilidad**: cada diagrama de diseño debe poder rastrearse hasta un caso de uso o requisito.
 - **Nivel de detalle adecuado a la fase**: no detalles tipos en análisis ni dejes diagramas de construcción sin tipos.

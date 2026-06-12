@@ -1,59 +1,59 @@
 @startuml
-title Modelo de Contexto — Historias de Usuario seleccionadas (2.3: HU1–HU4)
+title Context Model — Selected User Stories (2.3: HU1–HU4)
 
-state "REGISTRO_TENANT\n(HU1)" as registro
-state "CONFIGURACION_AGENDA\n(HU2)" as agenda
-state "GESTION_CATALOGO\n(HU3)" as catalogo
-state "RESERVA_PUBLICA\n(HU4)" as reserva
+state "TENANT_REGISTRATION\n(HU1)" as registration
+state "SCHEDULE_CONFIGURATION\n(HU2)" as schedule
+state "CATALOG_MANAGEMENT\n(HU3)" as catalog
+state "PUBLIC_BOOKING\n(HU4)" as booking
 
-note right of registro
-  **HU1 — Registrar negocio**
-  - Registrar negocio
-  - Validar subdominio único
-  - Crear espacio aislado (tenant)
+note right of registration
+  **HU1 — Register business**
+  - Register business
+  - Validate unique subdomain
+  - Create isolated space (tenant)
 end note
 
-note right of agenda
-  **HU2 — Configurar agenda**
-  - Definir días laborables
-  - Configurar horarios de apertura/cierre
-  - Guardar reglas de disponibilidad
+note right of schedule
+  **HU2 — Configure schedule**
+  - Define working days
+  - Configure opening/closing hours
+  - Save availability rules
 end note
 
-note right of catalogo
-  **HU3 — Gestionar catálogo**
-  - Crear servicio
-  - Crear empleado
-  - Asignar servicio a empleado
+note right of catalog
+  **HU3 — Manage catalog**
+  - Create service
+  - Create employee
+  - Assign service to employee
 end note
 
-note right of reserva
-  **HU4 — Reservar cita pública**
-  - Seleccionar servicio
-  - Elegir empleado y hueco
-  - Consultar disponibilidad
-  - Bloquear slot pendiente
+note right of booking
+  **HU4 — Book public appointment**
+  - Select service
+  - Choose employee and slot
+  - Check availability
+  - Lock pending slot
 end note
 
-[*] --> registro : iniciarSistema
+[*] --> registration : startSystem
 
-registro --> agenda : configurarAgenda
-registro --> catalogo : gestionarCatalogo
-registro --> reserva : abrirWidgetReserva
-registro --> [*] : cerrarSistema
+registration --> schedule : configureSchedule
+registration --> catalog : manageCatalog
+registration --> booking : openBookingWidget
+registration --> [*] : closeSystem
 
-agenda --> catalogo : gestionarCatalogo
-agenda --> reserva : abrirWidgetReserva
-agenda --> registro : registrarNegocio
-agenda --> [*] : cerrarSistema
+schedule --> catalog : manageCatalog
+schedule --> booking : openBookingWidget
+schedule --> registration : registerBusiness
+schedule --> [*] : closeSystem
 
-catalogo --> agenda : configurarAgenda
-catalogo --> reserva : abrirWidgetReserva
-catalogo --> registro : registrarNegocio
-catalogo --> [*] : cerrarSistema
+catalog --> schedule : configureSchedule
+catalog --> booking : openBookingWidget
+catalog --> registration : registerBusiness
+catalog --> [*] : closeSystem
 
-reserva --> agenda : configurarAgenda
-reserva --> catalogo : gestionarCatalogo
-reserva --> registro : registrarNegocio
-reserva --> [*] : cerrarSistema
+booking --> schedule : configureSchedule
+booking --> catalog : manageCatalog
+booking --> registration : registerBusiness
+booking --> [*] : closeSystem
 @enduml

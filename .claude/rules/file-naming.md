@@ -16,8 +16,8 @@ externas (ver excepciones).
 - **Todos los nombres de ficheros y carpetas se escriben en inglés.**
 - Esta regla afecta **únicamente al nombre** del fichero/carpeta, **no a su contenido**. El
   contenido sigue las convenciones de su propia regla: por ejemplo, las etiquetas de los
-  diagramas UML van en **español** según `uml-rup.md` y `plantuml-syntax.md`. Un `.puml`
-  puede llamarse en inglés y tener su `title` y etiquetas en español.
+  diagramas UML van en **inglés** según `uml-rup.md` y `plantuml-syntax.md`. Un `.puml`
+  se llama en inglés y tiene su `title` y etiquetas en inglés.
 
 ## 2. Convenciones de formato
 

@@ -1,33 +1,33 @@
 @startuml
-title Diagrama de Estados — HU4: Reserva Pública (mensajes Cliente Final ↔ Sistema ↔ Email)
+title State Diagram — HU4: Public Booking (End Customer ↔ System ↔ Email messages)
 
-' Refina el estado-contexto RESERVA_PUBLICA (HU4).
-' Actores: Cliente Final <-> Sistema; Sistema -> Servicio de Email (OTP).
+' Refines the context-state PUBLIC_BOOKING (HU4).
+' Actors: End Customer <-> System; System -> Email Provider (OTP).
 
-state "SELECCIONANDO_SERVICIO" as servicio
-state "CONSULTANDO_DISPONIBILIDAD" as disponibilidad
-state "SELECCIONANDO_HUECO" as hueco
-state "RELLENANDO_DATOS" as datos
-state "SLOT_PENDIENTE\n(hueco bloqueado temporalmente)" as pendiente
-state "HUECO_NO_DISPONIBLE\n(conflicto de concurrencia)" as ocupado
+state "SELECTING_SERVICE" as service
+state "CHECKING_AVAILABILITY" as availability
+state "SELECTING_SLOT" as slot
+state "FILLING_DATA" as data
+state "SLOT_PENDING\n(slot temporarily locked)" as pending
+state "SLOT_UNAVAILABLE\n(concurrency conflict)" as unavailable
 
-[*] --> servicio : Cliente→Sistema: abrirWidget
+[*] --> service : Customer→System: openWidget
 
-servicio --> disponibilidad : Cliente→Sistema: seleccionarServicioYEmpleado
-disponibilidad --> hueco : Sistema→Cliente: mostrarHuecos\n[respuesta < 200 ms]
+service --> availability : Customer→System: selectServiceAndEmployee
+availability --> slot : System→Customer: showSlots\n[response < 200 ms]
 
-hueco --> datos : Cliente→Sistema: elegirHueco
-hueco --> ocupado : Sistema→Cliente: huecoNoDisponible\n[bloqueado por otro cliente]
-ocupado --> disponibilidad : Cliente→Sistema: elegirOtroHueco
+slot --> data : Customer→System: chooseSlot
+slot --> unavailable : System→Customer: slotUnavailable\n[locked by another customer]
+unavailable --> availability : Customer→System: chooseAnotherSlot
 
-datos --> pendiente : Cliente→Sistema: enviarDatos(nombre, email, teléfono)\n[datos válidos] / Sistema: bloquearSlot(Pendiente)
-datos --> datos : Sistema→Cliente: errorValidación\n[email con formato inválido]
+data --> pending : Customer→System: submitData(name, email, phone)\n[valid data] / System: lockSlot(Pending)
+data --> data : System→Customer: validationError\n[invalid email format]
 
-pendiente --> [*] : Sistema→Email: enviarCódigoOTP\n/ iniciarVerificación (HU5)
+pending --> [*] : System→Email: sendOTPCode\n/ startVerification (HU5)
 
-note right of pendiente
-  HU4 termina al dejar el slot en
-  estado "Pendiente" e iniciar el
-  flujo de verificación OTP (HU5).
+note right of pending
+  HU4 ends by leaving the slot in
+  "Pending" state and starting the
+  OTP verification flow (HU5).
 end note
 @enduml

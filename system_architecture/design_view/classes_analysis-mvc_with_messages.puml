@@ -1,0 +1,111 @@
+@startuml
+' =====================================================================
+' Analysis Class Diagram (BCE / robustness pattern = MVC)
+' Logical View (4+1) - Elaboration phase (analysis) of RUP
+' Scope: HU1-HU4 (section 2.3)
+' ANALYSIS level: no types, no visibility (+/-/#), no exhaustive
+' multiplicities. Focus on layer separation and relationships.
+' =====================================================================
+
+' --- project base style ---
+allowmixing
+' --------------------------------
+
+title Analysis Class Diagram (BCE) — Selected User Stories (HU1–HU4)
+
+' ====================== ACTORS ======================
+actor "Business Administrator\n(Tenant)" as admin
+actor "End Customer" as customer
+
+' ============== VIEW LAYER (boundary) ============
+package "Views (boundary)" {
+  class TenantRegistrationView <<boundary>>
+  class ScheduleConfigurationView <<boundary>>
+  class CatalogManagementView <<boundary>>
+  class PublicBookingView <<boundary>>
+}
+
+' =========== CONTROLLER LAYER (control) =========
+package "Controllers (control)" {
+  class TenantRegistrationController <<control>>
+  class ScheduleConfigurationController <<control>>
+  class CatalogManagementController <<control>>
+  class PublicBookingController <<control>>
+}
+
+' ============ MODEL LAYER (entity) ================
+' Names IDENTICAL to domain_model.puml (domain traceability).
+package "Domain Model (entity)" {
+  class Business <<entity>>
+  class BusinessOwner <<entity>>
+  class WorkingHours <<entity>>
+  class Service <<entity>>
+  class Employee <<entity>>
+  class Customer <<entity>>
+  class TimeSlot <<entity>>
+  class Appointment <<entity>>
+  class PendingAppointment <<entity>>
+}
+
+note top of Business
+  Multitenant isolation: each business
+  is a Tenant with its tenant_id; every
+  query is filtered by that tenant_id (HU1).
+end note
+
+note bottom of PendingAppointment
+  HU4 leaves the appointment in "Pending"
+  state (Confirmed/Cancelled are out of
+  scope: they belong to HU5 and later).
+end note
+
+' ============ ACTOR -> VIEW (boundary) =============
+admin --> TenantRegistrationView
+admin --> ScheduleConfigurationView
+admin --> CatalogManagementView
+customer --> PublicBookingView
+
+' ============ VIEW -> CONTROLLER (control) ========
+TenantRegistrationView ..> TenantRegistrationController
+ScheduleConfigurationView ..> ScheduleConfigurationController
+CatalogManagementView ..> CatalogManagementController
+PublicBookingView ..> PublicBookingController
+
+' ============ CONTROLLER -> MODEL (entity) ========
+' HU1: business registration and tenant creation
+TenantRegistrationController ..> BusinessOwner
+TenantRegistrationController ..> Business
+
+' HU2: schedule and working hours configuration
+ScheduleConfigurationController ..> Business
+ScheduleConfigurationController ..> WorkingHours
+
+' HU3: catalog management (services and employees)
+CatalogManagementController ..> Business
+CatalogManagementController ..> Service
+CatalogManagementController ..> Employee
+
+' HU4: public appointment booking
+PublicBookingController ..> Service
+PublicBookingController ..> Employee
+PublicBookingController ..> TimeSlot
+PublicBookingController ..> Customer
+PublicBookingController ..> Appointment
+
+' ============ MODEL RELATIONSHIPS (domain) =======
+' Labels in English; no multiplicities (analysis level).
+BusinessOwner --> Business : owns
+Business -- Employee : employs
+Business -- Service : offers
+Business -- WorkingHours : defines
+Employee -- Service : is qualified for
+WorkingHours -- TimeSlot : delimits availability of
+Employee -- TimeSlot : is available in
+Customer -- Appointment : books
+Appointment -- Service : is for
+Appointment -- Employee : is attended by
+Appointment -- TimeSlot : occupies
+
+' State relevant to HU4: the appointment stays Pending
+Appointment <|-- PendingAppointment
+@enduml

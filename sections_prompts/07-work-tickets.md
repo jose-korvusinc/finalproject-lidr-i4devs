@@ -1,4 +1,4 @@
-### 6. Tickets de Trabajo
+### 7. Tickets de Trabajo
 
 [Volver al índice de prompts](../prompts.md)
 

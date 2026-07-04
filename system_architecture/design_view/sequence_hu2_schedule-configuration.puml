@@ -1,0 +1,63 @@
+@startuml sequence_hu2_schedule-configuration
+' =====================================================================
+' Sequence Diagram (RUP Logical/Process View) - HU2
+' Scenario: Working hours configuration (main flow + modify existing).
+' Refines state-diagram_hu2.puml. Stack: Angular -> NestJS -> MongoDB.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+
+title Sequence — HU2: Schedule Configuration (save rules + update availability)
+
+actor "Business Administrator\n(authenticated)" as admin
+boundary "ScheduleConfigurationComponent\n(Angular)" as ui
+control "WorkingHoursController\n(NestJS)" as ctrl
+control "WorkingHoursService" as svc
+control "AvailabilityEngineService" as engine
+entity "WorkingHoursRepository\n(Mongoose)" as repo
+database "MongoDB" as db
+
+admin -> ui : define days/hours + break\n(Mon-Fri 09:00-18:00, break 14:00-15:00)
+activate ui
+ui -> ctrl : PUT /working-hours\nWorkingHoursConfigDto
+activate ctrl
+ctrl -> svc : configure(tenantId, rules)
+activate svc
+
+svc -> repo : upsertRules(tenantId, rules)
+activate repo
+repo -> db : bulkWrite (filtered by tenantId)
+db --> repo : ok
+repo --> svc : WorkingHours[]
+deactivate repo
+
+svc -> engine : invalidateAvailability(tenantId)
+activate engine
+engine --> svc : cache refreshed
+deactivate engine
+
+svc --> ctrl : WorkingHoursDto[]
+ctrl --> ui : 200 OK
+ui --> admin : confirmSaved
+
+opt modify existing schedule (e.g. closing 18:00 -> 17:00)
+  admin -> ui : update closing time
+  ui -> ctrl : PUT /working-hours
+  ctrl -> svc : configure(tenantId, rules)
+  svc -> repo : upsertRules(...)
+  svc -> engine : invalidateAvailability(tenantId)
+  ctrl --> ui : 200 OK
+end
+
+deactivate svc
+deactivate ctrl
+deactivate ui
+
+note over engine
+  Non-working day (e.g. Saturday): the engine
+  offers no bookable slots. Already confirmed
+  appointments are not altered.
+end note
+@enduml

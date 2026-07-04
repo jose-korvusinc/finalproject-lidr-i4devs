@@ -1,0 +1,46 @@
+@startuml classes_design_cross-cutting
+' =====================================================================
+' Design Classes — package "Cross-cutting (Multitenant)" (HU1-HU4)
+' Detail of classes_design.puml. Tenant resolution per request and the
+' base repository that forces the tenant_id filter on every query.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+skinparam linetype ortho
+
+title Design Classes — Cross-cutting (Multitenant) · HU1–HU4
+
+package "Cross-cutting (Multitenant)" {
+  class TenantContextMiddleware <<NestMiddleware>> {
+    + use(req, res, next): void
+    - resolveTenantId(subdomain: string): string
+  }
+  abstract class TenantAwareRepository <<Mongoose>> {
+    # tenantId: string
+    + forTenant(tenantId: string): this
+    # applyTenantFilter(filter: object): object
+  }
+}
+
+' ---- external references ----
+package "«collaborators»" <<Frame>> {
+  class PublicBookingController <<from Controllers>>
+  class BusinessRepository <<from Persistence>>
+  class AppointmentRepository <<from Persistence>>
+}
+
+' ---- middleware intercepts every controller ----
+TenantContextMiddleware ..> PublicBookingController : injects tenant_id\n(applies to all controllers)
+
+' ---- all repositories inherit the tenant filter ----
+BusinessRepository --|> TenantAwareRepository
+AppointmentRepository --|> TenantAwareRepository
+
+note bottom of TenantAwareRepository
+  Central defense against inter-tenant data leaks: subclasses
+  cannot query MongoDB without the tenant_id scope. See the
+  full set of subclasses in classes_design_persistence.puml.
+end note
+@enduml

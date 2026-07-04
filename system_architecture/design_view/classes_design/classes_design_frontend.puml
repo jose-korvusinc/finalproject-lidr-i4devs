@@ -1,0 +1,70 @@
+@startuml classes_design_frontend
+' =====================================================================
+' Design Classes — package "Frontend — Angular 22 (boundary)" (HU1-HU4)
+' Detail of classes_design.puml. One component per user story; all
+' consume the API through a shared HttpApiClient over REST/HTTPS.
+' =====================================================================
+allowmixing
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+skinparam linetype ortho
+
+title Design Classes — Frontend Angular 22 (boundary) · HU1–HU4
+
+actor "Business Administrator\n(Tenant)" as admin
+actor "End Customer" as customer
+
+package "Frontend — Angular 22 (boundary)" {
+  class TenantRegistrationComponent <<Component>> {
+    + submit(name: string, email: string, subdomain: string): void
+  }
+  class ScheduleConfigurationComponent <<Component>> {
+    + save(rules: DayRule[]): void
+  }
+  class CatalogManagementComponent <<Component>> {
+    + createService(name: string, price: number, duration: number): void
+    + createEmployee(name: string, email: string): void
+    + assignService(serviceId: string, employeeId: string): void
+    + deleteService(id: string): void
+  }
+  class PublicBookingWidgetComponent <<Component>> {
+    + selectServiceAndEmployee(serviceId: string, employeeId: string): void
+    + chooseSlot(slot: TimeSlot): void
+    + submitData(name: string, email: string, phone: string): void
+  }
+  class HttpApiClient <<Injectable>> {
+    + get(path: string, params: object): Observable
+    + post(path: string, body: object): Observable
+    + put(path: string, body: object): Observable
+    + delete(path: string): Observable
+  }
+}
+
+' ---- external reference (Controllers package) ----
+package "«REST API»" <<Frame>> {
+  class BusinessController <<from Controllers>>
+  class WorkingHoursController <<from Controllers>>
+  class CatalogController <<from Controllers>>
+  class PublicBookingController <<from Controllers>>
+}
+
+' ---- actors -> components ----
+admin --> TenantRegistrationComponent
+admin --> ScheduleConfigurationComponent
+admin --> CatalogManagementComponent
+customer --> PublicBookingWidgetComponent
+
+' ---- components use the shared API client ----
+TenantRegistrationComponent ..> HttpApiClient
+ScheduleConfigurationComponent ..> HttpApiClient
+CatalogManagementComponent ..> HttpApiClient
+PublicBookingWidgetComponent ..> HttpApiClient
+
+' ---- API client -> controllers (REST / HTTPS) ----
+HttpApiClient ..> BusinessController : POST /businesses
+HttpApiClient ..> WorkingHoursController : PUT /working-hours
+HttpApiClient ..> CatalogController : /services, /employees
+HttpApiClient ..> PublicBookingController : /availability, /bookings
+@enduml

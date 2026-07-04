@@ -1,0 +1,75 @@
+@startuml classes_design_services
+' =====================================================================
+' Design Classes — package "API — Application Services" (HU1-HU4)
+' Detail of classes_design.puml. Business logic; collaborate with each
+' other, with repositories (persistence) and, in HU4, with Redis slot
+' locking and the OTP frontier (HU5).
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+skinparam linetype ortho
+
+title Design Classes — API Application Services · HU1–HU4
+
+package "API — Application Services" {
+  class BusinessService <<Injectable>> {
+    + register(dto: RegisterBusinessDto): Business
+    - assertSubdomainAvailable(subdomain: string): void
+  }
+  class WorkingHoursService <<Injectable>> {
+    + configure(tenantId: string, rules: DayRuleDto[]): WorkingHours[]
+  }
+  class CatalogService <<Injectable>> {
+    + createService(dto: CreateServiceDto): Service
+    + createEmployee(dto: CreateEmployeeDto): Employee
+    + assignServiceToEmployee(serviceId: string, employeeId: string): void
+    + removeOrDeactivateService(serviceId: string): void
+  }
+  class BookingService <<Injectable>> {
+    + findAvailability(q: AvailabilityQueryDto): TimeSlot[]
+    + createPendingBooking(dto: CreateBookingDto): Appointment
+  }
+  class AvailabilityEngineService <<Injectable>> {
+    + computeSlots(serviceId: string, employeeId: string, day: Date): TimeSlot[]
+    - crossReference(hours: WorkingHours[], booked: Appointment[]): TimeSlot[]
+  }
+  class SlotLockService <<Injectable>> {
+    + lock(slotKey: string, ttlSeconds: number): boolean
+    + isLocked(slotKey: string): boolean
+  }
+}
+
+' ---- HU5 frontier (out of scope) ----
+class OtpVerificationService <<HU5 frontier>> {
+  + startVerification(appointmentId: string): void
+}
+
+' ---- external references (Persistence package) ----
+package "«collaborators»" <<Frame>> {
+  class BusinessRepository <<from Persistence>>
+  class WorkingHoursRepository <<from Persistence>>
+  class ServiceRepository <<from Persistence>>
+  class EmployeeRepository <<from Persistence>>
+  class AppointmentRepository <<from Persistence>>
+  class CustomerRepository <<from Persistence>>
+}
+
+' ---- service -> service ----
+BookingService ..> AvailabilityEngineService : queries free slots
+BookingService ..> SlotLockService : locks pending slot (Redis)
+BookingService ..> OtpVerificationService : startVerification (HU5)
+WorkingHoursService ..> AvailabilityEngineService : invalidates availability
+
+' ---- service -> repository ----
+BusinessService ..> BusinessRepository
+WorkingHoursService ..> WorkingHoursRepository
+CatalogService ..> ServiceRepository
+CatalogService ..> EmployeeRepository
+CatalogService ..> AppointmentRepository : checks future appointments
+BookingService ..> AppointmentRepository
+BookingService ..> CustomerRepository
+AvailabilityEngineService ..> WorkingHoursRepository
+AvailabilityEngineService ..> AppointmentRepository
+@enduml

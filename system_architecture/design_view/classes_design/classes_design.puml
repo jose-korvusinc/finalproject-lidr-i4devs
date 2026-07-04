@@ -1,0 +1,64 @@
+@startuml classes_design
+' =====================================================================
+' Design Class Diagram — TOP-LEVEL PACKAGE OVERVIEW
+' (RUP Logical View - Construction phase). Scope: HU1-HU4.
+' This is the "index" diagram: it shows only the design packages and
+' their dependencies. Each package is detailed in its own class diagram:
+'   - classes_design_frontend.puml
+'   - classes_design_cross-cutting.puml
+'   - classes_design_controllers.puml
+'   - classes_design_services.puml
+'   - classes_design_dtos.puml
+'   - classes_design_persistence.puml
+'   - classes_design_domain.puml
+' =====================================================================
+
+allowmixing
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+left to right direction
+
+title Design — Package Overview (HU1–HU4) · Angular + NestJS + MongoDB
+
+actor "Business Administrator\n(Tenant)" as admin
+actor "End Customer" as customer
+
+package "Frontend — Angular 22 (boundary)" as frontend
+package "API — Controllers" as controllers
+package "API — Application Services" as services
+package "API — DTOs" as dtos
+package "API — Persistence (Mongoose)" as persistence
+package "Domain Documents (MongoDB)" as domain
+package "Cross-cutting (Multitenant)" as crosscut
+package "OTP Verification (HU5 frontier)" as otp #EEEEEE
+
+' --- Actors reach the SPA ---
+admin --> frontend
+customer --> frontend
+
+' --- Request flow (top to bottom of the stack) ---
+frontend ..> controllers : REST / HTTPS
+controllers ..> services : delegates
+controllers ..> dtos : request/response contracts
+controllers ..> crosscut : tenant context (middleware/guard)
+services ..> persistence : reads/writes
+services ..> domain : returns/handles entities
+services ..> dtos : consumes
+services ..> otp : startVerification (HU5)
+persistence ..> domain : maps documents
+persistence ..> crosscut : extends TenantAwareRepository
+dtos ..> domain : reuses enums (Weekday, ...)
+
+note bottom of crosscut
+  Multitenant isolation: TenantContextMiddleware resolves the
+  tenant_id per request and TenantAwareRepository forces every
+  query to be scoped by tenant_id.
+end note
+
+note bottom of otp
+  Out of HU1–HU4 scope. HU4 only hands off to start the
+  OTP verification flow (HU5).
+end note
+@enduml

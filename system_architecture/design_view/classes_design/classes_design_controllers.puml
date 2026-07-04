@@ -1,0 +1,59 @@
+@startuml classes_design_controllers
+' =====================================================================
+' Design Classes — package "API — Controllers (NestJS)" (HU1-HU4)
+' Detail of classes_design.puml. REST entry points; delegate to
+' Application Services and validate request/response DTOs.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+skinparam linetype ortho
+
+title Design Classes — API Controllers · HU1–HU4
+
+package "API — Controllers (NestJS)" {
+  class BusinessController <<Controller>> {
+    + register(dto: RegisterBusinessDto): BusinessDto
+  }
+  class WorkingHoursController <<Controller>> {
+    + configure(dto: WorkingHoursConfigDto): WorkingHoursDto[]
+  }
+  class CatalogController <<Controller>> {
+    + createService(dto: CreateServiceDto): ServiceDto
+    + createEmployee(dto: CreateEmployeeDto): EmployeeDto
+    + assignService(dto: AssignServiceDto): void
+    + deleteService(id: string): void
+  }
+  class PublicBookingController <<Controller>> {
+    + getAvailability(q: AvailabilityQueryDto): TimeSlotDto[]
+    + book(dto: CreateBookingDto): AppointmentDto
+  }
+}
+
+' ---- external references (other packages) ----
+package "«collaborators»" <<Frame>> {
+  class BusinessService <<from Services>>
+  class WorkingHoursService <<from Services>>
+  class CatalogService <<from Services>>
+  class BookingService <<from Services>>
+  class TenantContextMiddleware <<from Cross-cutting>>
+}
+
+' ---- controller -> service (delegates) ----
+BusinessController ..> BusinessService
+WorkingHoursController ..> WorkingHoursService
+CatalogController ..> CatalogService
+PublicBookingController ..> BookingService
+
+' ---- controllers run behind the tenant middleware ----
+TenantContextMiddleware ..> BusinessController : injects tenant_id
+TenantContextMiddleware ..> WorkingHoursController
+TenantContextMiddleware ..> CatalogController
+TenantContextMiddleware ..> PublicBookingController
+
+note bottom of PublicBookingController
+  DTOs (RegisterBusinessDto, CreateBookingDto, ...) are the
+  request contracts; see classes_design_dtos.puml.
+end note
+@enduml

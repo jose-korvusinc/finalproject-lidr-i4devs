@@ -20,7 +20,7 @@ Tener en cuenta estos criterios para crear los diagramas:
 3. Mantén la coherencia con los actores y conceptos del modelo del dominio y del glosario.
 4. Cada relación debe indicar el propósito y, cuando aplique, el protocolo/tecnología de comunicación (HTTPS/REST, etc.).
 5. Los nombres y etiquetas de los elementos deben estar en inglés; las descripciones pueden ir en español.
-El resultado debe ser guardar cada diagrama en formato plantuml en `system_architecture/c4_model/c1_system_context.puml`, `system_architecture/c4_model/c2_containers.puml` y `system_architecture/c4_model/c3_components.puml`.
+El resultado debe ser guardar cada diagrama en formato plantuml en `system_architecture/design_view/c1_system_context.puml`, `system_architecture/design_view/c2_containers.puml` y `system_architecture/design_view/c3_components.puml`.
 
 TRABAJO MANUAL: Revisar y ajustar las tecnologías y relaciones entre contenedores y componentes según las decisiones reales de arquitectura.
 
@@ -51,34 +51,14 @@ Diagramas de casos de uso: @system_architecture/user_stories_view/state-diagram_
 Vistas de interfaz: @system_architecture/user_stories_view/wireframe_hu1-tenant-registration.png @system_architecture/user_stories_view/wireframe_hu2-schedule-configuration.png @system_architecture/user_stories_view/wireframe_hu3-catalog-management.png @system_architecture/user_stories_view/wireframe_hu4-public-booking.drawio @system_architecture/user_stories_view/hu1 @system_architecture/user_stories_view/hu2 @system_architecture/user_stories_view/hu3 @system_architecture/user_stories_view/hu4
 Diagrama del modelo del dominio: @system_architecture/domain_model/domain_model.puml
 
-### **3.3. Descripción de alto nivel del proyecto y estructura de ficheros**
+**Prompt 5: Crear diagramas de la fase de diseño de RUP**
 
-**Prompt 1:**
+Eres un experto ingeniero del software. Crea diagramas de la fase de diseño de metodologia RUP del proyecto basandote en el diagrama de contexto en PlantUML @system_architecture/user_stories_view/context-model_selected-user-stories.puml, en el diagrama de analisis PlantUML @system_architecture/analysis_view/classes_analysis-mvc_v2.puml y rn los diagramas de los 4 casos de uso seleccionados para implementar en PlantUML @system_architecture/user_stories_view/state-diagram_hu1.puml @system_architecture/user_stories_view/state-diagram_hu2.puml @system_architecture/user_stories_view/state-diagram_hu3.puml @system_architecture/user_stories_view/state-diagram_hu4.puml
+Guarda los modelos creados en @system_architecture/design_view/.
+No presupongas nada y pregunta todas las dudas antes de actuar.
+Estos diagramas seran utilizados junto con las historias de usuario y los tickets creados para implementar todo el sistema en la fase de implementacion.
 
-**Prompt 2:**
 
-**Prompt 3:**
+**Prompt 6: Generar una skil para exportar los diagramas PUML a PNG y que lo use el agente uml-diagrams-maker**
 
-### **3.4. Infraestructura y despliegue**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
-
-### **3.5. Seguridad**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
-
-### **3.6. Tests**
-
-**Prompt 1:**
-
-**Prompt 2:**
-
-**Prompt 3:**
+Crear una nueva skill para exportar los diagramas en formato PUML que se indiquen y que la use el agente uml-diagrams-maker

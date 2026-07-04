@@ -43,8 +43,8 @@ Pregunta SOLO lo imprescindible si falta algo esencial:
 3. **Recopilar el contenido del dominio** revisando la documentación del proyecto para que
    nombres de entidades, actores, módulos y estados COINCIDAN con el proyecto
    (coherencia y trazabilidad):
-   - `sections_readme/04-data-model.md` (entidades, atributos, relaciones),
-   - `sections_readme/05-api-specification.md` (operaciones, contratos),
+   - `sections_readme/05-data-model.md` (entidades, atributos, relaciones),
+   - `sections_readme/06-api-specification.md` (operaciones, contratos),
    - `sections_readme/03-system-architecture.md` (componentes, despliegue, C4),
    - `sections_readme/02-user-stories.md` (actores y casos de uso),
    - y el código relevante (`backend/` NestJS, `frontend/` Angular) cuando exista.
@@ -66,9 +66,11 @@ Pregunta SOLO lo imprescindible si falta algo esencial:
 
    Nomenclatura del archivo: `<tipo>_<tema>.puml` (p. ej. `clases_reserva.puml`,
    `secuencia_reservar_cita.puml`).
-7. **Validar y renderizar**: si hay `plantuml` disponible (Java + Graphviz), renderizar a
-   `.png` junto al `.puml`. Si no, indicar el comando exacto y no fallar por ello:
-   `plantuml -tpng system_architecture/<vista>/<archivo>.puml`
+7. **Validar y renderizar**: para exportar el `.puml` a imagen, usa la skill `uml-export`
+   (`.claude/skills/uml-export/SKILL.md`), que autodetecta el motor de render (plantuml CLI,
+   Docker o el jar de la extensión) y deja el `.png` junto al `.puml`. No falles si no hay
+   motor: la propia skill indica el comando a ejecutar. Ejemplo:
+   `.claude/skills/uml-export/scripts/render-plantuml.sh system_architecture/<vista>/<archivo>.puml`
 8. **Devolver al usuario**: ruta del `.puml`, el bloque PlantUML generado y la vista/fase
    RUP a la que pertenece.
 

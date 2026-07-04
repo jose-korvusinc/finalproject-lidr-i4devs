@@ -1,4 +1,4 @@
-### 5. Especificación de la API
+### 6. Especificación de la API
 
 [Volver al índice de prompts](../prompts.md)
 

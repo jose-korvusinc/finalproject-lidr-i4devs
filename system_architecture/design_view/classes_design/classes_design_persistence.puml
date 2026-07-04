@@ -1,0 +1,65 @@
+@startuml classes_design_persistence
+' =====================================================================
+' Design Classes — package "API — Persistence (Mongoose Repositories)"
+' Detail of classes_design.puml. Every repository extends
+' TenantAwareRepository (Cross-cutting) and maps a Domain document.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+skinparam linetype ortho
+
+title Design Classes — API Persistence (Mongoose Repositories) · HU1–HU4
+
+package "API — Persistence (Mongoose Repositories)" {
+  class BusinessRepository <<Mongoose>>
+  class WorkingHoursRepository <<Mongoose>>
+  class ServiceRepository <<Mongoose>>
+  class EmployeeRepository <<Mongoose>>
+  class AppointmentRepository <<Mongoose>> {
+    + countFutureByService(serviceId: string): number
+  }
+  class CustomerRepository <<Mongoose>>
+}
+
+' ---- external references ----
+abstract class TenantAwareRepository <<from Cross-cutting>> {
+  # tenantId: string
+  + forTenant(tenantId: string): this
+  # applyTenantFilter(filter: object): object
+}
+
+package "«Domain documents»" <<Frame>> {
+  class Business <<from Domain>>
+  class BusinessOwner <<from Domain>>
+  class WorkingHours <<from Domain>>
+  class Service <<from Domain>>
+  class Employee <<from Domain>>
+  class Customer <<from Domain>>
+  class Appointment <<from Domain>>
+}
+
+' ---- inheritance: tenant filter enforced everywhere ----
+BusinessRepository --|> TenantAwareRepository
+WorkingHoursRepository --|> TenantAwareRepository
+ServiceRepository --|> TenantAwareRepository
+EmployeeRepository --|> TenantAwareRepository
+AppointmentRepository --|> TenantAwareRepository
+CustomerRepository --|> TenantAwareRepository
+
+' ---- repository -> document (maps) ----
+BusinessRepository ..> Business
+BusinessRepository ..> BusinessOwner
+WorkingHoursRepository ..> WorkingHours
+ServiceRepository ..> Service
+EmployeeRepository ..> Employee
+AppointmentRepository ..> Appointment
+CustomerRepository ..> Customer
+
+note bottom of AppointmentRepository
+  countFutureByService supports the HU3 logical-deletion
+  guard (a service with future appointments is deactivated,
+  not deleted).
+end note
+@enduml

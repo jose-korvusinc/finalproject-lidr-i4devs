@@ -1,0 +1,65 @@
+@startuml components_backend
+' =====================================================================
+' Component Diagram (RUP Development View) - NestJS backend
+' Scope: HU1-HU4 only. Provided/required interfaces (ball-and-socket).
+' Aligns with C4 C3 (c3_components_api.puml) but restricted to the
+' selected user stories; HU5+ modules shown only as frontier.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+left to right direction
+
+title Components — NestJS Backend (HU1–HU4)
+
+interface "REST API" as rest
+
+component "Tenant Resolution &\nAuth Middleware" as tenant
+component "Business Module\n(HU1)" as business
+component "Working Hours Module\n(HU2)" as schedule
+component "Catalog Module\n(HU3: services & employees)" as catalog
+component "Booking Module\n(HU4)" as booking
+component "Availability Engine\n(HU4, <200ms)" as engine
+component "Slot Lock Store\n(HU4)" as slotlock
+component "Persistence Layer\n(Mongoose Repositories)" as persistence
+
+database "MongoDB 8.3\n(tenant_id indexed)" as mongo
+database "Redis\n(TTL slot lock)" as redis
+
+' Frontier (out of HU1-HU4 scope)
+component "OTP Verification Module\n<<HU5 frontier>>" as otp #EEEEEE
+cloud "Email Provider\n<<external>>" as email
+
+' --- Inbound: every request passes through the tenant middleware ---
+rest -down- tenant : HTTPS / REST
+
+tenant ..> business  : routes business config
+tenant ..> schedule  : routes working hours
+tenant ..> catalog   : routes catalog
+tenant ..> booking   : routes booking
+
+' --- Internal collaborations (HU4) ---
+booking ..> engine    : queries free slots
+engine  ..> schedule  : reads working hours
+engine  ..> catalog   : reads service duration & employees
+booking ..> slotlock  : locks pending slot
+booking ..> otp       : startVerification (HU5)
+
+' --- Persistence ---
+business    ..> persistence : reads/writes
+schedule    ..> persistence : reads/writes
+catalog     ..> persistence : reads/writes
+booking     ..> persistence : reads/writes
+persistence ..> mongo       : queries with tenant_id\n(MongoDB Wire Protocol)
+slotlock    ..> redis       : SET NX EX (RESP)
+
+' --- Frontier wiring ---
+otp ..> redis : OTP TTL (RESP)
+otp ..> email : sends OTP code (SMTP/API)
+
+note bottom of persistence
+  Every repository mandatorily filters by tenant_id,
+  the central defense against inter-tenant data leaks.
+end note
+@enduml

@@ -1,0 +1,47 @@
+@startuml deployment_production
+' =====================================================================
+' Deployment Diagram (RUP Physical View) - Production topology
+' Scope: nodes exercised by HU1-HU4. Reflects the C4 C2 container stack
+' (Nginx, Angular SPA, NestJS API, MongoDB, Redis). Google Calendar and
+' the reminder cron (HU7/HU8) are out of scope; Email Provider is shown
+' only as the HU4 -> HU5 OTP frontier.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+
+title Deployment — Production (HU1–HU4)
+
+node "Client Device\n(mobile / desktop browser)" as client {
+  artifact "Angular 22 SPA\n(backoffice + booking widget)" as spa
+}
+
+node "Edge / Reverse Proxy" as edge {
+  artifact "Nginx\n(wildcard *.yourplatform.com,\nresolves tenant subdomain)" as nginx
+}
+
+node "Application Server\n(Node.js runtime)" as appserver {
+  artifact "NestJS 11 API\n(OpenAPI, tenant_id injection)" as api
+}
+
+database "MongoDB 8.3 Cluster\n(Shared DB, tenant_id indexed)" as mongo
+node "Redis\n(Cache & Temporal Store)" as redisnode {
+  artifact "Slot locks + OTP TTL" as redis
+}
+
+cloud "Email Provider\n<<external, HU5 frontier>>" as email
+
+' --- Communication paths with protocols ---
+client -down-> edge : HTTPS (subdomain)
+edge -down-> spa : serves SPA static assets (HTTPS)
+edge -down-> api : proxies API calls, injects tenant (HTTPS / REST)
+api -down-> mongo : reads/writes filtered by tenant_id\n(MongoDB Wire Protocol / TLS)
+api -down-> redis : slot lock SET NX EX (RESP)
+api ..> email : OTP hand-off (SMTP / API)
+
+note right of mongo
+  Multitenant isolation: every query is
+  scoped by the indexed tenant_id field.
+end note
+@enduml

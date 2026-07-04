@@ -1,0 +1,96 @@
+@startuml sequence_hu3_catalog-management
+' =====================================================================
+' Sequence Diagram (RUP Logical/Process View) - HU3
+' Scenario: Catalog management: create service/employee, assign, and
+' logical-deletion guard. Refines state-diagram_hu3.puml.
+' Stack: Angular -> NestJS -> MongoDB.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+
+title Sequence — HU3: Catalog Management (create, assign, deletion guard)
+
+actor "Business Administrator" as admin
+boundary "CatalogManagementComponent\n(Angular)" as ui
+control "CatalogController\n(NestJS)" as ctrl
+control "CatalogService" as svc
+entity "ServiceRepository" as srepo
+entity "EmployeeRepository" as erepo
+entity "AppointmentRepository" as arepo
+database "MongoDB" as db
+
+== Create service ==
+admin -> ui : createService(name, price, duration)
+activate ui
+ui -> ctrl : POST /services\nCreateServiceDto
+activate ctrl
+ctrl -> svc : createService(dto)
+activate svc
+svc -> srepo : insert(Service{ tenantId, active:true })
+srepo -> db : insert
+db --> srepo : ok
+svc --> ctrl : ServiceDto
+deactivate svc
+ctrl --> ui : 201 Created
+deactivate ctrl
+
+== Create employee ==
+admin -> ui : createEmployee(name, email)
+ui -> ctrl : POST /employees\nCreateEmployeeDto
+activate ctrl
+ctrl -> svc : createEmployee(dto)
+activate svc
+svc -> erepo : insert(Employee{ tenantId, serviceIds:[] })
+erepo -> db : insert
+db --> erepo : ok
+svc --> ctrl : EmployeeDto
+deactivate svc
+ctrl --> ui : 201 Created
+deactivate ctrl
+
+== Assign service to employee ==
+admin -> ui : assignServiceToEmployee(serviceId, employeeId)
+ui -> ctrl : POST /employees/{id}/services\nAssignServiceDto
+activate ctrl
+ctrl -> svc : assignServiceToEmployee(serviceId, employeeId)
+activate svc
+svc -> erepo : addServiceId(employeeId, serviceId)
+erepo -> db : update
+db --> erepo : ok
+svc --> ctrl : void (published to public widget)
+deactivate svc
+ctrl --> ui : 200 OK\n(service now selectable in widget)
+deactivate ctrl
+
+== Delete service (logical-deletion guard) ==
+admin -> ui : deleteService(serviceId)
+ui -> ctrl : DELETE /services/{id}
+activate ctrl
+ctrl -> svc : removeOrDeactivateService(serviceId)
+activate svc
+svc -> arepo : countFutureByService(serviceId)
+arepo -> db : count({ serviceId, startTime > now })
+db --> arepo : n
+arepo --> svc : n
+alt has future appointments (n > 0)
+  svc -> srepo : deactivate(serviceId)  ' active=false
+  srepo -> db : update({ active:false })
+  svc --> ctrl : preventDeletion + notifyAdmin
+  ctrl --> ui : 409 Conflict\n(service deactivated, appointments kept)
+else no future appointments
+  svc -> srepo : remove(serviceId)
+  srepo -> db : deleteOne
+  svc --> ctrl : deleted
+  ctrl --> ui : 204 No Content
+end
+deactivate svc
+deactivate ctrl
+deactivate ui
+
+note over erepo
+  Employee with no assigned services is NOT
+  exposed as a selectable option in the widget.
+end note
+@enduml

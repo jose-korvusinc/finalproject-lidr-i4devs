@@ -34,7 +34,7 @@ mandan sobre cualquier suposición.
    - determina el tipo de diagrama y la vista 4+1 (infiérelo y confírmalo brevemente si el
      usuario no lo especifica);
    - recopila los nombres reales del dominio desde la documentación del proyecto
-     (`sections_readme/04-data-model.md`, `05-api-specification.md`,
+     (`sections_readme/05-data-model.md`, `06-api-specification.md`,
      `03-system-architecture.md`, `02-user-stories.md`) y desde el código cuando exista,
      para que entidades, actores, módulos y estados COINCIDAN con el proyecto;
    - genera el `.puml` siguiendo el flujo de la skill (bloque de estilo base, alias cortos,
@@ -43,9 +43,13 @@ mandan sobre cualquier suposición.
 3. Si el encargo implica VARIOS diagramas, prodúcelos todos manteniendo COHERENCIA de
    nombres entre ellos: una entidad se llama igual en todos los diagramas y coincide con el
    modelo de datos y el código.
-4. Valida cada diagrama contra la lista de verificación de calidad de la skill. Si hay
-   `plantuml` disponible (Java + Graphviz), renderiza a `.png` junto al `.puml` con
-   `plantuml -tpng <ruta>`; si no, NO falles: indica el comando exacto para renderizar.
+4. Valida cada diagrama contra la lista de verificación de calidad de la skill. Para
+   **exportar los `.puml` a imagen**, usa SIEMPRE la skill `uml-export`
+   (`.claude/skills/uml-export/SKILL.md`), que autodetecta el motor de render disponible
+   (plantuml CLI, Docker o el jar de la extensión) y deja el `.png`/`.svg` junto al `.puml`.
+   No inventes comandos de render ad hoc. Conviene pasar antes `--check-only` para detectar
+   errores de sintaxis. Si ningún motor está disponible, NO falles: indícalo y devuelve el
+   comando de la skill para que el usuario lo ejecute.
 5. Si el alcance de un diagrama es demasiado grande, divídelo (una intención por diagrama)
    y avísalo.
 6. Pide aclaraciones SOLO si falta información esencial imposible de inferir del proyecto.

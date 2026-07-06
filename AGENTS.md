@@ -21,6 +21,15 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
  fragmentos). Las etiquetas de los diagramas van en **inglés**; los nombres de fichero, en
  inglés (regla de nomenclatura).
 
+- **Diseño de base de datos MongoDB 8.3** → `.claude/rules/mongodb-*.md`
+  Conjunto cohesionado de rules para el modelo de datos (fuente de verdad al crear/editar
+  esquemas, colecciones, índices, validadores o migraciones):
+  `mongodb-data-modeling.md`, `mongodb-normalization-fnbc.md`, `mongodb-schema-conventions.md`,
+  `mongodb-multitenancy.md`, `mongodb-indexing-and-performance.md`,
+  `mongodb-transactions-and-integrity.md`, `mongodb-scalability-and-evolution.md`,
+  `mongodb-security.md`. La capa de acceso es Mongoose (`@nestjs/mongoose`); las migraciones se
+  gestionan con `migrate-mongo` (**no** Prisma).
+
 > Si hay conflicto entre una suposición y estas rules, **mandan las rules**.
 
 ## Flujos de trabajo especializados
@@ -33,6 +42,21 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
 - **Generar VARIOS diagramas coherentes** (p. ej. "documenta toda la vista lógica") → sigue
   el comportamiento del agente `.claude/agents/uml-diagrams-maker.md`: produce todos los
   diagramas manteniendo coherencia de nombres entre ellos y con el modelo de datos/código.
+
+- **Modelar el dominio en MongoDB** → sigue el flujo de la skill
+  `.claude/skills/mongodb-domain-model/SKILL.md`. Lee antes las rules `mongodb-*`; recopila los
+  nombres reales del dominio desde `system_architecture/domain_model/` y `sections_readme/`;
+  documenta el modelo en `sections_readme/04-data-model.md` (ER en Mermaid + entidades) y, si
+  existe `code/backend/`, genera los esquemas Mongoose `*.schema.ts`.
+
+- **Modelar VARIAS entidades coherentes** (p. ej. "modela todo el dominio de reservas") → usa el
+  agente `.claude/agents/mongodb-data-modeler.md`: modela todas las entidades manteniendo
+  coherencia de nombres y tipos, y delega la creación en base a la skill de migraciones.
+
+- **Migraciones de MongoDB** → sigue el flujo de la skill
+  `.claude/skills/mongodb-migrations/SKILL.md`: migraciones versionadas, idempotentes y
+  reversibles con `migrate-mongo` (**no** Prisma). Es el paso que aplica en la base el modelo
+  diseñado por `mongodb-domain-model`.
 
 ## Nota sobre Cursor
 

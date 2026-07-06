@@ -11,7 +11,3 @@ Prompt generado: [Reglas de Angular 22 para `.claude/rules`](generated_prompts/a
 **Prompt 2: Metaprompt para crear un prompt que genere las reglas de NestJS 11.1 (Claude Opus 4.8)**
 Crea un prompt que genere la regla o reglas en .claude/rules como experto programador backend en NestJS 11.1 siguiendo las buenas prácticas.
 No tengo añadido OpenSpec ni código en Angular. Estas reglas serán usadas en la metodologia OpenSpec
-
-**Prompt 2: Metaprompt para crear un prompt que genere las reglas de MongoDB 8.3 (Claude Opus 4.8)**
-Crea un prompt que genere la regla o reglas en .claude/rules como experto diseñador de base de datos en MongoDB 8.3 siguiendo las buenas prácticas,
-cumplir las normas de normalización FNBC, que sea facilmente escalable y mantenible.

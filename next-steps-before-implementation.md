@@ -33,8 +33,8 @@
 ## C. Reglas y puertas de calidad (con el scaffold ya delante)
 
 - [ ] **Generar las reglas de tecnología** (Angular 22, NestJS 11.1, MongoDB 8.3) ancladas al
-      scaffold real y **cableadas a ESLint/Prettier** (no como texto suelto). Ver prompts en
-      `sections_prompts/04-agentic-system.md` y `sections_prompts/generated_prompts/`.
+      scaffold real y **cableadas a ESLint/Prettier** (no como texto suelto). Ver metaprompts en
+      `sections_prompts/06-agentic-system.md` y `sections_prompts/generated_prompts/`.
       Requisito: código en inglés y sin comentarios, **impuesto por el linter**.
 - [ ] **Puertas de calidad en CI**: lint + format + typecheck + tests, umbral de cobertura,
       pre-commit hooks y un **"definition of done"** por ticket.

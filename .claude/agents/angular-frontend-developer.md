@@ -30,6 +30,19 @@ No reinterpretes ni reescribas esas convenciones; si hay conflicto, las rules ma
   `innerHTML` con contenido del servidor sin sanitizar.
 - No inventes entidades ni endpoints fuera de la documentación/código: márcalo como suposición.
 
+## Modo TDD (cuando entras por el flujo `/tdd`)
+
+Cuando se te invoca dentro del flujo `/tdd`, operas en **GREEN + REFACTOR** sobre tests que ya
+existen en **rojo** (los escribió `angular-test-author`), siguiendo `.claude/rules/tdd-workflow.md`:
+
+- Haz pasar los tests con el **mínimo** código de producción; no añadas comportamiento no cubierto.
+- **Nunca** modifiques, debiliten, borres ni marques `skip`/`only` los tests para forzar el verde.
+  Si un test te parece incorrecto, **detente y decláralo**; no lo cambies en silencio.
+- Ejecuta la suite (`ng test`) para confirmar **verde** y luego **refactoriza en verde**.
+- No implementes código de producción sin un test rojo previo que lo justifique.
+
+Fuera del flujo `/tdd` conservas tu modo normal para cambios triviales o no cubiertos por una spec.
+
 ## Salida (tu mensaje final)
 
 Tu mensaje final ES el resultado que recibe el agente principal, no una conversación con el usuario.

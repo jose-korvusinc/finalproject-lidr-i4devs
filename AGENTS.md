@@ -51,6 +51,12 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
   `mongodb-*.md` (única fuente de verdad de persistencia), que estas rules **referencian sin
   reescribir**.
 
+- **TDD (ciclo red-green-refactor)** → `.claude/rules/tdd-workflow.md`
+  Disciplina transversal de Test-Driven Development: tests primero desde la spec, confirmar el rojo,
+  mínimo código a verde, **nunca** debilitar los tests para forzar el verde, refactor en verde. El
+  *cómo* de cada test lo definen las rules de testing de cada stack (`nestjs-testing-and-quality.md`,
+  `angular-testing-and-quality.md`). Aplica cuando implementes vía el flujo `/tdd`.
+
 > Si hay conflicto entre una suposición y estas rules, **mandan las rules**.
 
 ## Flujos de trabajo especializados
@@ -106,6 +112,17 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
   end-to-end") → usa el agente `.claude/agents/nestjs-backend-developer.md`: implementa módulos,
   controladores finos, servicios, DTOs, guards/interceptors/filtros y tests (incluido el de
   aislamiento entre tenants) manteniendo coherencia entre capas, con alcance estricto de backend.
+
+- **Ciclo TDD completo de un slice** (p. ej. "implementa en TDD la creación de reserva") → usa el
+  comando `/tdd <slice>` (`.claude/commands/tdd.md`), que orquesta el bucle red-green-refactor: el
+  test-author escribe los tests en **rojo**, se verifica el fallo, el agente de implementación los
+  lleva a **verde** con el mínimo código sin tocar los tests, y refactoriza en verde. Aplica
+  `.claude/rules/tdd-workflow.md`.
+
+- **Escribir tests que fallan (fase RED)** → usa el agente `.claude/agents/nestjs-test-author.md`
+  (backend: Jest + supertest, incluye el red obligatorio de aislamiento entre tenants e invariantes)
+  o `.claude/agents/angular-test-author.md` (frontend: Vitest, comportamiento y cabecera de tenant).
+  Escriben **solo tests**, nunca código de producción.
 
 ## Nota sobre Cursor
 

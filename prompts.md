@@ -4,9 +4,9 @@
 1. [Descripción general del producto](sections_prompts/01-product-overview.md)
 2. [Historias de usuario](sections_prompts/02-user-stories.md)
 3. [Arquitectura del sistema](sections_prompts/03-system-architecture.md)
-4. [Sistema agéntico](sections_prompts/04-agentic-system.md)
-5. [Modelo de datos](sections_prompts/05-data-model.md)
-6. [Especificación de la API](sections_prompts/06-api-specification.md)
+4. [Modelo de datos](sections_prompts/04-data-model.md)
+5. [Especificación de la API](sections_prompts/05-api-specification.md)
+6. [Sistema agéntico](sections_prompts/06-agentic-system.md)
 7. [Tickets de trabajo](sections_prompts/07-work-tickets.md)
 8. [Pull requests](sections_prompts/08-pull-requests.md)
 
@@ -42,21 +42,21 @@
 
 ---
 
-### 4. Sistema agéntico
+### 4. Modelo de Datos
 
-[Ver prompts de sistema agéntico](sections_prompts/04-agentic-system.md)
-
----
-
-### 5. Modelo de Datos
-
-[Ver prompts de modelo de datos](sections_prompts/05-data-model.md)
+[Ver prompts de modelo de datos](sections_prompts/04-data-model.md)
 
 ---
 
-### 6. Especificación de la API
+### 5. Especificación de la API
 
-[Ver prompts de especificación de la API](sections_prompts/06-api-specification.md)
+[Ver prompts de especificación de la API](sections_prompts/05-api-specification.md)
+
+---
+
+### 6. Sistema agéntico
+
+[Ver prompts de sistema agéntico](sections_prompts/06-agentic-system.md)
 
 ---
 

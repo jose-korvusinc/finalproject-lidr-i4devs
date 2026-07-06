@@ -4,9 +4,9 @@
 1. [Descripción general del producto](sections_readme/01-product-overview.md)
 2. [Historias de usuario](sections_readme/02-user-stories.md)
 3. [Arquitectura del sistema](sections_readme/03-system-architecture.md)
-4. [Sistema agéntico](sections_readme/04-agentic-system.md)
-5. [Modelo de datos](sections_readme/05-data-model.md)
-6. [Especificación de la API](sections_readme/06-api-specification.md)
+4. [Modelo de datos](sections_readme/04-data-model.md)
+5. [Especificación de la API](sections_readme/05-api-specification.md)
+6. [Sistema agéntico](sections_readme/06-agentic-system.md)
 7. [Tickets de trabajo](sections_readme/07-work-tickets.md)
 8. [Pull requests](sections_readme/08-pull-requests.md)
 9. [Diseño y experiencia de usuario](sections_readme/09-user-experience-design.md)
@@ -51,21 +51,21 @@ Este proyecto es una plataforma SaaS multitenant de gestión de citas que permit
 
 ---
 
-## 4. Sistema agéntico
+## 4. Modelo de Datos
 
-[Ver sistema agéntico](sections_readme/04-agentic-system.md)
-
----
-
-## 5. Modelo de Datos
-
-[Ver modelo de datos](sections_readme/05-data-model.md)
+[Ver modelo de datos](sections_readme/04-data-model.md)
 
 ---
 
-## 6. Especificación de la API
+## 5. Especificación de la API
 
-[Ver especificación de la API](sections_readme/06-api-specification.md)
+[Ver especificación de la API](sections_readme/05-api-specification.md)
+
+---
+
+## 6. Sistema agéntico
+
+[Ver sistema agéntico](sections_readme/06-agentic-system.md)
 
 ---
 

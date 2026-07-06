@@ -51,13 +51,8 @@ cp .env.example .env    # usuario, contraseña, base de datos, puerto y ruta del
 ```
 
 `code/.env` (ignorado por git) lo lee `docker-compose.yml`; `code/.env.example` es la plantilla
-versionada con datos genéricos. Ajusta las contraseñas reales.
-
-Al arrancar el contenedor por primera vez, `code/mongo-init/create-app-user.sh` crea un **usuario
-de aplicación con privilegios mínimos** (`readWrite` + `dbAdmin` **solo** sobre la base de datos
-del proyecto). El usuario **root** (`MONGO_INITDB_ROOT_*`) queda reservado a la administración del
-contenedor: **la API y las migraciones NO usan root**, usan el usuario de aplicación
-(`MONGO_APP_*`).
+versionada con datos genéricos. Ajusta las contraseñas reales. El usuario de aplicación se crea
+automáticamente al levantar el contenedor (ver la sección de arranque).
 
 Backend:
 
@@ -101,11 +96,16 @@ cd code
 docker compose up -d mongo     # MongoDB 8.3 en mongodb://localhost:27017
 ```
 
+Al arrancar por primera vez (con el volumen vacío), `code/mongo-init/create-app-user.sh` crea el
+**usuario de aplicación con privilegios mínimos** (`readWrite` + `dbAdmin` **solo** sobre la base
+de datos del proyecto). El usuario **root** (`MONGO_INITDB_ROOT_*`) queda reservado a la
+administración del contenedor: **la API y las migraciones NO usan root**, usan el usuario de
+aplicación (`MONGO_APP_*`).
+
 Los datos persisten en `code/mongo-data`. Comprobación: `docker compose ps`.
 
-> El usuario de aplicación se crea con `code/mongo-init/create-app-user.sh` **solo en la primera
-> inicialización** (cuando el volumen está vacío). Si ya habías arrancado el contenedor antes de
-> añadir el usuario, párala y elimina el volumen para re-inicializar:
+> El script de creación del usuario solo se ejecuta en esa **primera inicialización**. Si ya habías
+> arrancado el contenedor antes de añadirlo, párala y elimina el volumen para re-inicializar:
 > `docker compose down && rm -rf code/mongo-data` (borra los datos locales).
 
 ### 2. Migraciones (crea colecciones, índices y validadores)

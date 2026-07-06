@@ -20,3 +20,6 @@ Indicar que el código del backend esta en @code/backend.
 ENTREGA: Guarda el prompt generado en la carpeta @sections_prompts/generated_prompts y hacer referencia en este apartado.
 
 > **Prompt generado:** [`generated_prompts/nestjs-11.1-backend-agent-generation-prompt.md`](generated_prompts/nestjs-11.1-backend-agent-generation-prompt.md)
+
+**Prompt 3: Revisar los artefactios de IA generados (Claude Opus 4.8)**
+Eres un experto en crear artefactos (subagentes, skills, rules...) de IA con Claude. Quiero que revises los artefactos generados del proyecto en @.claude para darme una opinión, mejoras a realizar, incongluencias encontradas o especificaciones realizadas por duplicado. No modifiques nada, no presupongas ni inventes nada y pregunta todo lo que necesites.

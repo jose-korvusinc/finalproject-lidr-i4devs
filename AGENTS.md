@@ -64,6 +64,12 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
   el comportamiento del agente `.claude/agents/uml-diagrams-maker.md`: produce todos los
   diagramas manteniendo coherencia de nombres entre ellos y con el modelo de datos/código.
 
+- **Exportar diagramas `.puml` a imagen** → sigue el flujo de la skill
+  `.claude/skills/uml-export/SKILL.md`, que autodetecta el motor de render (plantuml CLI, Docker o
+  el jar de la extensión) y deja el `.png`/`.svg` junto al `.puml`. Es el paso complementario a
+  `uml-diagram`: primero se generan/actualizan los `.puml`, luego se exportan; no modifica el
+  contenido de los diagramas.
+
 - **Modelar el dominio en MongoDB** → sigue el flujo de la skill
   `.claude/skills/mongodb-domain-model/SKILL.md`. Lee antes las rules `mongodb-*`; recopila los
   nombres reales del dominio desde `system_architecture/domain_model/` y `sections_readme/`;

@@ -124,6 +124,13 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
   o `.claude/agents/angular-test-author.md` (frontend: Vitest, comportamiento y cabecera de tenant).
   Escriben **solo tests**, nunca código de producción.
 
+- **Descomponer una historia de usuario en issues de GitHub** (p. ej. "genera los tickets de HU1") →
+  usa el comando `/tickets <HU>` (`.claude/commands/tickets.md`), que aplica la skill
+  `.claude/skills/github-issue-breakdown/SKILL.md`: descompone la HU en issues pequeñas y verticales
+  (estilo JIRA) separadas por frontend y backend, trazables a la HU y sus criterios de aceptación
+  (BDD), genera un **plan revisable** y, tras aprobación, las crea con `gh` (labels + milestone por
+  HU). No escribe código de producción. Requiere `gh` autenticado (`gh auth login`).
+
 ## Nota sobre Cursor
 
 Cursor carga este `AGENTS.md` como instrucciones de proyecto. Para invocar manualmente los

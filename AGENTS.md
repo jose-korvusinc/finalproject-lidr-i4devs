@@ -30,6 +30,27 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
   `mongodb-security.md`. La capa de acceso es Mongoose (`@nestjs/mongoose`); las migraciones se
   gestionan con `migrate-mongo` (**no** Prisma).
 
+- **Frontend Angular 22** → `.claude/rules/angular-*.md`
+  Conjunto cohesionado de rules para el desarrollo del frontend (fuente de verdad al crear/editar
+  componentes, servicios, rutas, formularios, estilos o tests en `code/frontend`):
+  `angular-architecture.md`, `angular-components-and-signals.md`,
+  `angular-templates-and-performance.md`, `angular-api-and-multitenancy.md`,
+  `angular-forms-and-accessibility.md`, `angular-testing-and-quality.md`. Angular 22 signals-first:
+  standalone y `OnPush` por defecto (no los declares), `input()/output()/model()`, `inject()`,
+  Resource API, Signal Forms, control de flujo nativo. Todo el código en **inglés y sin
+  comentarios**; el texto de UI vía i18n. Alcance **solo frontend**: consume la API REST de NestJS,
+  nunca accede a la base de datos.
+
+- **Backend NestJS 11.1** → `.claude/rules/nestjs-*.md`
+  Conjunto cohesionado de rules para la **capa de aplicación** del backend (`code/backend`):
+  `nestjs-architecture.md`, `nestjs-validation-and-dtos.md`, `nestjs-data-access-mongoose.md`,
+  `nestjs-security-and-multitenancy.md`, `nestjs-performance-and-async.md`,
+  `nestjs-errors-and-observability.md`, `nestjs-testing-and-quality.md`. Cubren arquitectura
+  modular, DTOs/validación, acceso a datos con Mongoose, multitenancy por petición, caché,
+  errores/observabilidad y tests. El **modelo de datos** sigue siendo competencia de las rules
+  `mongodb-*.md` (única fuente de verdad de persistencia), que estas rules **referencian sin
+  reescribir**.
+
 > Si hay conflicto entre una suposición y estas rules, **mandan las rules**.
 
 ## Flujos de trabajo especializados
@@ -57,6 +78,28 @@ solo referencia los ficheros de `.claude/`. Si editas las convenciones, hazlo en
   `.claude/skills/mongodb-migrations/SKILL.md`: migraciones versionadas, idempotentes y
   reversibles con `migrate-mongo` (**no** Prisma). Es el paso que aplica en la base el modelo
   diseñado por `mongodb-domain-model`.
+
+- **Desarrollar el frontend Angular 22** → sigue el flujo de la skill
+  `.claude/skills/angular-frontend-dev/SKILL.md`. Lee antes las rules `angular-*`; inspecciona
+  `code/frontend` (`angular.json`, `src/app/`) y `sections_readme/` para el dominio; genera
+  componentes signals-first, servicios con Resource API, interceptor multitenant, Signal Forms y
+  tests. Alcance estrictamente frontend.
+
+- **Construir una feature de frontend completa** (p. ej. "crea el widget público de reserva" o
+  "monta el backoffice de agenda con FullCalendar") → usa el agente
+  `.claude/agents/angular-frontend-developer.md`: produce todas las piezas (rutas perezosas,
+  componentes, servicios, estilos, tests) manteniendo coherencia, y **nunca** toca el backend
+  NestJS ni la base de datos MongoDB.
+
+- **Desarrollar el backend NestJS** → sigue el flujo de la skill
+  `.claude/skills/nestjs-backend-dev/SKILL.md`. Lee antes las rules `nestjs-*` y las `mongodb-*`
+  relevantes; trabaja SOLO en `code/backend` (nunca el frontend); delega el diseño del modelo de
+  datos a `mongodb-domain-model` y las migraciones a `mongodb-migrations`.
+
+- **Implementar una feature de backend completa** (p. ej. "implementa el módulo de reservas
+  end-to-end") → usa el agente `.claude/agents/nestjs-backend-developer.md`: implementa módulos,
+  controladores finos, servicios, DTOs, guards/interceptors/filtros y tests (incluido el de
+  aislamiento entre tenants) manteniendo coherencia entre capas, con alcance estricto de backend.
 
 ## Nota sobre Cursor
 

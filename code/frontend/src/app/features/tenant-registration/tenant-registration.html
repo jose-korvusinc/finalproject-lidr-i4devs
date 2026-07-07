@@ -1,0 +1,92 @@
+<form class="tenant-registration" (submit)="$event.preventDefault(); create()">
+  <div class="field">
+    @let nameError = form.name().touched() && form.name().invalid();
+    <label for="tenant-name" i18n="@@tenantRegistration.name.label">Business name</label>
+    <input
+      id="tenant-name"
+      type="text"
+      [formField]="form.name"
+      [attr.aria-invalid]="nameError ? 'true' : null"
+      [attr.aria-describedby]="nameError ? 'tenant-name-error' : null"
+    />
+    @if (nameError) {
+      <p
+        id="tenant-name-error"
+        class="field__error"
+        role="alert"
+        aria-live="polite"
+        i18n="@@tenantRegistration.name.error"
+      >
+        Enter the business name
+      </p>
+    }
+  </div>
+
+  <div class="field">
+    @let emailError = form.ownerEmail().touched() && form.ownerEmail().invalid();
+    <label for="tenant-email" i18n="@@tenantRegistration.email.label">Corporate email</label>
+    <input
+      id="tenant-email"
+      type="email"
+      [formField]="form.ownerEmail"
+      [attr.aria-invalid]="emailError ? 'true' : null"
+      [attr.aria-describedby]="emailError ? 'tenant-email-error' : null"
+    />
+    @if (emailError) {
+      <p
+        id="tenant-email-error"
+        class="field__error"
+        role="alert"
+        aria-live="polite"
+        i18n="@@tenantRegistration.email.error"
+      >
+        Enter a valid email address
+      </p>
+    }
+  </div>
+
+  <div class="field">
+    @let subdomainError = form.subdomain().touched() && form.subdomain().invalid();
+    <label for="tenant-subdomain" i18n="@@tenantRegistration.subdomain.label">Subdomain</label>
+    <div class="field__group">
+      <input
+        id="tenant-subdomain"
+        type="text"
+        [formField]="form.subdomain"
+        [attr.aria-invalid]="subdomainError ? 'true' : null"
+        [attr.aria-describedby]="subdomainError ? 'tenant-subdomain-error' : null"
+      />
+      <span class="field__suffix" aria-hidden="true">.yourplatform.com</span>
+    </div>
+    @if (subdomainError) {
+      <p
+        id="tenant-subdomain-error"
+        class="field__error"
+        role="alert"
+        aria-live="polite"
+        i18n="@@tenantRegistration.subdomain.error"
+      >
+        Use lowercase letters, numbers and hyphens
+      </p>
+    }
+  </div>
+
+  <div class="actions">
+    <button
+      type="button"
+      class="button button--ghost"
+      (click)="cancel()"
+      i18n="@@tenantRegistration.cancel"
+    >
+      Cancel
+    </button>
+    <button
+      type="submit"
+      class="button button--primary"
+      [disabled]="form().invalid()"
+      i18n="@@tenantRegistration.create"
+    >
+      Create
+    </button>
+  </div>
+</form>

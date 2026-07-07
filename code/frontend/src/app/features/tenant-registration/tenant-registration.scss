@@ -1,0 +1,103 @@
+:host {
+  --field-gap: 1rem;
+  --border-color: #4a4a4a;
+  --error-color: #b00020;
+  --focus-color: #0b5fff;
+  --text-color: #1a1a1a;
+
+  display: block;
+  color: var(--text-color);
+}
+
+.tenant-registration {
+  display: flex;
+  flex-direction: column;
+  gap: var(--field-gap);
+  max-width: 32rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.field__group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 0.625rem 0.75rem;
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 0.375rem;
+}
+
+input:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+input[aria-invalid='true'] {
+  border-color: var(--error-color);
+}
+
+.field__suffix {
+  white-space: nowrap;
+  color: var(--text-color);
+}
+
+.field__error {
+  margin: 0;
+  color: var(--error-color);
+  font-size: 0.875rem;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.button {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--focus-color);
+  outline-offset: 2px;
+}
+
+.button--primary {
+  border: 1px solid var(--focus-color);
+  background: var(--focus-color);
+  color: #ffffff;
+}
+
+.button--primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button--ghost {
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-color);
+}
+
+@media (min-width: 40rem) {
+  .actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}

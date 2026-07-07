@@ -145,3 +145,54 @@ endpoint del backend: habilita también el versionado URI y el prefijo global `a
 
 **Trazabilidad.** HU1 · VALIDATING_SUBDOMAIN (`nestjs-architecture.md` §2/§4,
 `nestjs-data-access-mongoose.md` §2), issue #5.
+
+### Pull Request 4 — HU1 #6: endpoint POST de alta de tenant (409 en conflicto)
+
+| Campo | Valor |
+| :--- | :--- |
+| **Historia de usuario** | HU1 — Registro de Negocio y Creación de Espacio Aislado (Tenant) |
+| **Issue** | [#6](https://github.com/jose-korvusinc/finalproject-lidr-i4devs/issues/6) — `[HU1][BE] Create tenant registration endpoint with unique subdomain (409 on conflict)` |
+| **Milestone** | HU1: Tenant registration |
+| **Rama** | `feature-entrega2-JMPA` |
+| **Capa** | Backend (NestJS) · API |
+| **Metodología** | TDD estricto (red → green → refactor) orquestado con `/tdd` |
+
+**Objetivo.** Exponer `POST /api/v1/tenants` que da de alta el tenant garantizando subdominio único
+global: alta atómica en `businesses` con `owner` embebido y `status: active`, traducción del duplicado
+a **409 Conflict** sin registro parcial, y respuesta con exposición mínima. Cierra el flujo de alta de
+HU1 en el backend (estados TENANT_CREATED / REGISTRATION_REJECTED). Depende de #3 y #4; desbloquea la
+escritura del frontend (#10).
+
+**Commits (orden TDD).**
+
+| Orden | Hash | Tipo | Descripción |
+| :--- | :--- | :--- | :--- |
+| 1º (RED) | `f3646fe` | `test(tenants)` | Unit de `TenantsService.create` (mapeo dto→doc, `status active`, `owner` embebido, `portalUrl` derivado, `11000`→`ConflictException`) + e2e (201 con body mínimo, 409 en duplicado, 400 en payload inválido/whitelist), con modelo mockeado |
+| 2º (GREEN + REFACTOR) | `5ef7683` | `feat(tenants)` | `@Post()` fino + `TenantsService.create` (alta atómica, guard tipado del `code 11000`→409, mapeo a `TenantResponseDto`) + constante `TENANT_BASE_DOMAIN` para `portalUrl` |
+
+**Alcance de ficheros.**
+
+- Tests: `code/backend/src/tenants/tenants.service.spec.ts` (bloque `create`),
+  `code/backend/test/tenants.e2e-spec.ts` (bloque `POST /api/v1/tenants`).
+- Producción: `tenants.controller.ts` (`@Post`), `tenants.service.ts` (`create` + helpers),
+  `tenants.constants.ts` (`TENANT_BASE_DOMAIN`).
+
+**Estado de los tests y calidad.**
+
+- `npm test` (unit): **45/45 passing** (6 suites). `npm run test:e2e`: **13/13 passing** (2 suites).
+- `npm run lint`: **0 errores**.
+
+**Notas de diseño.**
+
+- **409 en conflicto**: el error de clave duplicada de Mongo (`code 11000`, índice único
+  `uq_subdomain`) se traduce a `ConflictException`; el resto de errores se re-lanzan. La atomicidad de
+  documento + índice único garantizan que no queda registro parcial (`mongodb-transactions-and-integrity.md`
+  §2).
+- **Exposición mínima**: `TenantResponseDto` (`@Exclude` clase + `@Expose`) vía
+  `excludeExtraneousValues`; nunca se filtran `_id`, `tenantId`, `owner`, `schemaVersion`.
+- **Decisiones MVP**: `owner.name = dto.name` (el formulario HU1 no capta nombre de dueño por
+  separado) y `portalUrl = https://<subdomain>.yourplatform.com` (constante `TENANT_BASE_DOMAIN`;
+  candidata a variable de entorno por entorno).
+
+**Trazabilidad.** HU1 · TENANT_CREATED / REGISTRATION_REJECTED (`nestjs-architecture.md` §2/§4,
+`nestjs-errors-and-observability.md` §1, `mongodb-multitenancy.md` §4), issue #6.

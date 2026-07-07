@@ -8,7 +8,3 @@ de usuario junto con sus prototipos de interfaz que necesitamos desglosar en iss
 frontend y backend para implementar cada historia de usuario. Dime qué sistema de agentes es el mas adecuado, si generar un subgente,
 una skill o un comando. Se libre de dar tu mejor opción sin tener en cuenta mis preferencias. El sistema de agentes ya implementado
 esta en @.claude. La idea es pasar una historia de usuario y que crees todas las issues de github necesarias mas pequeñas de frontend y backend.
-
-**Prompt 2:**
-
-**Prompt 3:**

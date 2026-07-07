@@ -11,6 +11,10 @@ estricta) y la salida se mapea a DTOs de respuesta (sin exponer `_id`/`tenantId`
 > El esquema OpenAPI se genera desde los DTOs decorados con `@nestjs/swagger` (fuente única del
 > contrato); esta sección documenta los endpoints principales. Se mantiene actualizada en cada
 > cambio del backend.
+>
+> **Swagger UI** se expone en `GET /api/docs` **solo fuera de producción** (`NODE_ENV !== 'production'`).
+> El documento OpenAPI versionado se genera con `npm run openapi:generate` y se persiste en
+> `code/backend/openapi.json`.
 
 ### 6.1. HU1 — Registro de negocio (Tenant)
 
@@ -24,7 +28,7 @@ Comprueba si un subdominio está libre (feedback previo al alta). Solo lectura.
 | :--- | :--- |
 | **Auth / tenant** | Pública (no requiere tenant resuelto) |
 | **Query** | `subdomain` (string, slug `^[a-z0-9]+(?:-[a-z0-9]+)*$`, requerido) |
-| **200** | `{ "available": boolean }` |
+| **200** | `SubdomainAvailabilityResponseDto` → `{ "available": boolean }` |
 | **400** | Query ausente o subdominio con formato inválido |
 
 ```http

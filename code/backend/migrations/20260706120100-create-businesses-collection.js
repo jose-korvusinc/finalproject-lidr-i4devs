@@ -9,7 +9,7 @@ const validator = {
     properties: {
       name: { bsonType: "string" },
       subdomain: { bsonType: "string" },
-      status: { bsonType: "string" },
+      status: { bsonType: "string", enum: ["active", "suspended"] },
       owner: {
         bsonType: "object",
         required: ["name", "email"],

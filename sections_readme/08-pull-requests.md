@@ -97,4 +97,51 @@ desbloquea el check de subdominio (#5) y el endpoint de alta (#6).
 **Trazabilidad.** HU1 · contrato de entrada/salida del alta de tenant
 (`nestjs-validation-and-dtos.md`, `mongodb-security.md` §3/§4), issue #4.
 
-### Pull Request 3
+### Pull Request 3 — HU1 #5: endpoint GET de disponibilidad de subdominio
+
+| Campo | Valor |
+| :--- | :--- |
+| **Historia de usuario** | HU1 — Registro de Negocio y Creación de Espacio Aislado (Tenant) |
+| **Issue** | [#5](https://github.com/jose-korvusinc/finalproject-lidr-i4devs/issues/5) — `[HU1][BE] Expose subdomain availability check endpoint (GET)` |
+| **Milestone** | HU1: Tenant registration |
+| **Rama** | `feature-entrega2-JMPA` |
+| **Capa** | Backend (NestJS) · API |
+| **Metodología** | TDD estricto (red → green → refactor) orquestado con `/tdd` |
+
+**Objetivo.** Exponer `GET /api/v1/tenants/subdomain-availability?subdomain=<slug>` → `{ available }`
+para dar feedback temprano de disponibilidad (estado VALIDATING_SUBDOMAIN) antes del alta. Primer
+endpoint del backend: habilita también el versionado URI y el prefijo global `api`. Depende de #3 y
+#4; desbloquea el servicio de API del frontend (#10).
+
+**Commits (orden TDD).**
+
+| Orden | Hash | Tipo | Descripción |
+| :--- | :--- | :--- | :--- |
+| 1º (RED) | `8914c8e` | `test(tenants)` | Spec unitaria del servicio (`isSubdomainAvailable` con `model.exists` mínimo) + e2e del contrato HTTP (200 `{available}`, 400 en query ausente/inválida/whitelist/`$`), con modelo Mongoose mockeado y stack HTTP real |
+| 2º (GREEN + REFACTOR) | `d070c02` | `feat(tenants)` | `TenantsController` fino + `TenantsService` + `SubdomainAvailabilityQueryDto` + `TenantsModule` (`forFeature`), cableado en `AppModule` y versionado URI/prefijo `api` en `main.ts`; refactor: patrón slug compartido (`SUBDOMAIN_PATTERN`) |
+
+**Alcance de ficheros.**
+
+- Tests: `code/backend/src/tenants/tenants.service.spec.ts`, `code/backend/test/tenants.e2e-spec.ts`.
+- Producción: `tenants.controller.ts`, `tenants.service.ts`, `tenants.module.ts`,
+  `dto/subdomain-availability-query.dto.ts`, `dto/subdomain.constants.ts`, `app.module.ts`, `main.ts`
+  (versionado + prefijo); refactor de `dto/create-tenant.dto.ts` (reusa el patrón compartido).
+
+**Estado de los tests y calidad.**
+
+- `npm test` (unit): **41/41 passing** (6 suites). `npm run test:e2e`: **7/7 passing** (2 suites, sin
+  regresión en el e2e existente). Verde probado por **mutación** (forzar disponibilidad siempre ⇒ los
+  tests de "subdominio ocupado" se ponen en rojo).
+- `npm run lint`: **0 errores**.
+
+**Notas de diseño.**
+
+- e2e **determinista sin DB**: se monta la app con el modelo Mongoose *mockeado* por token
+  (`getModelToken`), replicando prefijo/versionado/`ValidationPipe` de producción (no hay
+  `mongodb-memory-server`).
+- Acceso a datos mínimo con `model.exists({ subdomain })` sobre el índice único `uq_subdomain` (no
+  hidrata el documento). El endpoint es previo al tenant (no aplica aislamiento entre tenants); la
+  garantía dura de unicidad la da el índice único en la escritura (#6).
+
+**Trazabilidad.** HU1 · VALIDATING_SUBDOMAIN (`nestjs-architecture.md` §2/§4,
+`nestjs-data-access-mongoose.md` §2), issue #5.

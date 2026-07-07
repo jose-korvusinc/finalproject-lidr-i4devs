@@ -1,8 +1,9 @@
-import { Component, computed, inject, output, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, computed, DestroyRef, inject, output, signal } from '@angular/core';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { email, form, FormField, pattern, required } from '@angular/forms/signals';
 import { debounceTime, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
-import { TenantRegistrationApi } from './tenant-registration.api';
+import { TenantRegistrationApi, TenantSummary } from './tenant-registration.api';
 
 export interface TenantRegistrationModel {
   name: string;
@@ -11,6 +12,8 @@ export interface TenantRegistrationModel {
 }
 
 export type SubdomainStatus = 'idle' | 'checking' | 'available' | 'taken';
+
+export type RegistrationState = 'editing' | 'submitting' | 'created' | 'conflict' | 'error';
 
 const SUBDOMAIN_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -22,6 +25,7 @@ const SUBDOMAIN_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 })
 export class TenantRegistration {
   private readonly api = inject(TenantRegistrationApi);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly model = signal<TenantRegistrationModel>({ name: '', ownerEmail: '', subdomain: '' });
 
@@ -57,6 +61,9 @@ export class TenantRegistration {
       this.subdomainStatus() === 'taken',
   );
 
+  readonly registrationState = signal<RegistrationState>('editing');
+  readonly createdTenant = signal<TenantSummary | null>(null);
+
   readonly submitted = output<TenantRegistrationModel>();
   readonly cancelled = output<void>();
 
@@ -64,7 +71,21 @@ export class TenantRegistration {
     if (this.form().invalid()) {
       return;
     }
-    this.submitted.emit(this.model());
+    this.registrationState.set('submitting');
+    this.api
+      .register(this.model())
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (summary) => {
+          this.createdTenant.set(summary);
+          this.registrationState.set('created');
+        },
+        error: (err: unknown) => {
+          this.registrationState.set(
+            err instanceof HttpErrorResponse && err.status === 409 ? 'conflict' : 'error',
+          );
+        },
+      });
   }
 
   cancel(): void {

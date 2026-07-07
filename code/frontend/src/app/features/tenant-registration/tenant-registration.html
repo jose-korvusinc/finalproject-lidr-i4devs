@@ -1,113 +1,133 @@
-<form class="tenant-registration" (submit)="$event.preventDefault(); create()">
-  <div class="field">
-    @let nameError = form.name().touched() && form.name().invalid();
-    <label for="tenant-name" i18n="@@tenantRegistration.name.label">Business name</label>
-    <input
-      id="tenant-name"
-      type="text"
-      [formField]="form.name"
-      [attr.aria-invalid]="nameError ? 'true' : null"
-      [attr.aria-describedby]="nameError ? 'tenant-name-error' : null"
-    />
-    @if (nameError) {
-      <p
-        id="tenant-name-error"
-        class="field__error"
-        role="alert"
-        aria-live="polite"
-        i18n="@@tenantRegistration.name.error"
-      >
-        Enter the business name
-      </p>
-    }
-  </div>
-
-  <div class="field">
-    @let emailError = form.ownerEmail().touched() && form.ownerEmail().invalid();
-    <label for="tenant-email" i18n="@@tenantRegistration.email.label">Corporate email</label>
-    <input
-      id="tenant-email"
-      type="email"
-      [formField]="form.ownerEmail"
-      [attr.aria-invalid]="emailError ? 'true' : null"
-      [attr.aria-describedby]="emailError ? 'tenant-email-error' : null"
-    />
-    @if (emailError) {
-      <p
-        id="tenant-email-error"
-        class="field__error"
-        role="alert"
-        aria-live="polite"
-        i18n="@@tenantRegistration.email.error"
-      >
-        Enter a valid email address
-      </p>
-    }
-  </div>
-
-  <div class="field">
-    @let subdomainError = form.subdomain().touched() && form.subdomain().invalid();
-    <label for="tenant-subdomain" i18n="@@tenantRegistration.subdomain.label">Subdomain</label>
-    <div class="field__group">
-      <input
-        id="tenant-subdomain"
-        type="text"
-        [formField]="form.subdomain"
-        [attr.aria-invalid]="subdomainError || subdomainStatus() === 'taken' ? 'true' : null"
-        [attr.aria-describedby]="
-          subdomainError ? 'tenant-subdomain-error' : 'tenant-subdomain-status'
-        "
-      />
-      <span class="field__suffix" aria-hidden="true">.yourplatform.com</span>
-    </div>
-    @if (subdomainError) {
-      <p
-        id="tenant-subdomain-error"
-        class="field__error"
-        role="alert"
-        aria-live="polite"
-        i18n="@@tenantRegistration.subdomain.error"
-      >
-        Use lowercase letters, numbers and hyphens
-      </p>
-    }
-    <p id="tenant-subdomain-status" class="field__status" role="status" aria-live="polite">
-      @switch (subdomainStatus()) {
-        @case ('checking') {
-          <span class="field__status--checking" i18n="@@tenantRegistration.subdomain.checking"
-            >Checking availability…</span
-          >
-        }
-        @case ('available') {
-          <span class="field__status--available" i18n="@@tenantRegistration.subdomain.available"
-            >This subdomain is available</span
-          >
-        }
-        @case ('taken') {
-          <span class="field__status--taken" i18n="@@tenantRegistration.subdomain.taken"
-            >This subdomain is already taken</span
-          >
-        }
-      }
+@if (registrationState() === 'created' && createdTenant(); as tenant) {
+  <section class="registration-success" role="status">
+    <h2 i18n="@@tenantRegistration.success.title">Your workspace is ready</h2>
+    <p i18n="@@tenantRegistration.success.description">
+      Open your portal to start managing your bookings.
     </p>
-  </div>
+    <a class="registration-success__link" [href]="tenant.portalUrl">{{ tenant.portalUrl }}</a>
+  </section>
+} @else {
+  <form class="tenant-registration" (submit)="$event.preventDefault(); create()">
+    <div class="field">
+      @let nameError = form.name().touched() && form.name().invalid();
+      <label for="tenant-name" i18n="@@tenantRegistration.name.label">Business name</label>
+      <input
+        id="tenant-name"
+        type="text"
+        [formField]="form.name"
+        [attr.aria-invalid]="nameError ? 'true' : null"
+        [attr.aria-describedby]="nameError ? 'tenant-name-error' : null"
+      />
+      @if (nameError) {
+        <p
+          id="tenant-name-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@tenantRegistration.name.error"
+        >
+          Enter the business name
+        </p>
+      }
+    </div>
 
-  <div class="actions">
-    <button
-      type="button"
-      class="button button--ghost"
-      (click)="cancel()"
-      i18n="@@tenantRegistration.cancel"
-    >
-      Cancel
-    </button>
-    <button
-      type="submit"
-      class="button button--primary"
-      [disabled]="createDisabled()"
-      i18n="@@tenantRegistration.create"
-    >
-      Create
-    </button>
-  </div>
-</form>
+    <div class="field">
+      @let emailError = form.ownerEmail().touched() && form.ownerEmail().invalid();
+      <label for="tenant-email" i18n="@@tenantRegistration.email.label">Corporate email</label>
+      <input
+        id="tenant-email"
+        type="email"
+        [formField]="form.ownerEmail"
+        [attr.aria-invalid]="emailError ? 'true' : null"
+        [attr.aria-describedby]="emailError ? 'tenant-email-error' : null"
+      />
+      @if (emailError) {
+        <p
+          id="tenant-email-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@tenantRegistration.email.error"
+        >
+          Enter a valid email address
+        </p>
+      }
+    </div>
+
+    <div class="field">
+      @let subdomainError = form.subdomain().touched() && form.subdomain().invalid();
+      <label for="tenant-subdomain" i18n="@@tenantRegistration.subdomain.label">Subdomain</label>
+      <div class="field__group">
+        <input
+          id="tenant-subdomain"
+          type="text"
+          [formField]="form.subdomain"
+          [attr.aria-invalid]="subdomainError || subdomainStatus() === 'taken' ? 'true' : null"
+          [attr.aria-describedby]="
+            subdomainError ? 'tenant-subdomain-error' : 'tenant-subdomain-status'
+          "
+        />
+        <span class="field__suffix" aria-hidden="true">.yourplatform.com</span>
+      </div>
+      @if (subdomainError) {
+        <p
+          id="tenant-subdomain-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@tenantRegistration.subdomain.error"
+        >
+          Use lowercase letters, numbers and hyphens
+        </p>
+      }
+      <p id="tenant-subdomain-status" class="field__status" role="status" aria-live="polite">
+        @switch (subdomainStatus()) {
+          @case ('checking') {
+            <span class="field__status--checking" i18n="@@tenantRegistration.subdomain.checking"
+              >Checking availability…</span
+            >
+          }
+          @case ('available') {
+            <span class="field__status--available" i18n="@@tenantRegistration.subdomain.available"
+              >This subdomain is available</span
+            >
+          }
+          @case ('taken') {
+            <span class="field__status--taken" i18n="@@tenantRegistration.subdomain.taken"
+              >This subdomain is already taken</span
+            >
+          }
+        }
+      </p>
+      @if (registrationState() === 'conflict') {
+        <p
+          class="field__error"
+          role="alert"
+          aria-live="assertive"
+          i18n="@@tenantRegistration.conflict"
+        >
+          This subdomain is already taken. Choose another.
+        </p>
+      }
+    </div>
+
+    <div class="actions">
+      <button
+        type="button"
+        class="button button--ghost"
+        (click)="cancel()"
+        i18n="@@tenantRegistration.cancel"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="button button--primary"
+        [disabled]="createDisabled() || registrationState() === 'submitting'"
+        i18n="@@tenantRegistration.create"
+      >
+        Create
+      </button>
+    </div>
+  </form>
+}

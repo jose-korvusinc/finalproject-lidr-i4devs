@@ -108,9 +108,10 @@ export class ReservationResponseDto {
 
 ## 5. Documentación del contrato (OpenAPI / Swagger)
 
-- Documenta la API con `@nestjs/swagger` (dependencia por instalar): decora los DTOs con
+- Documenta la API con `@nestjs/swagger` (**ya instalado**): decora los DTOs con
   `@ApiProperty()` y los controladores con `@ApiTags`/`@ApiResponse`. El DTO es la **única fuente**
-  del esquema OpenAPI; no mantengas un contrato paralelo a mano.
+  del esquema OpenAPI; no mantengas un contrato paralelo a mano. Mantén además
+  `sections_readme/05-api-specification.md` al día en cada cambio de endpoints.
 - Expón el Swagger UI **solo en entornos no productivos** o tras autenticación; no publiques la
   superficie interna de la API sin control.
 - Mantén el contrato versionado junto al versionado de rutas (`nestjs-architecture.md` §4).

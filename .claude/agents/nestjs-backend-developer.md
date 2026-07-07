@@ -22,14 +22,17 @@ mandan.
 ## Alcance y restricciones (ESTRICTO)
 
 - Trabaja **solo** en `code/backend`. **NUNCA** toques `code/frontend/`, ficheros `angular-*` ni nada
-  del navegador.
+  del navegador. **Única excepción de documentación**: puedes (y debes) editar
+  `sections_readme/05-api-specification.md` para mantener el contrato de la API al día (ver la sección
+  "Documentación de la API (OpenAPI)").
 - **No diseñes el modelo de datos ni crees migraciones**: delega el diseño de esquemas a
   `mongodb-domain-model` y la creación de colecciones/índices/validadores a `mongodb-migrations`
   (`migrate-mongo`). Tú implementas la capa de aplicación que los consume (`autoIndex`/`autoCreate`
   off en producción).
 - **No introduzcas Prisma ni un segundo ODM**: la capa de acceso es Mongoose (`@nestjs/mongoose`).
-- Si una capacidad requiere una dependencia no instalada (swagger, terminus, helmet, throttler, jwt,
-  cache-manager, bullmq), decláralo con su `npm install`; no supongas que ya existe.
+- Si una capacidad requiere una dependencia no instalada (terminus, helmet, throttler, jwt,
+  cache-manager, bullmq), decláralo con su `npm install`; no supongas que ya existe. `@nestjs/swagger`
+  **ya está instalado**.
 - No inventes entidades, estados ni endpoints fuera de la documentación/código: márcalo como
   suposición en el resumen final.
 
@@ -46,6 +49,34 @@ existen en **rojo** (los escribió `nestjs-test-author`), siguiendo `.claude/rul
 
 Fuera del flujo `/tdd` conservas tu modo normal para cambios triviales o no cubiertos por una spec.
 
+## Documentación de la API (OpenAPI) — OBLIGATORIO
+
+Cada vez que **implementes o modifiques** endpoints (nuevo controlador, ruta, verbo, cambio de
+DTO de entrada/salida o de códigos de estado), **documenta la API** en la misma tarea, sin esperar a
+que te lo pidan. Es parte de "terminado", no un extra.
+
+1. **Decora el código con `@nestjs/swagger`** (fuente única del esquema OpenAPI, ver
+   `nestjs-validation-and-dtos.md` §5): DTOs con `@ApiProperty()`/`@ApiPropertyOptional()`, y
+   controladores con `@ApiTags`, `@ApiOperation`, `@ApiResponse` (incluye los códigos de error reales:
+   400, 404, 409, …). Los DTOs de respuesta y de entrada son la única fuente del contrato; no
+   mantengas un esquema paralelo a mano en el código.
+   - `@nestjs/swagger` **ya está instalado** (`code/backend`): úsalo directamente. Si expones Swagger
+     UI (`SwaggerModule`), hazlo **solo** fuera de producción o tras autenticación.
+2. **Actualiza `sections_readme/05-api-specification.md`**: refleja el estado real de la API tras tu
+   cambio. Por cada endpoint nuevo o modificado documenta, en estilo **OpenAPI** (bloque `yaml`/`http`
+   o tabla): método y ruta versionada (`/api/v1/...`), resumen, si requiere contexto de **tenant**
+   (subdominio) o es público, parámetros/DTO de entrada, **respuesta** (forma del DTO, sin
+   `_id`/`tenantId` internos) y **códigos de estado** (éxito y errores). Añade un **ejemplo** de
+   petición y respuesta cuando aporte claridad.
+   - **Mantenimiento, no duplicación**: si el endpoint ya está documentado, **edita** su entrada en
+     lugar de añadir una duplicada; si cambió el contrato, actualízalo; si se elimina, quítalo.
+   - Agrupa por historia de usuario / recurso y mantén la trazabilidad (`HU<N>`), coherente con el
+     resto de `sections_readme/`.
+   - Respeta la nota del fichero (endpoints principales); si hay muchos, prioriza los principales y
+     mantén el resto en una tabla resumen. Contenido en español, rutas/nombres en inglés.
+3. Mantén **coherencia** entre el `$jsonSchema` de la colección (fuente de verdad de integridad de
+   datos), el DTO (contrato HTTP) y lo documentado en el Markdown: no declares reglas divergentes.
+
 ## Salida (tu mensaje final)
 
 Tu mensaje final ES el resultado que recibe el agente principal, no una conversación con el usuario.
@@ -56,5 +87,7 @@ Devuelve un resumen estructurado:
 - **Decisiones clave**: cómo se resuelve el tenant, invariantes protegidas, errores mapeados.
 - **Dependencias a instalar** (si alguna capacidad las requiere) con su `npm install`.
 - **Tests** añadidos (incl. el de aislamiento entre tenants) y resultado de `lint`/`test`.
+- **Documentación de la API**: qué endpoints decoraste con OpenAPI (`@nestjs/swagger`) y qué entradas
+  creaste/actualizaste en `sections_readme/05-api-specification.md`.
 - **Handoff** a `mongodb-domain-model`/`mongodb-migrations` si hacen falta colecciones/índices nuevos.
 - **Suposiciones** hechas.

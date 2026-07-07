@@ -196,3 +196,93 @@ escritura del frontend (#10).
 
 **Trazabilidad.** HU1 · TENANT_CREATED / REGISTRATION_REJECTED (`nestjs-architecture.md` §2/§4,
 `nestjs-errors-and-observability.md` §1, `mongodb-multitenancy.md` §4), issue #6.
+
+### Pull Request 5 — HU1 #8: formulario de registro (Signal Forms + accesibilidad)
+
+| Campo | Valor |
+| :--- | :--- |
+| **Historia de usuario** | HU1 — Registro de Negocio y Creación de Espacio Aislado (Tenant) |
+| **Issue** | [#8](https://github.com/jose-korvusinc/finalproject-lidr-i4devs/issues/8) — `[HU1][FE] Build tenant registration form (Signal Forms + a11y + i18n)` |
+| **Milestone** | HU1: Tenant registration |
+| **Rama** | `feature-entrega2-JMPA` |
+| **Capa** | Frontend (Angular 22) |
+| **Metodología** | TDD estricto (red → green → refactor) orquestado con `/tdd` |
+
+**Objetivo.** Construir la pieza de entrada del onboarding: el formulario de alta del negocio (estado
+`AWAITING_DATA`) con **Signal Forms**, validación accesible e i18n. Bloquea el feedback en vivo (#11),
+el resultado (#12) y la ruta (#13).
+
+**Commits (orden TDD).**
+
+| Orden | Hash | Tipo | Descripción |
+| :--- | :--- | :--- | :--- |
+| 1º (RED) | `d926e15` | `test(tenant-registration)` | Specs *failing-first* (Vitest): render de los 3 campos con labels accesibles, Create deshabilitado hasta validez, error de email con `aria-invalid`/`aria-describedby`, subdominio inválido, sufijo `.yourplatform.com` |
+| 2º (GREEN + REFACTOR) | `588fb46` | `feat(tenant-registration)` | Componente `TenantRegistration` (Signal Forms: `required`/`email`/`pattern` slug), plantilla accesible con live region, SCSS mobile-first e i18n |
+
+**Alcance de ficheros.**
+
+- Tests: `code/frontend/src/app/features/tenant-registration/tenant-registration.spec.ts`.
+- Producción: `tenant-registration.ts` / `.html` / `.scss`; infraestructura de test
+  `src/test-setup.ts` (shim de `$localize`/`CSS.escape`) y su registro en `angular.json` /
+  `tsconfig.spec.json`.
+
+**Estado de los tests y calidad.**
+
+- `ng test` (Vitest): **7/7 passing**. Verde probado por **mutación** (romper `[disabled]` del botón
+  Create ⇒ 2 tests en rojo). `ng build`: OK.
+- Sin `standalone: true`/`OnPush` explícitos; signals y control de flujo nativo; Prettier aplicado (el
+  frontend no define script de lint).
+
+**Notas de diseño.**
+
+- Campos `name` / `ownerEmail` / `subdomain` (coherentes con el `CreateTenantDto` del backend).
+  Errores enlazados con `aria-describedby` + `aria-invalid` y anunciados por live region (WCAG AA).
+- **i18n**: textos externalizados con IDs `@@`; como `@angular/localize` no está instalado, el runtime
+  de test usa un shim de `$localize` (los atributos `i18n` son reales; instalar `@angular/localize`
+  queda como tarea de setup del proyecto).
+
+**Trazabilidad.** HU1 · `AWAITING_DATA` (`angular-forms-and-accessibility.md`,
+`angular-components-and-signals.md`), issue #8.
+
+### Pull Request 6 — HU1 #12: resultado del alta (éxito y conflicto de subdominio)
+
+| Campo | Valor |
+| :--- | :--- |
+| **Historia de usuario** | HU1 — Registro de Negocio y Creación de Espacio Aislado (Tenant) |
+| **Issue** | [#12](https://github.com/jose-korvusinc/finalproject-lidr-i4devs/issues/12) — `[HU1][FE] Handle registration outcome: success view + subdomain conflict` |
+| **Milestone** | HU1: Tenant registration |
+| **Rama** | `feature-entrega2-JMPA` |
+| **Capa** | Frontend (Angular 22) |
+| **Metodología** | TDD estricto (red → green → refactor) orquestado con `/tdd` |
+
+**Objetivo.** Gestionar el envío del formulario y sus dos salidas: éxito (estado `TENANT_CREATED`, con
+enlace al `portalUrl`) y conflicto de subdominio (estado `REGISTRATION_REJECTED`, mensaje accesible sin
+perder los datos). Depende de #8 (formulario) y #10 (servicio de API).
+
+**Commits (orden TDD).**
+
+| Orden | Hash | Tipo | Descripción |
+| :--- | :--- | :--- | :--- |
+| 1º (RED) | `d993411` | `test(tenant-registration)` | Specs *failing-first* (Vitest, `TenantRegistrationApi` mockeado): éxito ⇒ `registrationState='created'` + enlace `portalUrl`; `HttpErrorResponse` 409 ⇒ `conflict`, alerta accesible, datos conservados; el mensaje no es el error crudo del backend |
+| 2º (GREEN + REFACTOR) | `672f6b6` | `feat(tenant-registration)` | `create()` envía con `api.register`, signals `registrationState`/`createdTenant`; vista de confirmación con `portalUrl`; alerta i18n de conflicto; baja con `takeUntilDestroyed` |
+
+**Alcance de ficheros.**
+
+- Tests: `code/frontend/src/app/features/tenant-registration/tenant-registration.outcome.spec.ts`.
+- Producción: `tenant-registration.ts` / `.html` / `.scss`.
+
+**Estado de los tests y calidad.**
+
+- `ng test` (Vitest): **24/24 passing** (incluye toda la suite previa). `ng build`: OK.
+- Errores de la API mapeados a texto de UI i18n (nunca el cuerpo crudo del backend), coherente con
+  `angular-api-and-multitenancy.md` §3.
+
+**Notas de diseño.**
+
+- Estado de envío modelado con un signal `registrationState`
+  (`editing`/`submitting`/`created`/`conflict`/`error`); `createdTenant` guarda la respuesta con el
+  `portalUrl`. En conflicto se conservan los datos del formulario para corregir el subdominio.
+- La gestión de foco al cambiar de estado quedó como mejora a11y opcional (no requerida por los tests).
+
+**Trazabilidad.** HU1 · TENANT_CREATED / REGISTRATION_REJECTED (`angular-forms-and-accessibility.md`
+§1/§3, `angular-api-and-multitenancy.md` §3), issue #12.

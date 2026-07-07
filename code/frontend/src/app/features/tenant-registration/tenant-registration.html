@@ -53,8 +53,10 @@
         id="tenant-subdomain"
         type="text"
         [formField]="form.subdomain"
-        [attr.aria-invalid]="subdomainError ? 'true' : null"
-        [attr.aria-describedby]="subdomainError ? 'tenant-subdomain-error' : null"
+        [attr.aria-invalid]="subdomainError || subdomainStatus() === 'taken' ? 'true' : null"
+        [attr.aria-describedby]="
+          subdomainError ? 'tenant-subdomain-error' : 'tenant-subdomain-status'
+        "
       />
       <span class="field__suffix" aria-hidden="true">.yourplatform.com</span>
     </div>
@@ -69,6 +71,25 @@
         Use lowercase letters, numbers and hyphens
       </p>
     }
+    <p id="tenant-subdomain-status" class="field__status" role="status" aria-live="polite">
+      @switch (subdomainStatus()) {
+        @case ('checking') {
+          <span class="field__status--checking" i18n="@@tenantRegistration.subdomain.checking"
+            >Checking availability…</span
+          >
+        }
+        @case ('available') {
+          <span class="field__status--available" i18n="@@tenantRegistration.subdomain.available"
+            >This subdomain is available</span
+          >
+        }
+        @case ('taken') {
+          <span class="field__status--taken" i18n="@@tenantRegistration.subdomain.taken"
+            >This subdomain is already taken</span
+          >
+        }
+      }
+    </p>
   </div>
 
   <div class="actions">
@@ -83,7 +104,7 @@
     <button
       type="submit"
       class="button button--primary"
-      [disabled]="form().invalid()"
+      [disabled]="createDisabled()"
       i18n="@@tenantRegistration.create"
     >
       Create

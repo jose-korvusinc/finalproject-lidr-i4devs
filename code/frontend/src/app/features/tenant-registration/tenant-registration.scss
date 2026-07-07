@@ -4,6 +4,8 @@
   --error-color: #b00020;
   --focus-color: #0b5fff;
   --text-color: #1a1a1a;
+  --muted-color: #4a4a4a;
+  --success-color: #05703a;
 
   display: block;
   color: var(--text-color);
@@ -58,6 +60,23 @@ input[aria-invalid='true'] {
   margin: 0;
   color: var(--error-color);
   font-size: 0.875rem;
+}
+
+.field__status {
+  margin: 0;
+  font-size: 0.875rem;
+}
+
+.field__status--checking {
+  color: var(--muted-color);
+}
+
+.field__status--available {
+  color: var(--success-color);
+}
+
+.field__status--taken {
+  color: var(--error-color);
 }
 
 .actions {

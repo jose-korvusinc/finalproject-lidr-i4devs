@@ -1,6 +1,5 @@
 import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
-
-const SUBDOMAIN_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+import { SUBDOMAIN_PATTERN } from './subdomain.constants';
 
 export class CreateTenantDto {
   @IsString()

@@ -1,0 +1,42 @@
+import { ForbiddenException } from '@nestjs/common';
+import { Aggregate, Document, PipelineStage, Query, Schema } from 'mongoose';
+import { tenantStorage } from '../context/tenant-context.storage';
+
+export function tenantFilter(): { tenantId: string } {
+  const store = tenantStorage.getStore();
+  if (!store?.tenantId) {
+    throw new ForbiddenException('Missing tenant context');
+  }
+  return { tenantId: store.tenantId };
+}
+
+export function tenantScopePlugin(schema: Schema): void {
+  schema.pre(
+    [
+      'find',
+      'findOne',
+      'count',
+      'countDocuments',
+      'updateOne',
+      'updateMany',
+      'deleteOne',
+      'deleteMany',
+    ],
+    function (this: Query<unknown, unknown>) {
+      this.where(tenantFilter());
+    },
+  );
+
+  schema.pre('aggregate', function (this: Aggregate<unknown>) {
+    const match: PipelineStage.Match = { $match: tenantFilter() };
+    this.pipeline().unshift(match);
+  });
+
+  schema.pre('save', function (this: Document) {
+    const store = tenantStorage.getStore();
+    if (!store?.tenantId) {
+      throw new ForbiddenException('Missing tenant context');
+    }
+    this.set('tenantId', store.tenantId);
+  });
+}

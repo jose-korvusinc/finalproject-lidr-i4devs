@@ -2,8 +2,10 @@ import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { CreateTenantDto } from './dto/create-tenant.dto';
 import { SubdomainAvailabilityQueryDto } from './dto/subdomain-availability-query.dto';
 import { TenantResponseDto } from './dto/tenant-response.dto';
+import { Public } from './guards/public.decorator';
 import { TenantsService } from './tenants.service';
 
+@Public()
 @Controller({ path: 'tenants', version: '1' })
 export class TenantsController {
   constructor(private readonly tenants: TenantsService) {}

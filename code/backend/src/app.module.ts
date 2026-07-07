@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { TenantContextModule } from './tenants/tenant-context.module';
 import { TenantsModule } from './tenants/tenants.module';
 
 @Module({
@@ -15,6 +16,7 @@ import { TenantsModule } from './tenants/tenants.module';
         dbName: config.get<string>('MONGODB_DB'),
       }),
     }),
+    TenantContextModule,
     TenantsModule,
   ],
   controllers: [AppController],

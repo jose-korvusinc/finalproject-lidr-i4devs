@@ -28,6 +28,8 @@ interface ServiceModelMock {
   findByIdAndUpdate: jest.Mock;
   findOneAndUpdate: jest.Mock;
   updateOne: jest.Mock;
+  deleteOne: jest.Mock;
+  findByIdAndDelete: jest.Mock;
 }
 
 const leanReturning = (value: unknown): { lean: jest.Mock } => ({
@@ -209,6 +211,49 @@ describe('ServicesService', () => {
           '665f1b2c9c1e4a0012ab34cd',
           asUpdateDto({ name: 'Deluxe haircut' }),
         ),
+      ).rejects.toBeInstanceOf(NotFoundException);
+    });
+  });
+
+  describe('deactivate', () => {
+    it('logically deactivates an existing service through a tenant-scoped updateOne and never deletes it', async () => {
+      const deactivatedDoc = leanDoc({ active: false });
+      const updateOne = jest.fn().mockResolvedValue({ matchedCount: 1 });
+      const deleteOne = jest.fn();
+      const findByIdAndDelete = jest.fn();
+      const service = await buildService({
+        findById: jest.fn().mockReturnValue(leanReturning(deactivatedDoc)),
+        findOne: jest.fn().mockReturnValue(leanReturning(deactivatedDoc)),
+        updateOne,
+        deleteOne,
+        findByIdAndDelete,
+      });
+
+      const result = await service.deactivate('665f1b2c9c1e4a0012ab34cd');
+
+      expect(updateOne).toHaveBeenCalledTimes(1);
+      const [, updatePayload] = updateOne.mock.calls[0] as [
+        unknown,
+        Record<string, unknown>,
+      ];
+      expect(updatePayload).toEqual({ $set: { active: false } });
+      expect(result).toBeInstanceOf(ServiceResponseDto);
+      expect(result.active).toBe(false);
+      expect(deleteOne).not.toHaveBeenCalled();
+      expect(findByIdAndDelete).not.toHaveBeenCalled();
+    });
+
+    it('throws NotFoundException when deactivating a service that does not exist', async () => {
+      const service = await buildService({
+        findById: jest.fn().mockReturnValue(leanReturning(null)),
+        findOne: jest.fn().mockReturnValue(leanReturning(null)),
+        updateOne: jest.fn().mockResolvedValue({ matchedCount: 0 }),
+        deleteOne: jest.fn(),
+        findByIdAndDelete: jest.fn(),
+      });
+
+      await expect(
+        service.deactivate('665f1b2c9c1e4a0012ab34cd'),
       ).rejects.toBeInstanceOf(NotFoundException);
     });
   });

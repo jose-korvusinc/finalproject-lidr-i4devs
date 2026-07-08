@@ -22,6 +22,18 @@ interface ServiceBody {
   active: boolean;
 }
 
+interface AppointmentSeed {
+  _id: Types.ObjectId;
+  tenantId: Types.ObjectId;
+  serviceId: Types.ObjectId;
+  employeeId: Types.ObjectId;
+  customerId: Types.ObjectId;
+  startTime: Date;
+  endTime: Date;
+  status: string;
+  schemaVersion: number;
+}
+
 describe('Services (e2e)', () => {
   let app: INestApplication<App>;
   let seedConnection: Connection;
@@ -281,6 +293,107 @@ describe('Services (e2e)', () => {
         active: true,
       });
       expect(body).not.toHaveProperty('tenantId');
+    });
+  });
+
+  describe('DELETE /api/v1/services/:id', () => {
+    const cleanAppointments = async (): Promise<void> => {
+      await seedConnection
+        .collection('appointments')
+        .deleteMany({ tenantId: { $in: seededTenantIds } });
+    };
+
+    const futureAppointment = (serviceId: Types.ObjectId): AppointmentSeed => ({
+      _id: new Types.ObjectId(),
+      tenantId: tenantA,
+      serviceId,
+      employeeId: new Types.ObjectId(),
+      customerId: new Types.ObjectId(),
+      startTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      endTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000 + 30 * 60 * 1000),
+      status: 'confirmed',
+      schemaVersion: 1,
+    });
+
+    const createAcmeService = async (): Promise<ServiceBody> => {
+      const response = await request(app.getHttpServer())
+        .post(SERVICES_PATH)
+        .set('Host', 'acme.example.com')
+        .send({ name: 'Haircut', price: '25.00', durationMinutes: 30 })
+        .expect(201);
+      return response.body as ServiceBody;
+    };
+
+    beforeEach(async () => {
+      await cleanServices();
+      await cleanAppointments();
+    });
+
+    afterEach(async () => {
+      await cleanAppointments();
+    });
+
+    it('logically deactivates the service (200, active false) and drops it from the active catalogue', async () => {
+      const created = await createAcmeService();
+
+      const response = await request(app.getHttpServer())
+        .delete(`${SERVICES_PATH}/${created.id}`)
+        .set('Host', 'acme.example.com')
+        .expect(200);
+
+      const body = response.body as ServiceBody;
+      expect(body).toMatchObject({ id: created.id, active: false });
+
+      const list = await request(app.getHttpServer())
+        .get(SERVICES_PATH)
+        .set('Host', 'acme.example.com')
+        .expect(200);
+      const ids = (list.body as ServiceBody[]).map((service) => service.id);
+      expect(ids).not.toContain(created.id);
+    });
+
+    it('never deletes the appointments of the service it deactivates', async () => {
+      const created = await createAcmeService();
+      const serviceObjectId = new Types.ObjectId(created.id);
+      const appointment = futureAppointment(serviceObjectId);
+      await seedConnection.collection('appointments').insertOne(appointment);
+
+      const response = await request(app.getHttpServer())
+        .delete(`${SERVICES_PATH}/${created.id}`)
+        .set('Host', 'acme.example.com')
+        .expect(200);
+      expect((response.body as ServiceBody).active).toBe(false);
+
+      const survivors = await seedConnection
+        .collection('appointments')
+        .find({ serviceId: serviceObjectId })
+        .toArray();
+      expect(survivors).toHaveLength(1);
+      expect(survivors[0]._id).toEqual(appointment._id);
+    });
+
+    it('returns 404 and keeps the service active when globex deactivates a service of acme', async () => {
+      await seedConnection
+        .collection('services')
+        .insertOne(serviceDoc(tenantA, acmeServiceId));
+
+      await request(app.getHttpServer())
+        .delete(`${SERVICES_PATH}/${acmeServiceId.toString()}`)
+        .set('Host', 'globex.example.com')
+        .expect(404);
+
+      const stillActive = await request(app.getHttpServer())
+        .get(`${SERVICES_PATH}/${acmeServiceId.toString()}`)
+        .set('Host', 'acme.example.com')
+        .expect(200);
+      expect((stillActive.body as ServiceBody).active).toBe(true);
+    });
+
+    it('rejects a DELETE without a resolvable tenant with 403 (fail-closed)', async () => {
+      await request(app.getHttpServer())
+        .delete(`${SERVICES_PATH}/${acmeServiceId.toString()}`)
+        .set('Host', 'localhost')
+        .expect(403);
     });
   });
 });

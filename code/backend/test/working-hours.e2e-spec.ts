@@ -181,4 +181,240 @@ describe('Working hours (e2e)', () => {
       .set('Host', 'localhost')
       .expect(403);
   });
+
+  describe('PUT /api/v1/working-hours', () => {
+    const fullWeek = (): { days: WeeklyScheduleBody[] } => ({
+      days: [
+        {
+          weekday: 'mon',
+          isWorkingDay: true,
+          openTime: '09:00',
+          closeTime: '18:00',
+          breakStart: '14:00',
+          breakEnd: '15:00',
+        },
+        {
+          weekday: 'tue',
+          isWorkingDay: true,
+          openTime: '09:00',
+          closeTime: '18:00',
+          breakStart: '14:00',
+          breakEnd: '15:00',
+        },
+        {
+          weekday: 'wed',
+          isWorkingDay: true,
+          openTime: '09:00',
+          closeTime: '18:00',
+          breakStart: '14:00',
+          breakEnd: '15:00',
+        },
+        {
+          weekday: 'thu',
+          isWorkingDay: true,
+          openTime: '09:00',
+          closeTime: '18:00',
+          breakStart: '14:00',
+          breakEnd: '15:00',
+        },
+        {
+          weekday: 'fri',
+          isWorkingDay: true,
+          openTime: '09:00',
+          closeTime: '18:00',
+          breakStart: '14:00',
+          breakEnd: '15:00',
+        },
+      ],
+    });
+
+    beforeEach(async () => {
+      await seedConnection
+        .collection('workingHours')
+        .deleteMany({ tenantId: tenantA });
+    });
+
+    it('persists the weekly schedule and returns 200 with the saved rules ordered mon->sun', async () => {
+      const putResponse = await request(app.getHttpServer())
+        .put(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .send(fullWeek())
+        .expect(200);
+
+      const putBody = putResponse.body as WeeklyScheduleBody[];
+
+      expect(putBody).toHaveLength(5);
+      expect(putBody.map((rule) => rule.weekday)).toEqual([
+        'mon',
+        'tue',
+        'wed',
+        'thu',
+        'fri',
+      ]);
+      expect(putBody[0]).toMatchObject({
+        weekday: 'mon',
+        isWorkingDay: true,
+        openTime: '09:00',
+        closeTime: '18:00',
+        breakStart: '14:00',
+        breakEnd: '15:00',
+      });
+      expect(putBody[0]).not.toHaveProperty('_id');
+      expect(putBody[0]).not.toHaveProperty('tenantId');
+
+      const getResponse = await request(app.getHttpServer())
+        .get(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .expect(200);
+
+      const getBody = getResponse.body as WeeklyScheduleBody[];
+
+      expect(getBody.map((rule) => rule.weekday)).toEqual([
+        'mon',
+        'tue',
+        'wed',
+        'thu',
+        'fri',
+      ]);
+      expect(getBody[0]).toMatchObject({
+        weekday: 'mon',
+        openTime: '09:00',
+        closeTime: '18:00',
+        breakStart: '14:00',
+        breakEnd: '15:00',
+      });
+    });
+
+    it('updates an existing day without creating duplicates', async () => {
+      await request(app.getHttpServer())
+        .put(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .send(fullWeek())
+        .expect(200);
+
+      const countBefore = await seedConnection
+        .collection('workingHours')
+        .countDocuments({ tenantId: tenantA });
+
+      const changed = fullWeek();
+      changed.days = changed.days.map((day) =>
+        day.weekday === 'fri' ? { ...day, closeTime: '17:00' } : day,
+      );
+
+      await request(app.getHttpServer())
+        .put(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .send(changed)
+        .expect(200);
+
+      const countAfter = await seedConnection
+        .collection('workingHours')
+        .countDocuments({ tenantId: tenantA });
+
+      expect(countAfter).toBe(countBefore);
+
+      const getResponse = await request(app.getHttpServer())
+        .get(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .expect(200);
+
+      const friday = (getResponse.body as WeeklyScheduleBody[]).find(
+        (rule) => rule.weekday === 'fri',
+      );
+      expect(friday?.closeTime).toBe('17:00');
+    });
+
+    it('does not leak writes into another tenant space (isolation)', async () => {
+      await request(app.getHttpServer())
+        .put(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .send(fullWeek())
+        .expect(200);
+
+      const acmeGet = await request(app.getHttpServer())
+        .get(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .expect(200);
+      expect(
+        (acmeGet.body as WeeklyScheduleBody[]).map((r) => r.weekday),
+      ).toEqual(['mon', 'tue', 'wed', 'thu', 'fri']);
+
+      const globexGet = await request(app.getHttpServer())
+        .get(WORKING_HOURS_PATH)
+        .set('Host', 'globex.example.com')
+        .expect(200);
+      const globexBody = globexGet.body as WeeklyScheduleBody[];
+      expect(globexBody.map((rule) => rule.weekday)).toEqual(['tue']);
+      expect(globexBody.find((rule) => rule.weekday === 'tue')).toMatchObject({
+        weekday: 'tue',
+        isWorkingDay: true,
+        openTime: '09:00',
+        closeTime: '18:00',
+      });
+
+      const leakedIntoGlobex = await seedConnection
+        .collection('workingHours')
+        .countDocuments({
+          tenantId: tenantB,
+          weekday: { $in: ['mon', 'wed', 'thu', 'fri'] },
+        });
+      expect(leakedIntoGlobex).toBe(0);
+    });
+
+    it('rejects a body carrying a tenantId because the tenant never comes from the body', async () => {
+      await request(app.getHttpServer())
+        .put(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .send({ ...fullWeek(), tenantId: tenantB.toString() })
+        .expect(400);
+    });
+
+    it('rejects an invalid schedule where openTime is not before closeTime with 400', async () => {
+      await request(app.getHttpServer())
+        .put(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .send({
+          days: [
+            {
+              weekday: 'mon',
+              isWorkingDay: true,
+              openTime: '18:00',
+              closeTime: '09:00',
+            },
+          ],
+        })
+        .expect(400);
+    });
+
+    it('rejects a schedule with duplicated weekdays with 400', async () => {
+      await request(app.getHttpServer())
+        .put(WORKING_HOURS_PATH)
+        .set('Host', 'acme.example.com')
+        .send({
+          days: [
+            {
+              weekday: 'mon',
+              isWorkingDay: true,
+              openTime: '09:00',
+              closeTime: '18:00',
+            },
+            {
+              weekday: 'mon',
+              isWorkingDay: true,
+              openTime: '10:00',
+              closeTime: '17:00',
+            },
+          ],
+        })
+        .expect(400);
+    });
+
+    it('rejects a PUT without a resolvable tenant with 403 (fail-closed)', async () => {
+      await request(app.getHttpServer())
+        .put(WORKING_HOURS_PATH)
+        .set('Host', 'localhost')
+        .send(fullWeek())
+        .expect(403);
+    });
+  });
 });

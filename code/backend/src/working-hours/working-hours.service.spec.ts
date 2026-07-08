@@ -1,8 +1,34 @@
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
+import { SetWeeklyScheduleDto } from '../tenants/dto/set-weekly-schedule.dto';
 import { WeeklyScheduleResponseDto } from '../tenants/dto/weekly-schedule-response.dto';
 import { WorkingHours } from '../tenants/schemas/working-hours.schema';
 import { WorkingHoursService } from './working-hours.service';
+
+interface DayInput {
+  weekday: string;
+  isWorkingDay: boolean;
+  openTime?: string;
+  closeTime?: string;
+  breakStart?: string;
+  breakEnd?: string;
+}
+
+const dayInput = (
+  weekday: string,
+  overrides: Partial<DayInput> = {},
+): DayInput => ({
+  weekday,
+  isWorkingDay: true,
+  openTime: '09:00',
+  closeTime: '18:00',
+  breakStart: '14:00',
+  breakEnd: '15:00',
+  ...overrides,
+});
+
+const scheduleDto = (days: DayInput[]): SetWeeklyScheduleDto =>
+  ({ days }) as unknown as SetWeeklyScheduleDto;
 
 interface LeanWorkingHours {
   _id: string;
@@ -143,5 +169,135 @@ describe('WorkingHoursService', () => {
     expect(modelMock.find).toHaveBeenCalledTimes(1);
     expect(modelMock.find).toHaveBeenCalledWith({});
     expect(leanMock).toHaveBeenCalledTimes(1);
+  });
+
+  describe('save', () => {
+    let saveService: WorkingHoursService;
+    let updateOneMock: jest.Mock;
+    let bulkWriteMock: jest.Mock;
+    let insertManyMock: jest.Mock;
+    let createMock: jest.Mock;
+    let saveLeanMock: jest.Mock;
+    let saveFindMock: jest.Mock;
+
+    const buildSaveService = async (
+      persisted: LeanWorkingHours[],
+    ): Promise<void> => {
+      updateOneMock = jest
+        .fn()
+        .mockResolvedValue({ acknowledged: true, upsertedCount: 1 });
+      bulkWriteMock = jest.fn().mockResolvedValue({});
+      insertManyMock = jest.fn().mockResolvedValue([]);
+      createMock = jest.fn().mockResolvedValue({});
+      saveLeanMock = jest.fn().mockResolvedValue(persisted);
+      saveFindMock = jest.fn().mockReturnValue({ lean: saveLeanMock });
+
+      const model = {
+        updateOne: updateOneMock,
+        bulkWrite: bulkWriteMock,
+        insertMany: insertManyMock,
+        create: createMock,
+        find: saveFindMock,
+      };
+
+      const moduleRef: TestingModule = await Test.createTestingModule({
+        providers: [
+          WorkingHoursService,
+          { provide: getModelToken(WorkingHours.name), useValue: model },
+        ],
+      }).compile();
+
+      saveService = moduleRef.get(WorkingHoursService);
+    };
+
+    it('performs one tenant-scoped upsert per day of the schedule', async () => {
+      await buildSaveService([]);
+
+      const days = [
+        dayInput('mon'),
+        dayInput('tue'),
+        dayInput('wed'),
+        dayInput('thu'),
+        dayInput('fri'),
+      ];
+
+      await saveService.save(scheduleDto(days));
+
+      expect(updateOneMock).toHaveBeenCalledTimes(days.length);
+      for (const day of days) {
+        const setMatcher: unknown = expect.objectContaining({
+          isWorkingDay: day.isWorkingDay,
+          openTime: day.openTime,
+          closeTime: day.closeTime,
+          breakStart: day.breakStart,
+          breakEnd: day.breakEnd,
+        });
+        expect(updateOneMock).toHaveBeenCalledWith(
+          expect.objectContaining({ weekday: day.weekday }),
+          expect.objectContaining({ $set: setMatcher }),
+          expect.objectContaining({ upsert: true }),
+        );
+      }
+    });
+
+    it('never injects tenantId manually in the filter or the update payload', async () => {
+      await buildSaveService([]);
+
+      await saveService.save(scheduleDto([dayInput('mon')]));
+
+      const [filter, update] = updateOneMock.mock.calls[0] as [
+        Record<string, unknown>,
+        { $set: Record<string, unknown> },
+      ];
+
+      expect(filter).not.toHaveProperty('tenantId');
+      expect(filter).toHaveProperty('weekday', 'mon');
+      expect(update.$set).not.toHaveProperty('tenantId');
+    });
+
+    it('does not use bulkWrite, insertMany or create to avoid bypassing the tenant plugin', async () => {
+      await buildSaveService([]);
+
+      await saveService.save(
+        scheduleDto([dayInput('mon'), dayInput('tue'), dayInput('wed')]),
+      );
+
+      expect(bulkWriteMock).not.toHaveBeenCalled();
+      expect(insertManyMock).not.toHaveBeenCalled();
+      expect(createMock).not.toHaveBeenCalled();
+    });
+
+    it('returns the persisted schedule as public dtos ordered mon->sun', async () => {
+      await buildSaveService([leanDoc('fri'), leanDoc('mon'), leanDoc('wed')]);
+
+      const result = await saveService.save(
+        scheduleDto([dayInput('mon'), dayInput('wed'), dayInput('fri')]),
+      );
+
+      expect(result.map((rule) => rule.weekday)).toEqual(['mon', 'wed', 'fri']);
+      expect(result[0]).toBeInstanceOf(WeeklyScheduleResponseDto);
+      expect(result[0]).not.toHaveProperty('_id');
+      expect(result[0]).not.toHaveProperty('tenantId');
+    });
+
+    it('keeps day updates idempotent by upserting instead of inserting on repeated saves', async () => {
+      await buildSaveService([]);
+
+      await saveService.save(
+        scheduleDto([dayInput('mon', { closeTime: '18:00' })]),
+      );
+      await saveService.save(
+        scheduleDto([dayInput('mon', { closeTime: '17:00' })]),
+      );
+
+      expect(updateOneMock).toHaveBeenCalledTimes(2);
+      const calls = updateOneMock.mock.calls as Array<
+        [unknown, unknown, ({ upsert?: boolean } | undefined)?]
+      >;
+      const everyUpsert = calls.every((call) => call[2]?.upsert === true);
+      expect(everyUpsert).toBe(true);
+      expect(insertManyMock).not.toHaveBeenCalled();
+      expect(createMock).not.toHaveBeenCalled();
+    });
   });
 });

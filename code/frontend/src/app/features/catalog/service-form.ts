@@ -48,6 +48,7 @@ export class ServiceForm {
 
   readonly save = output<CreateServicePayload>();
   readonly edit = output<Service>();
+  readonly deactivate = output<Service>();
 
   onSave(): void {
     if (this.form().invalid()) {
@@ -63,5 +64,9 @@ export class ServiceForm {
 
   onEdit(service: Service): void {
     this.edit.emit(service);
+  }
+
+  onDeactivate(service: Service): void {
+    this.deactivate.emit(service);
   }
 }

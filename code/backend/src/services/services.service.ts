@@ -74,6 +74,17 @@ export class ServicesService {
     return this.getById(id);
   }
 
+  async deactivate(id: string): Promise<ServiceResponseDto> {
+    const result = await this.serviceModel.updateOne(
+      { _id: id },
+      { $set: { active: false } },
+    );
+    if (result.matchedCount === 0) {
+      throw new NotFoundException();
+    }
+    return this.getById(id);
+  }
+
   private toDto(source: ServiceReadModel): ServiceResponseDto {
     return plainToInstance(
       ServiceResponseDto,

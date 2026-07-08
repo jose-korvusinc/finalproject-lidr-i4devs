@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import {
   ApiForbiddenResponse,
   ApiNotFoundResponse,
@@ -51,5 +59,14 @@ export class ServicesController {
     @Body() dto: UpdateServiceDto,
   ): Promise<ServiceResponseDto> {
     return this.services.update(id, dto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Logically deactivate a service of the tenant' })
+  @ApiOkResponse({ type: ServiceResponseDto })
+  @ApiNotFoundResponse({ description: 'Service not found for the tenant' })
+  @ApiForbiddenResponse({ description: 'Tenant context could not be resolved' })
+  deactivate(@Param('id') id: string): Promise<ServiceResponseDto> {
+    return this.services.deactivate(id);
   }
 }

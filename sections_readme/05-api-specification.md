@@ -286,6 +286,29 @@ Content-Type: application/json
 { "id": "665f1b2c9c1e4a0012ab34cd", "name": "Deluxe haircut", "price": "30.00", "durationMinutes": 45, "active": true }
 ```
 
+#### `DELETE /api/v1/services/{id}`
+
+Borrado **lógico** de un servicio del tenant activo: marca `active: false` (no se elimina
+físicamente). El servicio desaparece de `GET /api/v1/services` (que solo lista activos), pero sus
+datos y las **citas asociadas se conservan** (no hay borrado en cascada). Un servicio de otro tenant
+devuelve **404** (aislamiento entre tenants), no 403. El `tenantId` lo impone el contexto de tenant.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **200** | `ServiceResponseDto` con el servicio ya desactivado (`active: false`) |
+| **404** | El servicio no existe para el tenant activo |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```http
+DELETE /api/v1/services/665f1b2c9c1e4a0012ab34cd HTTP/1.1
+Host: acme.yourplatform.com
+```
+
+```json
+{ "id": "665f1b2c9c1e4a0012ab34cd", "name": "Haircut", "price": "25.00", "durationMinutes": 30, "active": false }
+```
+
 ---
 
 ### 6.4. HU3 — Empleados (Employees)

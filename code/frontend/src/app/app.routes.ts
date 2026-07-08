@@ -8,4 +8,8 @@ export const routes: Routes = [
         (m) => m.tenantRegistrationRoutes,
       ),
   },
+  {
+    path: 'admin/schedule',
+    loadChildren: () => import('./features/schedule/schedule.routes').then((m) => m.scheduleRoutes),
+  },
 ];

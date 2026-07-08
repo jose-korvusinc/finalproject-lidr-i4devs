@@ -1,0 +1,68 @@
+<section class="booking-widget">
+  @switch (step()) {
+    @case ('select') {
+      <app-booking-selection
+        [services]="services()"
+        [employees]="employees()"
+        (selected)="onSelected($event)"
+      />
+    }
+    @case ('slots') {
+      <app-slot-picker
+        [slots]="slots()"
+        [loading]="loadingSlots()"
+        [error]="slotsError()"
+        [date]="date()"
+        (dateChange)="onDateChanged($event)"
+        (slotChosen)="onSlotChosen($event)"
+      />
+    }
+    @case ('contact') {
+      @if (submitState() === 'submitting') {
+        <p
+          class="booking-widget__status"
+          role="status"
+          aria-live="polite"
+          aria-busy="true"
+          i18n="@@booking.submitting"
+        >
+          Confirming your booking…
+        </p>
+      }
+      @if (submitState() === 'error') {
+        <p
+          class="booking-widget__error"
+          role="alert"
+          aria-live="assertive"
+          i18n="@@booking.submitError"
+        >
+          The booking could not be completed. Please try again.
+        </p>
+      }
+      <app-contact-form (confirmed)="onConfirmed($event)" />
+    }
+    @case ('confirmed') {
+      <p
+        class="booking-widget__confirmation"
+        role="status"
+        aria-live="polite"
+        i18n="@@booking.confirmed"
+      >
+        Your booking is pending confirmation. We will verify it shortly.
+      </p>
+    }
+    @case ('conflict') {
+      <p class="booking-widget__error" role="alert" aria-live="assertive" i18n="@@booking.conflict">
+        That time slot was just taken. Please choose another one.
+      </p>
+      <app-slot-picker
+        [slots]="slots()"
+        [loading]="loadingSlots()"
+        [error]="slotsError()"
+        [date]="date()"
+        (dateChange)="onDateChanged($event)"
+        (slotChosen)="onSlotChosen($event)"
+      />
+    }
+  }
+</section>

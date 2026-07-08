@@ -288,4 +288,114 @@ Content-Type: application/json
 
 ---
 
+### 6.4. HU3 — Empleados (Employees)
+
+Recurso `employees` (profesionales del negocio que prestan los servicios; *tenant-scoped*). El
+filtro por `tenantId` lo impone el contexto de tenant de forma transversal (nunca se acepta del
+cliente). Cada empleado puede tener asignados servicios del **mismo tenant** vía `serviceIds`; la
+asignación es opcional y se valida contra el catálogo de servicios del tenant. Un `serviceId` de
+otro tenant se trata como inexistente (aislamiento). La respuesta pública no expone `_id`,
+`tenantId`, `schemaVersion` ni marcas de auditoría.
+
+```yaml
+# EmployeeResponseDto (forma pública de la respuesta)
+id:         string    # identificador del empleado (mapeo de _id)
+name:       string
+email:      string
+serviceIds: string[]  # identificadores de los servicios asignados
+```
+
+#### `POST /api/v1/employees`
+
+Crea un empleado para el **tenant activo**, con una asignación opcional de servicios. Todos los
+`serviceIds` deben existir en el catálogo del tenant; si alguno no existe (o pertenece a otro
+tenant), la petición se rechaza y **no** se crea el empleado. El `tenantId` lo impone el contexto de
+tenant; **nunca** se acepta del cuerpo.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **Body** | `CreateEmployeeDto` (`name`, `email`, `serviceIds?`) |
+| **201** | `EmployeeResponseDto` con el empleado creado |
+| **400** | Validación fallida (`name` vacío, `email` inválido, `serviceIds` no array o con elementos que no son Mongo id, propiedad no permitida como `tenantId`) o un `serviceId` inexistente en el tenant |
+| **409** | Ya existe un empleado con ese `email` en el tenant |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```yaml
+# CreateEmployeeDto (body)
+name:       string    # requerido, no vacío
+email:      string    # requerido; email válido
+serviceIds: string[]  # opcional (por defecto []); cada elemento un Mongo id de un servicio del tenant
+```
+
+```http
+POST /api/v1/employees HTTP/1.1
+Host: acme.yourplatform.com
+Content-Type: application/json
+
+{ "name": "Grace Hopper", "email": "grace@acme.test", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
+```
+
+```json
+{ "id": "665f1b2c9c1e4a0012ab9999", "name": "Grace Hopper", "email": "grace@acme.test", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
+```
+
+#### `GET /api/v1/employees`
+
+Devuelve los empleados del tenant activo. Solo lectura.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **200** | `EmployeeResponseDto[]`; lista vacía si el tenant no tiene empleados |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```json
+[
+  { "id": "665f1b2c9c1e4a0012ab9999", "name": "Ada Lovelace", "email": "ada@acme.test", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
+]
+```
+
+#### `GET /api/v1/employees/{id}`
+
+Devuelve un empleado del tenant activo por su identificador. Un empleado de otro tenant devuelve
+**404** (aislamiento entre tenants), no 403.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **200** | `EmployeeResponseDto` |
+| **404** | El empleado no existe para el tenant activo |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+#### `PATCH /api/v1/employees/{id}`
+
+Actualiza los campos editables (`name`, `email`, `serviceIds`) de un empleado del tenant activo. Si
+se envían `serviceIds`, se revalida que todos existan en el catálogo del tenant antes de aplicar la
+reasignación. El `tenantId` lo impone el contexto de tenant; **nunca** se acepta del cuerpo.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **Body** | `UpdateEmployeeDto` (parcial de `name`, `email`, `serviceIds`) |
+| **200** | `EmployeeResponseDto` con el empleado actualizado |
+| **400** | Validación fallida (mismas reglas que `POST`) o un `serviceId` inexistente en el tenant |
+| **409** | El nuevo `email` colisiona con otro empleado del tenant |
+| **404** | El empleado no existe para el tenant activo |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```http
+PATCH /api/v1/employees/665f1b2c9c1e4a0012ab9999 HTTP/1.1
+Host: acme.yourplatform.com
+Content-Type: application/json
+
+{ "name": "Grace M. Hopper", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
+```
+
+```json
+{ "id": "665f1b2c9c1e4a0012ab9999", "name": "Grace M. Hopper", "email": "grace@acme.test", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
+```
+
+---
+
 > **Pendiente de documentar** conforme se implementen las HU siguientes.

@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { EmployeesModule } from './employees/employees.module';
 import { ServicesModule } from './services/services.module';
 import { TenantContextModule } from './tenants/tenant-context.module';
 import { TenantsModule } from './tenants/tenants.module';
@@ -22,6 +23,7 @@ import { WorkingHoursModule } from './working-hours/working-hours.module';
     TenantsModule,
     WorkingHoursModule,
     ServicesModule,
+    EmployeesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,7 +7,7 @@ const WORKING_HOURS_URL = '/api/v1/working-hours';
 
 const sampleDays: WeeklyScheduleDay[] = [
   {
-    weekday: 'monday',
+    weekday: 'mon',
     isWorkingDay: true,
     openTime: '09:00',
     closeTime: '18:00',
@@ -15,13 +15,13 @@ const sampleDays: WeeklyScheduleDay[] = [
     breakEnd: '14:00',
   },
   {
-    weekday: 'tuesday',
+    weekday: 'tue',
     isWorkingDay: true,
     openTime: '09:00',
     closeTime: '18:00',
   },
   {
-    weekday: 'sunday',
+    weekday: 'sun',
     isWorkingDay: false,
   },
 ];
@@ -68,7 +68,7 @@ describe('ScheduleApi', () => {
 
   it('saveSchedule performs a PUT to /api/v1/working-hours with a { days } body and emits the saved days', () => {
     const saved: WeeklyScheduleDay[] = [
-      { weekday: 'monday', isWorkingDay: true, openTime: '10:00', closeTime: '19:00' },
+      { weekday: 'mon', isWorkingDay: true, openTime: '10:00', closeTime: '19:00' },
     ];
 
     let emitted: WeeklyScheduleDay[] | undefined;

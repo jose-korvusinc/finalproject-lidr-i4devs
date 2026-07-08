@@ -7,7 +7,7 @@ const validator = {
     required: ["tenantId", "weekday", "isWorkingDay", "schemaVersion"],
     properties: {
       tenantId: { bsonType: "objectId" },
-      weekday: { bsonType: "string" },
+      weekday: { bsonType: "string", enum: ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] },
       isWorkingDay: { bsonType: "bool" },
       openTime: { bsonType: "string" },
       closeTime: { bsonType: "string" },

@@ -1,0 +1,155 @@
+<form class="schedule-form" (submit)="$event.preventDefault(); onSave()">
+  <ul class="schedule-form__days">
+    @for (day of model(); track day.weekday; let i = $index) {
+      <li class="schedule-form__day">
+        <div class="schedule-form__toggle">
+          <input
+            type="checkbox"
+            [id]="day.weekday + '-working'"
+            [formField]="form[i].isWorkingDay"
+          />
+          <label [for]="day.weekday + '-working'">
+            @switch (day.weekday) {
+              @case ('mon') {
+                <span i18n="@@schedule.day.mon">Monday</span>
+              }
+              @case ('tue') {
+                <span i18n="@@schedule.day.tue">Tuesday</span>
+              }
+              @case ('wed') {
+                <span i18n="@@schedule.day.wed">Wednesday</span>
+              }
+              @case ('thu') {
+                <span i18n="@@schedule.day.thu">Thursday</span>
+              }
+              @case ('fri') {
+                <span i18n="@@schedule.day.fri">Friday</span>
+              }
+              @case ('sat') {
+                <span i18n="@@schedule.day.sat">Saturday</span>
+              }
+              @case ('sun') {
+                <span i18n="@@schedule.day.sun">Sunday</span>
+              }
+            }
+          </label>
+        </div>
+
+        @if (day.isWorkingDay) {
+          <div class="schedule-form__hours">
+            @let openField = form[i].openTime;
+            @let openInvalid = openField().touched() && openField().invalid();
+            <div class="field">
+              <label [for]="day.weekday + '-open'" i18n="@@schedule.open.label">Open time</label>
+              <input
+                type="text"
+                [id]="day.weekday + '-open'"
+                [formField]="openField"
+                [attr.aria-invalid]="openInvalid ? 'true' : null"
+                [attr.aria-describedby]="openInvalid ? day.weekday + '-open-error' : null"
+              />
+              @if (openInvalid) {
+                <p
+                  [id]="day.weekday + '-open-error'"
+                  class="field__error"
+                  role="alert"
+                  aria-live="polite"
+                  i18n="@@schedule.open.error"
+                >
+                  Enter a valid opening time before the closing time
+                </p>
+              }
+            </div>
+
+            @let closeField = form[i].closeTime;
+            @let closeInvalid = closeField().touched() && closeField().invalid();
+            <div class="field">
+              <label [for]="day.weekday + '-close'" i18n="@@schedule.close.label">Close time</label>
+              <input
+                type="text"
+                [id]="day.weekday + '-close'"
+                [formField]="closeField"
+                [attr.aria-invalid]="closeInvalid ? 'true' : null"
+                [attr.aria-describedby]="closeInvalid ? day.weekday + '-close-error' : null"
+              />
+              @if (closeInvalid) {
+                <p
+                  [id]="day.weekday + '-close-error'"
+                  class="field__error"
+                  role="alert"
+                  aria-live="polite"
+                  i18n="@@schedule.close.error"
+                >
+                  Enter a valid closing time after the opening time
+                </p>
+              }
+            </div>
+
+            @let breakStartField = form[i].breakStart;
+            @let breakStartInvalid = breakStartField().touched() && breakStartField().invalid();
+            <div class="field">
+              <label [for]="day.weekday + '-break-start'" i18n="@@schedule.breakStart.label"
+                >Break start</label
+              >
+              <input
+                type="text"
+                [id]="day.weekday + '-break-start'"
+                [formField]="breakStartField"
+                [attr.aria-invalid]="breakStartInvalid ? 'true' : null"
+                [attr.aria-describedby]="
+                  breakStartInvalid ? day.weekday + '-break-start-error' : null
+                "
+              />
+              @if (breakStartInvalid) {
+                <p
+                  [id]="day.weekday + '-break-start-error'"
+                  class="field__error"
+                  role="alert"
+                  aria-live="polite"
+                  i18n="@@schedule.breakStart.error"
+                >
+                  Enter a valid break start within the working hours
+                </p>
+              }
+            </div>
+
+            @let breakEndField = form[i].breakEnd;
+            @let breakEndInvalid = breakEndField().touched() && breakEndField().invalid();
+            <div class="field">
+              <label [for]="day.weekday + '-break-end'" i18n="@@schedule.breakEnd.label"
+                >Break end</label
+              >
+              <input
+                type="text"
+                [id]="day.weekday + '-break-end'"
+                [formField]="breakEndField"
+                [attr.aria-invalid]="breakEndInvalid ? 'true' : null"
+                [attr.aria-describedby]="breakEndInvalid ? day.weekday + '-break-end-error' : null"
+              />
+              @if (breakEndInvalid) {
+                <p
+                  [id]="day.weekday + '-break-end-error'"
+                  class="field__error"
+                  role="alert"
+                  aria-live="polite"
+                  i18n="@@schedule.breakEnd.error"
+                >
+                  Enter a valid break end within the working hours
+                </p>
+              }
+            </div>
+          </div>
+        }
+      </li>
+    }
+  </ul>
+
+  <button
+    type="submit"
+    class="schedule-form__save"
+    [disabled]="saveDisabled()"
+    i18n="@@schedule.save"
+  >
+    Save schedule
+  </button>
+</form>

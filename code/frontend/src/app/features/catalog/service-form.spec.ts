@@ -241,6 +241,27 @@ describe('ServiceForm', () => {
     expect(edited).toEqual(haircut);
   });
 
+  it('lists every service with an accessible Deactivate action per row that emits the service', async () => {
+    const haircut = service({ id: 's1', name: 'Corte de pelo' });
+    const coloring = service({ id: 's2', name: 'Coloracion', price: '40.00', durationMinutes: 60 });
+    const { fixture, component, root } = await setup({ services: [haircut, coloring] });
+
+    const deactivateButtons = buttonsByName(root, /deactivate/i);
+    expect(deactivateButtons).toHaveLength(2);
+    for (const button of deactivateButtons) {
+      const label = `${button.textContent ?? ''} ${button.getAttribute('aria-label') ?? ''}`;
+      expect(label.trim().length).toBeGreaterThan(0);
+    }
+
+    let deactivated: Service | undefined;
+    component.deactivate.subscribe((value) => (deactivated = value));
+
+    deactivateButtons[1].click();
+    await settle(fixture);
+
+    expect(deactivated).toEqual(coloring);
+  });
+
   it('renders an accessible empty state when the catalog has no services', async () => {
     const { root } = await setup({ services: [] });
 

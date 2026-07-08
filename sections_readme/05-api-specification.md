@@ -90,5 +90,52 @@ Respuesta de conflicto (subdominio ocupado):
 
 ---
 
-> **Pendiente de documentar** conforme se implementen: HU2 — `GET /api/v1/working-hours`,
-> `PUT /api/v1/working-hours` (tenant-scoped); y las HU siguientes.
+### 6.2. HU2 — Horario semanal del negocio (Working hours)
+
+Recurso `working-hours` (reglas de horario semanal del tenant; *tenant-scoped*).
+
+#### `GET /api/v1/working-hours`
+
+Devuelve las reglas de horario semanal del **tenant activo**, ordenadas de lunes a domingo. Solo
+lectura. El filtro por `tenantId` lo impone el contexto de tenant de forma transversal (nunca se
+acepta del cliente).
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **200** | `WeeklyScheduleResponseDto[]` ordenado `mon → sun`; lista vacía si el tenant no tiene reglas |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```yaml
+# WeeklyScheduleResponseDto (elemento de la respuesta 200)
+weekday:      string   # Weekday: "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun"
+isWorkingDay: boolean  # si el negocio abre ese día
+openTime:     string?  # apertura HH:mm 24h (opcional)
+closeTime:    string?  # cierre HH:mm 24h (opcional)
+breakStart:   string?  # inicio del descanso HH:mm 24h (opcional)
+breakEnd:     string?  # fin del descanso HH:mm 24h (opcional)
+```
+
+```http
+GET /api/v1/working-hours HTTP/1.1
+Host: acme.yourplatform.com
+```
+
+```json
+[
+  { "weekday": "mon", "isWorkingDay": true, "openTime": "09:00", "closeTime": "18:00", "breakStart": "13:00", "breakEnd": "14:00" },
+  { "weekday": "wed", "isWorkingDay": true, "openTime": "09:00", "closeTime": "18:00" },
+  { "weekday": "fri", "isWorkingDay": false }
+]
+```
+
+Respuesta sin tenant resuelto (fail-closed):
+
+```json
+{ "statusCode": 403, "error": "Forbidden", "message": "Missing tenant context" }
+```
+
+---
+
+> **Pendiente de documentar** conforme se implementen: HU2 — `PUT /api/v1/working-hours`
+> (tenant-scoped, escritura); y las HU siguientes.

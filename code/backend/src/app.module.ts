@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TenantContextModule } from './tenants/tenant-context.module';
 import { TenantsModule } from './tenants/tenants.module';
+import { WorkingHoursModule } from './working-hours/working-hours.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { TenantsModule } from './tenants/tenants.module';
     }),
     TenantContextModule,
     TenantsModule,
+    WorkingHoursModule,
   ],
   controllers: [AppController],
   providers: [AppService],

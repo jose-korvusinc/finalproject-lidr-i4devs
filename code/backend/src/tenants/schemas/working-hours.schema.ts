@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, Types } from 'mongoose';
+import { HydratedDocument, SchemaTypes, Types } from 'mongoose';
 import { tenantScopePlugin } from '../plugins/tenant-scope.plugin';
 
 export enum Weekday {
@@ -14,7 +14,7 @@ export enum Weekday {
 
 @Schema({ collection: 'workingHours', timestamps: true })
 export class WorkingHours {
-  @Prop({ type: Types.ObjectId, required: true })
+  @Prop({ type: SchemaTypes.ObjectId, required: true })
   tenantId: Types.ObjectId;
 
   @Prop({ type: String, enum: Weekday, required: true })

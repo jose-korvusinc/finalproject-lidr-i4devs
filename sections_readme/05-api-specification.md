@@ -135,7 +135,54 @@ Respuesta sin tenant resuelto (fail-closed):
 { "statusCode": 403, "error": "Forbidden", "message": "Missing tenant context" }
 ```
 
+#### `PUT /api/v1/working-hours`
+
+Persiste el horario semanal del **tenant activo** (upsert de una regla por día). Sustituye la
+configuración de cada día enviado. Idempotente: reenviar el mismo día actualiza su regla en vez de
+duplicarla (índice único `{ tenantId, weekday }`). El `tenantId` lo impone el contexto de tenant de
+forma transversal; **nunca** se acepta del cuerpo.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **Body** | `SetWeeklyScheduleDto` (`days: WorkingHourDto[]`, sin `weekday` duplicados) |
+| **200** | `WeeklyScheduleResponseDto[]` con el horario persistido, ordenado `mon → sun` |
+| **400** | Validación fallida: rango inválido (`openTime` ≥ `closeTime`), descanso fuera de rango, `weekday` duplicado, o propiedad no permitida (p. ej. `tenantId` en el body) |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```yaml
+# SetWeeklyScheduleDto (body)
+days:
+  - weekday:      string   # "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun" (sin duplicados)
+    isWorkingDay: boolean
+    openTime:     string?  # requerido si isWorkingDay; HH:mm 24h
+    closeTime:    string?  # requerido si isWorkingDay; HH:mm 24h; openTime < closeTime
+    breakStart:   string?  # HH:mm 24h; open <= breakStart < breakEnd <= close
+    breakEnd:     string?  # HH:mm 24h
+```
+
+```http
+PUT /api/v1/working-hours HTTP/1.1
+Host: acme.yourplatform.com
+Content-Type: application/json
+
+{
+  "days": [
+    { "weekday": "mon", "isWorkingDay": true, "openTime": "09:00", "closeTime": "18:00", "breakStart": "14:00", "breakEnd": "15:00" },
+    { "weekday": "tue", "isWorkingDay": true, "openTime": "09:00", "closeTime": "18:00" },
+    { "weekday": "sat", "isWorkingDay": false }
+  ]
+}
+```
+
+```json
+[
+  { "weekday": "mon", "isWorkingDay": true, "openTime": "09:00", "closeTime": "18:00", "breakStart": "14:00", "breakEnd": "15:00" },
+  { "weekday": "tue", "isWorkingDay": true, "openTime": "09:00", "closeTime": "18:00" },
+  { "weekday": "sat", "isWorkingDay": false }
+]
+```
+
 ---
 
-> **Pendiente de documentar** conforme se implementen: HU2 — `PUT /api/v1/working-hours`
-> (tenant-scoped, escritura); y las HU siguientes.
+> **Pendiente de documentar** conforme se implementen las HU siguientes.

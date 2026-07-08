@@ -472,4 +472,69 @@ Host: acme.yourplatform.com
 
 ---
 
+### 6.6. HU4 — Reserva de cita (Bookings)
+
+Crea una **reserva** que bloquea de forma atómica un hueco de un empleado (*tenant-scoped*). El
+servicio carga el `Service` (para derivar `endsAt` de la duración) y el `Employee` (que debe prestar
+ese servicio) dentro del tenant resuelto por subdominio; un servicio o empleado de otro tenant se
+trata como inexistente (aislamiento → `400`). Hace **upsert del cliente** por email dentro del tenant
+y crea la cita en estado `pending`. La no doble reserva se garantiza con un índice único
+(`tenantId`, `employeeId`, `startTime`): un segundo intento sobre el mismo hueco devuelve `409`. El
+`tenantId` nunca se acepta del cuerpo. La respuesta expone solo `id`, `status` y `startsAt` (sin
+`_id`, `tenantId` ni datos del cliente).
+
+```yaml
+# BookingResponseDto (forma pública de la respuesta)
+id:       string    # identificador de la reserva
+status:   string    # estado del ciclo de vida (pending al crearse)
+startsAt: string    # instante de inicio, ISO 8601 UTC (p. ej. 2026-07-10T09:00:00.000Z)
+```
+
+#### `POST /api/v1/bookings`
+
+Bloquea el hueco creando una cita `pending` y el cliente asociado en el tenant.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **Body** | `CreateBookingDto` (`serviceId`, `employeeId`, `startsAt`, `customer`) |
+| **201** | `BookingResponseDto` (`id`, `status: "pending"`, `startsAt`) |
+| **400** | Validación fallida (ids no Mongo id, `startsAt` no ISO 8601, contacto inválido, propiedad no permitida como `tenantId`), o el servicio/empleado no existe en el tenant o el empleado no presta el servicio |
+| **403** | Sin tenant resuelto (fail-closed) |
+| **409** | El hueco ya está reservado para ese empleado e instante (no doble reserva) |
+
+```yaml
+# CreateBookingDto (body)
+serviceId:  string    # requerido; Mongo id de un servicio del tenant
+employeeId: string    # requerido; Mongo id de un empleado del tenant
+startsAt:   string    # requerido; instante de inicio, ISO 8601 UTC
+customer:                      # datos de contacto del cliente
+  name:  string                # requerido; nombre completo, no vacío
+  email: string                # requerido; email de contacto
+  phone: string                # requerido; teléfono de contacto
+```
+
+```http
+POST /api/v1/bookings HTTP/1.1
+Host: acme.yourplatform.com
+Content-Type: application/json
+
+{
+  "serviceId": "665f1b2c9c1e4a0012ab0001",
+  "employeeId": "665f1b2c9c1e4a0012ab0002",
+  "startsAt": "2026-07-10T09:00:00.000Z",
+  "customer": { "name": "Grace Hopper", "email": "grace@acme.test", "phone": "+34600000000" }
+}
+```
+
+```json
+{
+  "id": "665f1b2c9c1e4a0012ab34cd",
+  "status": "pending",
+  "startsAt": "2026-07-10T09:00:00.000Z"
+}
+```
+
+---
+
 > **Pendiente de documentar** conforme se implementen las HU siguientes.

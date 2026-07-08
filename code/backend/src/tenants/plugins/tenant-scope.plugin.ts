@@ -40,7 +40,7 @@ export function tenantScopePlugin(schema: Schema): void {
     this.pipeline().unshift(match);
   });
 
-  schema.pre('save', function (this: Document) {
+  schema.pre('validate', function (this: Document) {
     const store = tenantStorage.getStore();
     if (!store?.tenantId) {
       throw new ForbiddenException('Missing tenant context');

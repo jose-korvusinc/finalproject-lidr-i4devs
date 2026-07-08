@@ -183,6 +183,109 @@ Content-Type: application/json
 ]
 ```
 
+### 6.3. HU3 — Catálogo de servicios (Services)
+
+Recurso `services` (servicios que ofrece el negocio; *tenant-scoped*). El filtro por `tenantId` lo
+impone el contexto de tenant de forma transversal (nunca se acepta del cliente). El precio viaja
+como **string decimal** (persistido en `Decimal128`) y la respuesta pública no expone `_id`,
+`tenantId`, `schemaVersion` ni marcas de auditoría.
+
+```yaml
+# ServiceResponseDto (forma pública de la respuesta)
+id:              string   # identificador del servicio (mapeo de _id)
+name:            string
+price:           string   # importe decimal, p. ej. "25.00"
+durationMinutes: integer
+active:          boolean
+```
+
+#### `POST /api/v1/services`
+
+Crea un servicio para el **tenant activo**. `active` se fija a `true` en el servidor; el cliente no
+lo controla. El `tenantId` lo impone el contexto de tenant; **nunca** se acepta del cuerpo.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **Body** | `CreateServiceDto` (`name`, `price`, `durationMinutes`) |
+| **201** | `ServiceResponseDto` con el servicio creado (`active: true`) |
+| **400** | Validación fallida: `name` vacío, `price` con formato inválido (no `^\d+(\.\d{1,2})?$`), `durationMinutes` no entero positivo, o propiedad no permitida (p. ej. `active` o `tenantId` en el body) |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```yaml
+# CreateServiceDto (body)
+name:            string   # requerido, no vacío
+price:           string   # requerido; decimal no negativo con hasta 2 decimales ("25", "25.5", "25.00")
+durationMinutes: integer  # requerido; entero positivo
+```
+
+```http
+POST /api/v1/services HTTP/1.1
+Host: acme.yourplatform.com
+Content-Type: application/json
+
+{ "name": "Massage", "price": "40.00", "durationMinutes": 60 }
+```
+
+```json
+{ "id": "665f1b2c9c1e4a0012ab34cd", "name": "Massage", "price": "40.00", "durationMinutes": 60, "active": true }
+```
+
+#### `GET /api/v1/services`
+
+Devuelve los servicios **activos** del tenant activo. Solo lectura.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **200** | `ServiceResponseDto[]`; lista vacía si el tenant no tiene servicios |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```json
+[
+  { "id": "665f1b2c9c1e4a0012ab34cd", "name": "Haircut", "price": "25.00", "durationMinutes": 30, "active": true }
+]
+```
+
+#### `GET /api/v1/services/{id}`
+
+Devuelve un servicio del tenant activo por su identificador. Un servicio de otro tenant devuelve
+**404** (aislamiento entre tenants), no 403.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **200** | `ServiceResponseDto` |
+| **404** | El servicio no existe para el tenant activo |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+#### `PATCH /api/v1/services/{id}`
+
+Actualiza los campos editables (`name`, `price`, `durationMinutes`) de un servicio del tenant
+activo. La activación/desactivación no se gestiona aquí. El `tenantId` lo impone el contexto de
+tenant; **nunca** se acepta del cuerpo.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **Body** | `UpdateServiceDto` (parcial de `name`, `price`, `durationMinutes`) |
+| **200** | `ServiceResponseDto` con el servicio actualizado |
+| **400** | Validación fallida (mismas reglas que `POST`) o propiedad no permitida |
+| **404** | El servicio no existe para el tenant activo |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```http
+PATCH /api/v1/services/665f1b2c9c1e4a0012ab34cd HTTP/1.1
+Host: acme.yourplatform.com
+Content-Type: application/json
+
+{ "name": "Deluxe haircut", "price": "30.00", "durationMinutes": 45 }
+```
+
+```json
+{ "id": "665f1b2c9c1e4a0012ab34cd", "name": "Deluxe haircut", "price": "30.00", "durationMinutes": 45, "active": true }
+```
+
 ---
 
 > **Pendiente de documentar** conforme se implementen las HU siguientes.

@@ -421,4 +421,55 @@ Content-Type: application/json
 
 ---
 
+### 6.5. HU4 — Disponibilidad de citas (Availability)
+
+Recurso de solo lectura que calcula los **huecos libres** de un empleado para un servicio en un día
+concreto (*tenant-scoped*). El motor parte del horario semanal del negocio (`working-hours`),
+descuenta el descanso y las citas que bloquean (`pending`/`confirmed`) y trocea el rango en huecos
+de la duración del servicio. El filtro por `tenantId` lo impone el contexto de tenant de forma
+transversal (nunca se acepta del cliente): un empleado, servicio o cita de otro tenant se trata como
+inexistente (aislamiento). La respuesta expone solo instantes ISO 8601 en UTC, sin `_id` ni
+`tenantId`.
+
+```yaml
+# AvailabilitySlotDto (forma pública de la respuesta)
+startsAt: string    # instante de inicio del hueco, ISO 8601 UTC (p. ej. 2026-07-10T09:00:00.000Z)
+endsAt:   string    # instante de fin del hueco, ISO 8601 UTC
+```
+
+#### `GET /api/v1/availability`
+
+Devuelve la lista de huecos libres para el `serviceId`, `employeeId` y `date` indicados. Si el
+servicio o el empleado no existen en el tenant, el empleado no presta ese servicio, o el día no es
+laborable, la respuesta es una **lista vacía** (`200` con `[]`), no un error.
+
+| | |
+| :--- | :--- |
+| **Auth / tenant** | *Tenant-scoped* (requiere tenant resuelto por subdominio) |
+| **Query** | `AvailabilityQueryDto` (`serviceId`, `employeeId`, `date`) |
+| **200** | `AvailabilitySlotDto[]`; lista vacía si no hay huecos o los recursos no existen en el tenant |
+| **400** | Validación fallida (`serviceId`/`employeeId` no son Mongo id, `date` no es ISO 8601 `YYYY-MM-DD`, falta un parámetro o llega una propiedad no permitida) |
+| **403** | Sin tenant resuelto (fail-closed) |
+
+```yaml
+# AvailabilityQueryDto (query string)
+serviceId:  string    # requerido; Mongo id de un servicio del tenant
+employeeId: string    # requerido; Mongo id de un empleado del tenant
+date:       string    # requerido; día objetivo en formato ISO 8601 YYYY-MM-DD
+```
+
+```http
+GET /api/v1/availability?serviceId=665f1b2c9c1e4a0012ab0001&employeeId=665f1b2c9c1e4a0012ab0002&date=2026-07-10 HTTP/1.1
+Host: acme.yourplatform.com
+```
+
+```json
+[
+  { "startsAt": "2026-07-10T09:00:00.000Z", "endsAt": "2026-07-10T09:30:00.000Z" },
+  { "startsAt": "2026-07-10T09:30:00.000Z", "endsAt": "2026-07-10T10:00:00.000Z" }
+]
+```
+
+---
+
 > **Pendiente de documentar** conforme se implementen las HU siguientes.

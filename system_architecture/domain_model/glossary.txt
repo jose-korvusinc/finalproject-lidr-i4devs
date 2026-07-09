@@ -1,0 +1,53 @@
+GLOSARIO DEL DOMINIO - Términos menos relevantes (fuera del diagrama del Modelo del Dominio)
+============================================================================================
+Los conceptos modelados en el diagrama (Business, BusinessOwner, Employee, Customer, Service,
+WorkingHours, TimeSlot, Appointment, Reminder y los estados de Appointment) NO se repiten aquí.
+
+--- Conceptos centrales (recordatorio de lo que SÍ está en el diagrama) ---
+Business: Negocio/establecimiento real que ofrece servicios y gestiona una agenda.
+BusinessOwner: Persona que posee y administra el negocio y su configuración.
+Employee: Miembro del personal que atiende citas y está cualificado para ciertos servicios.
+Customer: Cliente final que reserva una cita para un servicio.
+Service: Prestación ofrecida por el negocio, con una duración y un precio implícitos.
+WorkingHours: Rangos de apertura/cierre y descansos que acotan cuándo se puede reservar.
+TimeSlot: Hueco de tiempo reservable dentro del horario laboral para un empleado dado.
+Appointment: Cita programada entre un cliente y un empleado para un servicio.
+PendingAppointment: Cita a la espera de verificación/confirmación; el hueco queda bloqueado temporalmente.
+ConfirmedAppointment: Cita validada y consolidada en la agenda.
+CancelledAppointment: Cita anulada, que libera su hueco de tiempo.
+Reminder: Notificación enviada al cliente antes de la cita.
+
+--- Términos SaaS / multitenant (excluidos: no forman parte de la realidad de las reservas) ---
+Tenant: Espacio de trabajo aislado que representa a un negocio dentro de la plataforma SaaS multitenant.
+SuperAdmin: Propietario de la plataforma SaaS con visibilidad global y control de cuentas.
+TenantAdmin: Rol a nivel de plataforma que se corresponde con el BusinessOwner dentro de un tenant.
+Subdomain: URL única por negocio (mi-negocio.tuplataforma.com) que enruta al tenant.
+tenant_id: Campo indexado que aísla los datos de cada tenant en la base de datos compartida.
+Multitenancy: Arquitectura donde muchos negocios comparten una infraestructura con datos aislados.
+DataIsolation: Garantía de que un tenant no puede acceder a los datos de otro tenant.
+SubscriptionPlan: Plan comercial que un negocio contrata para usar la plataforma.
+AccountSuspension: Acción del Super-Admin que bloquea los paneles y widgets de un tenant.
+WildcardDNS: Enrutamiento DNS (*.tuplataforma.com) que mapea subdominios dinámicos.
+
+--- Términos de soporte al flujo de reserva (excluidos por ser detalles técnicos/de software) ---
+BookingWidget: Componente web público mobile-first donde los clientes reservan por sí mismos.
+OTPCode: Código de un solo uso de 6 dígitos enviado por email para verificar una reserva, con TTL corto.
+OTPVerification: Paso anti-spam que confirma una cita pendiente mediante el código OTP.
+SlotLocking: Bloqueo temporal de un hueco de tiempo mientras la verificación está pendiente.
+AvailabilityEngine: Lógica que calcula los huecos libres cruzando horario, servicio y empleado.
+RateLimiting: Limitación de solicitudes de OTP por IP/email para evitar abusos.
+NoShow: Cita confirmada a la que el cliente no se presenta.
+DragAndDrop: Interacción del calendario para reprogramar citas de forma visual.
+Dashboard: Vista de calendario interactivo usada por el dueño/empleado en el backoffice.
+
+--- Términos de integración externa (excluidos) ---
+GoogleCalendarSync: Volcado asíncrono de las citas confirmadas al Google Calendar de un empleado.
+ExternalCalendarEvent: Evento inyectado en el calendario externo personal del empleado.
+OAuth2: Flujo de autenticación que el empleado completa para autorizar el acceso al calendario.
+RetryQueue: Mecanismo de reintento resiliente cuando la API de calendario externo falla.
+CronJob: Proceso planificado (cada hora) que detecta citas que requieren recordatorio.
+
+--- Métricas de negocio / producto (excluidas: no son objetos del dominio) ---
+ChurnRate: Tasa mensual de negocios que abandonan la plataforma.
+NPS: Net Promoter Score entre los dueños de negocio.
+Conversion: Porcentaje de visitantes del widget que completan el flujo de reserva/OTP.

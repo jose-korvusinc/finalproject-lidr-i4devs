@@ -1,0 +1,31 @@
+@startuml
+title State Diagram — HU3: Catalog Management (Administrator ↔ System messages)
+
+' Refines the context-state CATALOG_MANAGEMENT (HU3).
+' Actors: Business Administrator <-> System.
+
+state "CATALOG_PANEL" as panel
+state "SERVICE_CREATED" as service
+state "EMPLOYEE_CREATED" as employee
+state "SERVICE_ASSIGNED\n(visible in public widget)" as assigned
+state "DELETION_BLOCKED\n(service with future appointments)" as blocked
+
+[*] --> panel : Admin→System: openCatalog
+
+panel --> service : Admin→System: createService(name, price, duration)
+panel --> employee : Admin→System: createEmployee
+
+service --> assigned : Admin→System: assignServiceToEmployee(EmployeeX)\n/ System: link, publishToWidget
+employee --> assigned : Admin→System: assignServiceToEmployee(EmployeeX)
+
+assigned --> blocked : Admin→System: deleteService\n[has future appointments] / System: preventDeletion, notifyAdmin
+blocked --> assigned : System→Admin: serviceDeactivated(without deleting appointments)
+
+assigned --> [*] : Admin→System: closeCatalog
+
+note right of employee
+  Employee with no assigned services:
+  the System does not expose it as a
+  selectable option in the widget.
+end note
+@enduml

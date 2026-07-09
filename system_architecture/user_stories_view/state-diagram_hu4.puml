@@ -1,0 +1,33 @@
+@startuml
+title State Diagram — HU4: Public Booking (End Customer ↔ System ↔ Email messages)
+
+' Refines the context-state PUBLIC_BOOKING (HU4).
+' Actors: End Customer <-> System; System -> Email Provider (OTP).
+
+state "SELECTING_SERVICE" as service
+state "CHECKING_AVAILABILITY" as availability
+state "SELECTING_SLOT" as slot
+state "FILLING_DATA" as data
+state "SLOT_PENDING\n(slot temporarily locked)" as pending
+state "SLOT_UNAVAILABLE\n(concurrency conflict)" as unavailable
+
+[*] --> service : Customer→System: openWidget
+
+service --> availability : Customer→System: selectServiceAndEmployee
+availability --> slot : System→Customer: showSlots\n[response < 200 ms]
+
+slot --> data : Customer→System: chooseSlot
+slot --> unavailable : System→Customer: slotUnavailable\n[locked by another customer]
+unavailable --> availability : Customer→System: chooseAnotherSlot
+
+data --> pending : Customer→System: submitData(name, email, phone)\n[valid data] / System: lockSlot(Pending)
+data --> data : System→Customer: validationError\n[invalid email format]
+
+pending --> [*] : System→Email: sendOTPCode\n/ startVerification (HU5)
+
+note right of pending
+  HU4 ends by leaving the slot in
+  "Pending" state and starting the
+  OTP verification flow (HU5).
+end note
+@enduml

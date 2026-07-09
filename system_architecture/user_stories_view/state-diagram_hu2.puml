@@ -1,0 +1,27 @@
+@startuml
+title State Diagram — HU2: Schedule Configuration (Administrator ↔ System messages)
+
+' Refines the context-state SCHEDULE_CONFIGURATION (HU2).
+' Actors: Business Administrator (authenticated) <-> System.
+
+state "SCHEDULE_PANEL\n(authenticated admin)" as panel
+state "DEFINING_WORKDAY\n(days, hours, break)" as defining
+state "RULES_SAVED\n(availability engine updated)" as saved
+
+[*] --> panel : Admin→System: openSchedulePanel
+
+panel --> defining : Admin→System: defineDaysAndHours(Mon-Fri 09:00-18:00, break 14:00-15:00)
+
+defining --> saved : Admin→System: saveChanges\n/ System: persistRules(tenant_id), updateAvailabilityEngine
+saved --> panel : System→Admin: confirmSaved
+
+saved --> defining : Admin→System: modifySchedule(closing 18:00→17:00)
+
+saved --> [*] : Admin→System: closePanel
+
+note right of saved
+  Non-working day (e.g. Saturday):
+  the engine offers no bookable slots.
+  Already confirmed appointments are not altered.
+end note
+@enduml

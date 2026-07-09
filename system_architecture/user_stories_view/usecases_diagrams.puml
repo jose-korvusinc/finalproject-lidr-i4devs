@@ -1,0 +1,20 @@
+@startuml
+title Use Case Diagram — Selected User Stories (2.3: HU1–HU4)
+
+actor "Business Administrator\n(Tenant)" as admin
+actor "End Customer" as customer
+
+usecase "HU1: Register business and\ncreate isolated space (Tenant)" as UC1
+usecase "HU2: Configure schedule and\nworking hours" as UC2
+usecase "HU3: Manage service and\nemployee catalog" as UC3
+usecase "HU4: Book public appointment\nwithout registration" as UC4
+
+' --- Primary actor: Business Administrator (HU1, HU2, HU3) ---
+admin --> UC1
+admin --> UC2
+admin --> UC3
+
+' --- Primary actor: End Customer (HU4) ---
+customer --> UC4
+
+@enduml

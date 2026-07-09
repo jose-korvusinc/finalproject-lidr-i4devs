@@ -1,0 +1,66 @@
+@startuml c3_components_api
+' =====================================================================
+' C4 Model - Level 3: Components (API Application - NestJS 11)
+' Internal breakdown of the API container.
+' =====================================================================
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Component diagram - API Application (NestJS 11)
+
+Container(webApp, "Web Application", "Angular 22", "Backoffice and public booking widget.")
+Container(reverseProxy, "Reverse Proxy", "Nginx", "Resolves the subdomain and proxies the API.")
+ContainerDb(mongo, "Operational Database", "MongoDB 8.3", "Data with indexed tenant_id.")
+ContainerDb(redis, "Cache & Temporal Store", "Redis", "OTP and slot locking with TTL.")
+System_Ext(googleCalendar, "Google Calendar", "Employee's external calendar.")
+System_Ext(emailProvider, "Email Provider", "Email service.")
+
+Container_Boundary(api, "API Application (NestJS 11)") {
+    Component(tenantMiddleware, "Tenant Resolution & Auth Middleware", "NestJS Middleware/Guard", "Authenticates and resolves the tenant context; mandatorily injects the tenant_id into every query.")
+    Component(businessModule, "Business Management Module", "NestJS Module", "Business (tenant) registration and configuration, subdomain and general data.")
+    Component(scheduleModule, "Working Hours Module", "NestJS Module", "Configuration of working days, opening/closing hours and breaks.")
+    Component(catalogModule, "Service & Employee Catalog Module", "NestJS Module", "Management of services (price/duration) and qualified employees.")
+    Component(availabilityEngine, "Availability Engine", "NestJS Service", "Computes free slots cross-referencing schedule, service and employee agenda (<200ms).")
+    Component(bookingModule, "Booking / Appointment Module", "NestJS Module", "Creates, moves (drag&drop) and cancels appointments; manages their states.")
+    Component(otpModule, "OTP Verification Module", "NestJS Module", "Generates and validates OTP codes; applies anti-spam rate limiting.")
+    Component(notificationModule, "Notification & Reminder Module", "NestJS Module + Cron", "Hourly job that triggers reminders 24h before the appointment.")
+    Component(calendarSyncModule, "Calendar Sync Module", "NestJS Module", "OAuth2 with Google and async event injection with retry queue.")
+    Component(platformModule, "Platform Admin Module", "NestJS Module", "Super-Admin console: global metrics, plans and tenant suspension.")
+    Component(repositories, "Persistence Layer", "Mongoose Repositories", "Data access enforcing the tenant_id filter.")
+}
+
+' --- Inbound ---
+Rel(reverseProxy, tenantMiddleware, "Forwards API requests", "HTTPS / REST")
+Rel(webApp, tenantMiddleware, "Calls the API endpoints", "JSON / HTTPS")
+
+' --- The middleware delegates to the modules ---
+Rel(tenantMiddleware, businessModule, "Routes business configuration requests")
+Rel(tenantMiddleware, scheduleModule, "Routes working hours requests")
+Rel(tenantMiddleware, catalogModule, "Routes catalog requests")
+Rel(tenantMiddleware, bookingModule, "Routes booking requests")
+Rel(tenantMiddleware, otpModule, "Routes verification requests")
+Rel(tenantMiddleware, platformModule, "Routes Super-Admin requests")
+
+' --- Internal collaborations ---
+Rel(bookingModule, availabilityEngine, "Queries free slots and validates the slot")
+Rel(availabilityEngine, scheduleModule, "Reads working hours")
+Rel(availabilityEngine, catalogModule, "Reads service duration and employees")
+Rel(bookingModule, otpModule, "Requests verification before confirming")
+Rel(bookingModule, notificationModule, "Schedules appointment reminders")
+Rel(bookingModule, calendarSyncModule, "Notifies confirmed appointments to sync")
+
+' --- Persistence and external services ---
+Rel(businessModule, repositories, "Reads/writes")
+Rel(scheduleModule, repositories, "Reads/writes")
+Rel(catalogModule, repositories, "Reads/writes")
+Rel(bookingModule, repositories, "Reads/writes")
+Rel(platformModule, repositories, "Reads/writes")
+Rel(repositories, mongo, "Queries with tenant_id", "MongoDB Wire Protocol")
+
+Rel(otpModule, redis, "Stores/validates OTP and locks with TTL", "RESP")
+Rel(otpModule, emailProvider, "Sends the OTP code", "SMTP / API")
+Rel(notificationModule, emailProvider, "Sends reminders", "SMTP / API")
+Rel(notificationModule, repositories, "Looks up appointments to remind")
+Rel(calendarSyncModule, googleCalendar, "Injects events (async, retry)", "HTTPS / Google Calendar API")
+
+SHOW_LEGEND()
+@enduml

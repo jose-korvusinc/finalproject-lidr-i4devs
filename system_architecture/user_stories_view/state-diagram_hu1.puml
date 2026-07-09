@@ -1,0 +1,28 @@
+@startuml
+title State Diagram — HU1: Business Registration (Administrator ↔ System messages)
+
+' Refines the context-state TENANT_REGISTRATION (HU1).
+' Actors: Business Administrator (Tenant) <-> System.
+
+state "AWAITING_DATA\n(registration form)" as data
+state "VALIDATING_SUBDOMAIN" as validating
+state "TENANT_CREATED\n(isolated space enabled)" as created
+state "REGISTRATION_REJECTED\n(subdomain conflict)" as rejected
+
+[*] --> data : Admin→System: openRegistration
+
+data --> validating : Admin→System: submitForm(name, email, subdomain)
+
+validating --> created : System→Admin: registrationConfirmed\n[subdomain available] / createTenant(tenant_id), enableSubdomain
+validating --> rejected : System→Admin: subdomainConflict\n[subdomain taken]
+
+rejected --> data : Admin→System: correctSubdomain
+
+created --> [*] : System→Admin: accessEnabled(my-business.yourplatform.com)
+
+note right of created
+  Multitenant isolation:
+  every Admin query is filtered
+  by its tenant_id.
+end note
+@enduml

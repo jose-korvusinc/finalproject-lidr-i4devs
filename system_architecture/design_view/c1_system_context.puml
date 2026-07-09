@@ -1,0 +1,30 @@
+@startuml c1_system_context
+' =====================================================================
+' C4 Model - Level 1: System Context
+' Multitenant SaaS Booking & Appointments Management System (MVP)
+' All labels and descriptions in English.
+' =====================================================================
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title System Context diagram - Booking & Appointments SaaS Platform
+
+Person(superAdmin, "Super-Admin", "SaaS owner. Oversees global metrics and suspends/activates business accounts.")
+Person(tenantAdmin, "Tenant Admin / Business Owner", "Business owner. Configures their business, schedules, services and employees.")
+Person(employee, "Employee / Staff", "Handles appointments and checks their daily schedule.")
+Person(customer, "End Customer", "End customer who books an appointment from the public widget, without registration.")
+
+System(bookingPlatform, "Booking & Appointments SaaS Platform", "Cloud multitenant platform to digitize schedules, manage bookings and protect schedules from spam.")
+
+System_Ext(googleCalendar, "Google Calendar", "Employee's external calendar to sync confirmed appointments.")
+System_Ext(emailProvider, "Email Provider", "Email service for sending OTP codes and reminders.")
+
+Rel(customer, bookingPlatform, "Books appointments and verifies identity (OTP)", "HTTPS")
+Rel(tenantAdmin, bookingPlatform, "Configures the business and manages the schedule", "HTTPS")
+Rel(employee, bookingPlatform, "Checks and reorganizes their schedule", "HTTPS")
+Rel(superAdmin, bookingPlatform, "Manages tenants and plans", "HTTPS")
+
+Rel(bookingPlatform, googleCalendar, "Syncs confirmed appointments", "HTTPS / Google Calendar API")
+Rel(bookingPlatform, emailProvider, "Sends OTP codes and reminders", "SMTP / API")
+
+SHOW_LEGEND()
+@enduml

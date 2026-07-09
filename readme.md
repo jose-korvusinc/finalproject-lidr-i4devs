@@ -12,6 +12,7 @@
 9. [Diseño y experiencia de usuario](sections_readme/09-user-experience-design.md)
 10. [Instrucciones de instalación](sections_readme/10-installation-instructions.md)
 11. [Prompts utilizados](sections_readme/11-used-prompts.md)
+12. [Manual de usuario](sections_readme/12-user-manual.md)
 
 ---
 
@@ -96,3 +97,9 @@ Este proyecto es una plataforma SaaS multitenant de gestión de citas que permit
 ## 11. Prompts Utilizados
 
 [Ver prompts utilizados](sections_readme/11-used-prompts.md)
+
+---
+
+## 12. Manual de usuario
+
+[Ver manual de usuario](sections_readme/12-user-manual.md)

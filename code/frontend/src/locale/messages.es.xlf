@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="login.title" datatype="html">
+        <source>Welcome back</source>
+        <target>Bienvenido de nuevo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.subtitle" datatype="html">
+        <source>Log in to manage your bookings.</source>
+        <target>Entra para gestionar tus reservas.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">27,29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.demo" datatype="html">
+        <source> Demo access: sign in with any valid details to explore the backoffice. </source>
+        <target> Acceso de prueba: entra con cualquier dato válido para explorar el panel. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">30,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.email.label" datatype="html">
+        <source>Email</source>
+        <target>Correo electrónico</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.email.error" datatype="html">
+        <source> Enter a valid email address </source>
+        <target>Escribe un correo electrónico válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">53,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.password.label" datatype="html">
+        <source>Password</source>
+        <target>Contraseña</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">60,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.password.error" datatype="html">
+        <source> Use at least <x id="INTERPOLATION" equiv-text="{{ passwordMinLength }}"/> characters </source>
+        <target>Usa al menos <x id="INTERPOLATION" equiv-text="{{ passwordMinLength }}"/> caracteres</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">77,79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.submit" datatype="html">
+        <source> Log in </source>
+        <target>Entrar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">88,90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.switch.prompt" datatype="html">
+        <source>New here?</source>
+        <target>¿Es tu primera vez?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">93,94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.switch.link" datatype="html">
+        <source>Create your business</source>
+        <target>Crea tu negocio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/auth/login.html</context>
+          <context context-type="linenumber">94,97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.selection.serviceLegend" datatype="html">
+        <source>Choose a service</source>
+        <target>Elige un servicio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/booking-selection.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.selection.employeeLegend" datatype="html">
+        <source>Choose a professional</source>
+        <target>Elige un profesional</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/booking-selection.html</context>
+          <context context-type="linenumber">23,24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.selection.continue" datatype="html">
+        <source> Continue </source>
+        <target>Continuar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/booking-selection.html</context>
+          <context context-type="linenumber">49,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.submitting" datatype="html">
+        <source> Confirming your booking… </source>
+        <target>Confirmando tu reserva…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/booking-widget.html</context>
+          <context context-type="linenumber">29,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.submitError" datatype="html">
+        <source> The booking could not be completed. Please try again. </source>
+        <target>No se pudo completar la reserva. Inténtalo de nuevo.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/booking-widget.html</context>
+          <context context-type="linenumber">39,42</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.confirmed" datatype="html">
+        <source> Your booking is pending confirmation. We will verify it shortly. </source>
+        <target>Tu reserva está pendiente de confirmación. La verificaremos enseguida.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/booking-widget.html</context>
+          <context context-type="linenumber">51,54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.conflict" datatype="html">
+        <source> That time slot was just taken. Please choose another one. </source>
+        <target>Esa hora se acaba de ocupar. Elige otra, por favor.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/booking-widget.html</context>
+          <context context-type="linenumber">56,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.contact.name.label" datatype="html">
+        <source>Full name</source>
+        <target>Nombre completo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/contact-form.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.contact.name.error" datatype="html">
+        <source> Enter your full name </source>
+        <target>Escribe tu nombre completo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/contact-form.html</context>
+          <context context-type="linenumber">22,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.contact.email.label" datatype="html">
+        <source>Email</source>
+        <target>Correo electrónico</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/contact-form.html</context>
+          <context context-type="linenumber">30,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.contact.email.error" datatype="html">
+        <source> Enter a valid email address </source>
+        <target>Escribe un correo electrónico válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/contact-form.html</context>
+          <context context-type="linenumber">46,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.contact.phone.label" datatype="html">
+        <source>Phone number</source>
+        <target>Teléfono</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/contact-form.html</context>
+          <context context-type="linenumber">54,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.contact.phone.error" datatype="html">
+        <source> Enter a valid phone number </source>
+        <target>Escribe un teléfono válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/contact-form.html</context>
+          <context context-type="linenumber">70,74</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.contact.confirm" datatype="html">
+        <source> Confirm </source>
+        <target>Confirmar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/contact-form.html</context>
+          <context context-type="linenumber">81,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.slots.title" datatype="html">
+        <source>Choose a time</source>
+        <target>Elige una hora</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/slot-picker.html</context>
+          <context context-type="linenumber">2,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.slots.dateLabel" datatype="html">
+        <source>Date</source>
+        <target>Fecha</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/slot-picker.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.slots.loading" datatype="html">
+        <source> Loading available times </source>
+        <target>Cargando horas disponibles</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/slot-picker.html</context>
+          <context context-type="linenumber">17,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.slots.error" datatype="html">
+        <source> We could not load the available times. Please try again. </source>
+        <target>No pudimos cargar las horas disponibles. Inténtalo de nuevo.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/slot-picker.html</context>
+          <context context-type="linenumber">21,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="booking.slots.empty" datatype="html">
+        <source> No times available. Try another date or professional. </source>
+        <target>No hay horas libres. Prueba otro día u otro profesional.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/booking/slot-picker.html</context>
+          <context context-type="linenumber">25,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.loading" datatype="html">
+        <source> Loading catalog… </source>
+        <target>Cargando catálogo…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/catalog-panel.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.loadError" datatype="html">
+        <source> The catalog could not be loaded. Please try again. </source>
+        <target>No se pudo cargar el catálogo. Inténtalo de nuevo.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/catalog-panel.html</context>
+          <context context-type="linenumber">8,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.saving" datatype="html">
+        <source> Saving changes… </source>
+        <target>Guardando cambios…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/catalog-panel.html</context>
+          <context context-type="linenumber">13,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.saved" datatype="html">
+        <source> Changes saved. </source>
+        <target>Cambios guardados.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/catalog-panel.html</context>
+          <context context-type="linenumber">23,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.saveError" datatype="html">
+        <source> The change could not be saved. Please try again. </source>
+        <target>No se pudo guardar el cambio. Inténtalo de nuevo.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/catalog-panel.html</context>
+          <context context-type="linenumber">28,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.employee.name.label" datatype="html">
+        <source>Employee name</source>
+        <target>Nombre del empleado</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/employee-form.html</context>
+          <context context-type="linenumber">6,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.employee.name.error" datatype="html">
+        <source> Enter an employee name </source>
+        <target>Escribe el nombre del empleado</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/employee-form.html</context>
+          <context context-type="linenumber">22,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.employee.email.label" datatype="html">
+        <source>Email</source>
+        <target>Correo electrónico</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/employee-form.html</context>
+          <context context-type="linenumber">30,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.employee.email.error" datatype="html">
+        <source> Enter a valid email address </source>
+        <target>Escribe un correo electrónico válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/employee-form.html</context>
+          <context context-type="linenumber">46,51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.employee.services.label" datatype="html">
+        <source>Assigned services</source>
+        <target>Servicios asignados</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/employee-form.html</context>
+          <context context-type="linenumber">52,53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.employee.save" datatype="html">
+        <source> Save employee </source>
+        <target>Guardar empleado</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/employee-form.html</context>
+          <context context-type="linenumber">67,71</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.employee.edit" datatype="html">
+        <source> Edit </source>
+        <target>Editar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/employee-form.html</context>
+          <context context-type="linenumber">82,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.employee.empty" datatype="html">
+        <source> No employees yet </source>
+        <target>Aún no hay empleados</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/employee-form.html</context>
+          <context context-type="linenumber">89,93</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.name.label" datatype="html">
+        <source>Service name</source>
+        <target>Nombre del servicio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.name.error" datatype="html">
+        <source> Enter a service name </source>
+        <target>Escribe el nombre del servicio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">22,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.price.label" datatype="html">
+        <source>Price</source>
+        <target>Precio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">30,33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.price.error" datatype="html">
+        <source> Enter a valid price </source>
+        <target>Escribe un precio válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">46,50</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.duration.label" datatype="html">
+        <source>Duration in minutes</source>
+        <target>Duración en minutos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">55,58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.duration.error" datatype="html">
+        <source> Enter a duration greater than zero minutes </source>
+        <target>Escribe una duración mayor que cero minutos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">72,77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.save" datatype="html">
+        <source> Save service </source>
+        <target>Guardar servicio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">83,87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.edit" datatype="html">
+        <source> Edit </source>
+        <target>Editar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">98,100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.deactivate" datatype="html">
+        <source> Deactivate </source>
+        <target>Desactivar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">106,108</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="catalog.service.empty" datatype="html">
+        <source>No services yet</source>
+        <target>Aún no hay servicios</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/catalog/service-form.html</context>
+          <context context-type="linenumber">112,115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.nav.login" datatype="html">
+        <source>Log in</source>
+        <target>Entrar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">30,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.nav.register" datatype="html">
+        <source> Create my business </source>
+        <target>Crea tu negocio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">32,35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.hero.eyebrow" datatype="html">
+        <source>Bookings made simple</source>
+        <target>Reservas sin complicaciones</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">40,41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.hero.title" datatype="html">
+        <source> Your booking page, up and running in minutes </source>
+        <target>Tu página de reservas, lista en minutos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">42,44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.hero.subtitle" datatype="html">
+        <source> Reservia gives your small business its own booking page, so your clients book themselves from their phone and your data stays only yours. </source>
+        <target>Reservia le da a tu pequeño negocio su propia página de reservas, para que tus clientes reserven solos desde el móvil y tus datos sigan siendo solo tuyos.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">45,48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.hero.primary" datatype="html">
+        <source> Create my business </source>
+        <target>Crea tu negocio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">50,52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.hero.secondary" datatype="html">
+        <source> Log in </source>
+        <target>Entrar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">53,55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.steps.title" datatype="html">
+        <source>How it works</source>
+        <target>Cómo funciona</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">95,96</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.steps.one.title" datatype="html">
+        <source>Sign up and pick your subdomain</source>
+        <target>Regístrate y elige tu subdominio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">114,115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.steps.one.text" datatype="html">
+        <source> Create your account and claim a friendly web address for your business. </source>
+        <target>Crea tu cuenta y reserva una dirección web sencilla para tu negocio.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">116,118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.steps.two.title" datatype="html">
+        <source>Set your hours, services and team</source>
+        <target>Configura tus horarios, servicios y equipo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">136,137</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.steps.two.text" datatype="html">
+        <source> Tell Reservia when you are open and what you offer. It takes just a few minutes. </source>
+        <target>Cuéntale a Reservia cuándo abres y qué ofreces. Solo te llevará unos minutos.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">138,140</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.steps.three.title" datatype="html">
+        <source>Share your link and get booked</source>
+        <target>Comparte tu enlace y llénate de reservas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">158,159</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.steps.three.text" datatype="html">
+        <source> Send your link, add it to your bio, and watch the bookings roll in. </source>
+        <target>Envía tu enlace, ponlo en tu bio y mira cómo llegan las reservas.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">160,163</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.title" datatype="html">
+        <source> Everything you need to fill your agenda </source>
+        <target>Todo lo que necesitas para llenar tu agenda</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">168,170</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.page.title" datatype="html">
+        <source> Your very own booking page </source>
+        <target>Tu propia página de reservas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">189,191</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.page.text" datatype="html">
+        <source> A polished page with your name and services, ready to share anywhere. </source>
+        <target>Una página cuidada con tu nombre y tus servicios, lista para compartir donde quieras.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">192,194</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.realtime.title" datatype="html">
+        <source> Real-time availability </source>
+        <target>Disponibilidad en tiempo real</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">214,216</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.realtime.text" datatype="html">
+        <source> Clients only see the slots you really have free. No double bookings. </source>
+        <target>Tus clientes solo ven las horas que de verdad tienes libres. Sin reservas duplicadas.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">217,221</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.phone.title" datatype="html">
+        <source> No more phone calls all day </source>
+        <target>Se acabaron las llamadas todo el día</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">241,243</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.phone.text" datatype="html">
+        <source> Let clients book themselves while you focus on the work you love. </source>
+        <target>Deja que tus clientes reserven solos mientras te centras en lo que te gusta.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">244,246</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.data.title" datatype="html">
+        <source>Your data, only yours</source>
+        <target>Tus datos, solo tuyos</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">265,266</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.features.data.text" datatype="html">
+        <source> Each business is fully isolated. Your clients and bookings stay private. </source>
+        <target>Cada negocio está totalmente aislado. Tus clientes y tus reservas quedan en privado.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">267,269</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.audience.title" datatype="html">
+        <source> Made for businesses like yours </source>
+        <target>Hecho para negocios como el tuyo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">275,277</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.audience.barbershops" datatype="html">
+        <source>Barbershops</source>
+        <target>Barberías</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">278,279</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.audience.salons" datatype="html">
+        <source>Hair salons</source>
+        <target>Peluquerías</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">279,280</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.audience.clinics" datatype="html">
+        <source>Clinics</source>
+        <target>Clínicas</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">280,281</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.audience.beauty" datatype="html">
+        <source>Beauty studios</source>
+        <target>Centros de estética</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">281,282</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.audience.consultancies" datatype="html">
+        <source>Consultancies</source>
+        <target>Consultorías</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">282,286</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.cta.title" datatype="html">
+        <source> Ready to fill your agenda? </source>
+        <target>¿Preparado para llenar tu agenda?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">288,290</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.cta.text" datatype="html">
+        <source> Set up your booking page today. It is free to get started. </source>
+        <target>Crea tu página de reservas hoy mismo. Empezar es gratis.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">291,293</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.cta.action" datatype="html">
+        <source> Create my business </source>
+        <target>Crea tu negocio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">294,297</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.footer.register" datatype="html">
+        <source>Get started</source>
+        <target>Empezar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">317,318</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.footer.login" datatype="html">
+        <source>Log in</source>
+        <target>Entrar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">318,320</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="home.footer.copyright" datatype="html">
+        <source> © <x id="INTERPOLATION" equiv-text="{{ currentYear }}"/> Reservia. All rights reserved. </source>
+        <target>© <x id="INTERPOLATION" equiv-text="{{ currentYear }}"/> Reservia. Todos los derechos reservados.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/home/home.html</context>
+          <context context-type="linenumber">321,324</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.day.mon" datatype="html">
+        <source>Monday</source>
+        <target>Lunes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">14,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.day.tue" datatype="html">
+        <source>Tuesday</source>
+        <target>Martes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">17,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.day.wed" datatype="html">
+        <source>Wednesday</source>
+        <target>Miércoles</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">20,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.day.thu" datatype="html">
+        <source>Thursday</source>
+        <target>Jueves</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">23,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.day.fri" datatype="html">
+        <source>Friday</source>
+        <target>Viernes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">26,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.day.sat" datatype="html">
+        <source>Saturday</source>
+        <target>Sábado</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">29,31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.day.sun" datatype="html">
+        <source>Sunday</source>
+        <target>Domingo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">32,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.open.label" datatype="html">
+        <source>Open time</source>
+        <target>Hora de apertura</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">43,45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.open.error" datatype="html">
+        <source> Enter a valid opening time before the closing time </source>
+        <target>Escribe una hora de apertura válida anterior a la de cierre</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">59,60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.close.label" datatype="html">
+        <source>Close time</source>
+        <target>Hora de cierre</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">67,69</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.close.error" datatype="html">
+        <source> Enter a valid closing time after the opening time </source>
+        <target>Escribe una hora de cierre válida posterior a la de apertura</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.breakStart.label" datatype="html">
+        <source>Break start</source>
+        <target>Inicio del descanso</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">92,94</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.breakStart.error" datatype="html">
+        <source> Enter a valid break start within the working hours </source>
+        <target>Escribe un inicio de descanso válido dentro del horario</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">111,113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.breakEnd.label" datatype="html">
+        <source>Break end</source>
+        <target>Fin del descanso</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">120,122</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.breakEnd.error" datatype="html">
+        <source> Enter a valid break end within the working hours </source>
+        <target>Escribe un fin de descanso válido dentro del horario</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">137,138</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.save" datatype="html">
+        <source> Save schedule </source>
+        <target>Guardar horario</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-form.html</context>
+          <context context-type="linenumber">153,156</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.loading" datatype="html">
+        <source> Loading schedule… </source>
+        <target>Cargando horario…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-panel.html</context>
+          <context context-type="linenumber">4,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.loadError" datatype="html">
+        <source> The schedule could not be loaded. Please try again. </source>
+        <target>No se pudo cargar el horario. Inténtalo de nuevo.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-panel.html</context>
+          <context context-type="linenumber">8,11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.saving" datatype="html">
+        <source> Saving schedule… </source>
+        <target>Guardando horario…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-panel.html</context>
+          <context context-type="linenumber">13,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.saved" datatype="html">
+        <source> Schedule saved. </source>
+        <target>Horario guardado.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-panel.html</context>
+          <context context-type="linenumber">23,26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="schedule.saveError" datatype="html">
+        <source> The schedule could not be saved. Please try again. </source>
+        <target>No se pudo guardar el horario. Inténtalo de nuevo.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/schedule/schedule-panel.html</context>
+          <context context-type="linenumber">33,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.success.title" datatype="html">
+        <source>Your workspace is ready</source>
+        <target>Tu espacio ya está listo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.success.description" datatype="html">
+        <source> Open your portal to start managing your bookings. </source>
+        <target>Abre tu portal para empezar a gestionar tus reservas.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">5,7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.name.label" datatype="html">
+        <source>Business name</source>
+        <target>Nombre del negocio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">13,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.name.error" datatype="html">
+        <source> Enter the business name </source>
+        <target>Escribe el nombre del negocio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">29,34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.email.label" datatype="html">
+        <source>Corporate email</source>
+        <target>Correo corporativo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">36,38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.email.error" datatype="html">
+        <source> Enter a valid email address </source>
+        <target>Escribe un correo electrónico válido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">52,57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.subdomain.label" datatype="html">
+        <source>Subdomain</source>
+        <target>Subdominio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">59,61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.subdomain.error" datatype="html">
+        <source> Use lowercase letters, numbers and hyphens </source>
+        <target>Usa minúsculas, números y guiones</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">80,83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.subdomain.checking" datatype="html">
+        <source>Checking availability…</source>
+        <target>Comprobando disponibilidad…</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">87,90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.subdomain.available" datatype="html">
+        <source>This subdomain is available</source>
+        <target>Este subdominio está libre</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">92,95</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.subdomain.taken" datatype="html">
+        <source>This subdomain is already taken</source>
+        <target>Este subdominio ya está cogido</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">97,101</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.conflict" datatype="html">
+        <source> This subdomain is already taken. Choose another. </source>
+        <target>Este subdominio ya está cogido. Elige otro.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">109,113</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.cancel" datatype="html">
+        <source> Cancel </source>
+        <target>Cancelar</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">121,124</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="tenantRegistration.create" datatype="html">
+        <source> Create </source>
+        <target>Crear</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/features/tenant-registration/tenant-registration.html</context>
+          <context context-type="linenumber">129,132</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="languageSwitcher.label" datatype="html">
+        <source>Language</source>
+        <target>Idioma</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/language-switcher/language-switcher.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="languageSwitcher.spanish" datatype="html">
+        <source>Switch to Spanish</source>
+        <target>Cambiar a español</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/language-switcher/language-switcher.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="languageSwitcher.english" datatype="html">
+        <source>Switch to English</source>
+        <target>Cambiar a inglés</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/shared/language-switcher/language-switcher.html</context>
+          <context context-type="linenumber">26,27</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

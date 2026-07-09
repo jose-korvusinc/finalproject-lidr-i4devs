@@ -1,0 +1,323 @@
+<header class="topbar">
+  <a class="brand" routerLink="/" aria-label="Reservia home">
+    <span class="brand__mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="28" height="28" role="img" focusable="false">
+        <rect x="3" y="6" width="26" height="22" rx="5" fill="url(#brandGradient)" />
+        <rect x="3" y="6" width="26" height="7" rx="3.5" fill="#3b2bd4" />
+        <circle cx="10" cy="4" r="2" fill="#3b2bd4" />
+        <circle cx="22" cy="4" r="2" fill="#3b2bd4" />
+        <path
+          d="M11 19l3.4 3.4L22 15"
+          fill="none"
+          stroke="#fff"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <defs>
+          <linearGradient id="brandGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#6d5cff" />
+            <stop offset="1" stop-color="#a855f7" />
+          </linearGradient>
+        </defs>
+      </svg>
+    </span>
+    <span class="brand__name">Reservia</span>
+  </a>
+
+  <nav class="topbar__nav" aria-label="Primary">
+    <app-language-switcher />
+    <a class="button button--ghost" routerLink="/login" i18n="@@home.nav.login">Log in</a>
+    <a class="button button--primary" routerLink="/register" i18n="@@home.nav.register">
+      Create my business
+    </a>
+  </nav>
+</header>
+
+<main class="home">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__content">
+      <p class="hero__eyebrow" i18n="@@home.hero.eyebrow">Bookings made simple</p>
+      <h1 id="hero-title" class="hero__title" i18n="@@home.hero.title">
+        Your booking page, up and running in minutes
+      </h1>
+      <p class="hero__subtitle" i18n="@@home.hero.subtitle">
+        Reservia gives your small business its own booking page, so your clients book themselves
+        from their phone and your data stays only yours.
+      </p>
+      <div class="hero__actions">
+        <a class="button button--primary" routerLink="/register" i18n="@@home.hero.primary">
+          Create my business
+        </a>
+        <a class="button button--ghost" routerLink="/login" i18n="@@home.hero.secondary">
+          Log in
+        </a>
+      </div>
+    </div>
+
+    <div class="hero__art" aria-hidden="true">
+      <svg viewBox="0 0 320 260" width="100%" role="img" focusable="false">
+        <defs>
+          <linearGradient id="cardGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#7c6bff" />
+            <stop offset="1" stop-color="#b16cf6" />
+          </linearGradient>
+          <linearGradient id="slotGradient" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#e9e4ff" />
+            <stop offset="1" stop-color="#f6ecff" />
+          </linearGradient>
+        </defs>
+        <rect x="24" y="24" width="272" height="212" rx="24" fill="url(#cardGradient)" />
+        <rect x="48" y="60" width="224" height="152" rx="16" fill="#ffffff" />
+        <rect x="48" y="60" width="224" height="34" rx="16" fill="#f0ebff" />
+        <circle cx="70" cy="45" r="6" fill="#ffffff" opacity="0.85" />
+        <circle cx="250" cy="45" r="6" fill="#ffffff" opacity="0.85" />
+        <rect x="66" y="108" width="86" height="18" rx="9" fill="url(#slotGradient)" />
+        <rect x="168" y="108" width="86" height="18" rx="9" fill="url(#slotGradient)" />
+        <rect x="66" y="138" width="86" height="18" rx="9" fill="#6d5cff" />
+        <rect x="168" y="138" width="86" height="18" rx="9" fill="url(#slotGradient)" />
+        <rect x="66" y="168" width="86" height="18" rx="9" fill="url(#slotGradient)" />
+        <rect x="168" y="168" width="86" height="18" rx="9" fill="url(#slotGradient)" />
+        <circle cx="252" cy="196" r="26" fill="#20c997" />
+        <path
+          d="M240 196l8 8 16-16"
+          fill="none"
+          stroke="#ffffff"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </div>
+  </section>
+
+  <section class="steps" aria-labelledby="steps-title">
+    <h2 id="steps-title" class="section-title" i18n="@@home.steps.title">How it works</h2>
+    <ol class="steps__list">
+      <li class="step">
+        <span class="step__icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 21c0-4 4-6 8-6s8 2 8 6" />
+          </svg>
+        </span>
+        <h3 class="step__title" i18n="@@home.steps.one.title">Sign up and pick your subdomain</h3>
+        <p class="step__text" i18n="@@home.steps.one.text">
+          Create your account and claim a friendly web address for your business.
+        </p>
+      </li>
+      <li class="step">
+        <span class="step__icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <circle cx="12" cy="12" r="3" />
+            <path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2" />
+          </svg>
+        </span>
+        <h3 class="step__title" i18n="@@home.steps.two.title">Set your hours, services and team</h3>
+        <p class="step__text" i18n="@@home.steps.two.text">
+          Tell Reservia when you are open and what you offer. It takes just a few minutes.
+        </p>
+      </li>
+      <li class="step">
+        <span class="step__icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+            <path d="M12 3v13M7 8l5-5 5 5" />
+          </svg>
+        </span>
+        <h3 class="step__title" i18n="@@home.steps.three.title">Share your link and get booked</h3>
+        <p class="step__text" i18n="@@home.steps.three.text">
+          Send your link, add it to your bio, and watch the bookings roll in.
+        </p>
+      </li>
+    </ol>
+  </section>
+
+  <section class="features" aria-labelledby="features-title">
+    <h2 id="features-title" class="section-title" i18n="@@home.features.title">
+      Everything you need to fill your agenda
+    </h2>
+    <div class="features__grid">
+      <article class="feature-card">
+        <span class="feature-card__icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <rect x="3" y="4" width="18" height="16" rx="3" />
+            <path d="M3 9h18M8 2v4M16 2v4" />
+          </svg>
+        </span>
+        <h3 class="feature-card__title" i18n="@@home.features.page.title">
+          Your very own booking page
+        </h3>
+        <p class="feature-card__text" i18n="@@home.features.page.text">
+          A polished page with your name and services, ready to share anywhere.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-card__icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 2" />
+          </svg>
+        </span>
+        <h3 class="feature-card__title" i18n="@@home.features.realtime.title">
+          Real-time availability
+        </h3>
+        <p class="feature-card__text" i18n="@@home.features.realtime.text">
+          Clients only see the slots you really have free. No double bookings.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-card__icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path
+              d="M6 4h3l1.5 5-2 1.5a11 11 0 0 0 5 5l1.5-2 5 1.5v3a2 2 0 0 1-2 2A16 16 0 0 1 4 6a2 2 0 0 1 2-2z"
+            />
+            <path d="M3 3l18 18" />
+          </svg>
+        </span>
+        <h3 class="feature-card__title" i18n="@@home.features.phone.title">
+          No more phone calls all day
+        </h3>
+        <p class="feature-card__text" i18n="@@home.features.phone.text">
+          Let clients book themselves while you focus on the work you love.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <span class="feature-card__icon" aria-hidden="true">
+          <svg
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            focusable="false"
+          >
+            <path d="M12 3l7 3v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6z" />
+            <path d="M9.5 12l2 2 3.5-4" />
+          </svg>
+        </span>
+        <h3 class="feature-card__title" i18n="@@home.features.data.title">Your data, only yours</h3>
+        <p class="feature-card__text" i18n="@@home.features.data.text">
+          Each business is fully isolated. Your clients and bookings stay private.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="audience" aria-labelledby="audience-title">
+    <h2 id="audience-title" class="section-title" i18n="@@home.audience.title">
+      Made for businesses like yours
+    </h2>
+    <ul class="audience__chips">
+      <li class="chip" i18n="@@home.audience.barbershops">Barbershops</li>
+      <li class="chip" i18n="@@home.audience.salons">Hair salons</li>
+      <li class="chip" i18n="@@home.audience.clinics">Clinics</li>
+      <li class="chip" i18n="@@home.audience.beauty">Beauty studios</li>
+      <li class="chip" i18n="@@home.audience.consultancies">Consultancies</li>
+    </ul>
+  </section>
+
+  <section class="cta-band" aria-labelledby="cta-title">
+    <h2 id="cta-title" class="cta-band__title" i18n="@@home.cta.title">
+      Ready to fill your agenda?
+    </h2>
+    <p class="cta-band__text" i18n="@@home.cta.text">
+      Set up your booking page today. It is free to get started.
+    </p>
+    <a class="button button--light" routerLink="/register" i18n="@@home.cta.action">
+      Create my business
+    </a>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__brand">
+    <span class="brand__mark brand__mark--sm" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="20" height="20" role="img" focusable="false">
+        <rect x="3" y="6" width="26" height="22" rx="5" fill="#6d5cff" />
+        <path
+          d="M11 19l3.4 3.4L22 15"
+          fill="none"
+          stroke="#fff"
+          stroke-width="2.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+    <span class="brand__name">Reservia</span>
+  </div>
+  <nav class="footer__links" aria-label="Footer">
+    <a routerLink="/register" i18n="@@home.footer.register">Get started</a>
+    <a routerLink="/login" i18n="@@home.footer.login">Log in</a>
+  </nav>
+  <p class="footer__copy" i18n="@@home.footer.copyright">
+    © {{ currentYear }} Reservia. All rights reserved.
+  </p>
+</footer>

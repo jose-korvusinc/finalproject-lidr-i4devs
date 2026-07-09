@@ -1,0 +1,97 @@
+<main class="login">
+  <section class="login__card" aria-labelledby="login-title">
+    <a class="brand" routerLink="/" aria-label="Reservia home">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="26" height="26" role="img" focusable="false">
+          <rect x="3" y="6" width="26" height="22" rx="5" fill="url(#loginBrand)" />
+          <path
+            d="M11 19l3.4 3.4L22 15"
+            fill="none"
+            stroke="#fff"
+            stroke-width="2.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <defs>
+            <linearGradient id="loginBrand" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#6d5cff" />
+              <stop offset="1" stop-color="#a855f7" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </span>
+      <span class="brand__name">Reservia</span>
+    </a>
+
+    <h1 id="login-title" class="login__title" i18n="@@login.title">Welcome back</h1>
+    <p class="login__subtitle" i18n="@@login.subtitle">Log in to manage your bookings.</p>
+
+    <p class="login__demo" role="note" i18n="@@login.demo">
+      Demo access: sign in with any valid details to explore the backoffice.
+    </p>
+
+    <form class="login__form" (submit)="$event.preventDefault(); submit()" novalidate>
+      <div class="field">
+        @let emailError = form.email().touched() && form.email().invalid();
+        <label for="login-email" i18n="@@login.email.label">Email</label>
+        <input
+          id="login-email"
+          type="email"
+          autocomplete="email"
+          [formField]="form.email"
+          [attr.aria-invalid]="emailError ? 'true' : null"
+          [attr.aria-describedby]="emailError ? 'login-email-error' : null"
+        />
+        @if (emailError) {
+          <p
+            id="login-email-error"
+            class="field__error"
+            role="alert"
+            aria-live="polite"
+            i18n="@@login.email.error"
+          >
+            Enter a valid email address
+          </p>
+        }
+      </div>
+
+      <div class="field">
+        @let passwordError = form.password().touched() && form.password().invalid();
+        <label for="login-password" i18n="@@login.password.label">Password</label>
+        <input
+          id="login-password"
+          type="password"
+          autocomplete="current-password"
+          [formField]="form.password"
+          [attr.aria-invalid]="passwordError ? 'true' : null"
+          [attr.aria-describedby]="passwordError ? 'login-password-error' : null"
+        />
+        @if (passwordError) {
+          <p
+            id="login-password-error"
+            class="field__error"
+            role="alert"
+            aria-live="polite"
+            i18n="@@login.password.error"
+          >
+            Use at least {{ passwordMinLength }} characters
+          </p>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="button button--primary"
+        [disabled]="submitDisabled()"
+        i18n="@@login.submit"
+      >
+        Log in
+      </button>
+    </form>
+
+    <p class="login__switch">
+      <span i18n="@@login.switch.prompt">New here?</span>
+      <a routerLink="/register" i18n="@@login.switch.link">Create your business</a>
+    </p>
+  </section>
+</main>

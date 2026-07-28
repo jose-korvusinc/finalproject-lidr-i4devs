@@ -3,7 +3,7 @@ import { IsString, Matches } from 'class-validator';
 import {
   SUBDOMAIN_PATTERN,
   SUBDOMAIN_PATTERN_SOURCE,
-} from './subdomain.constants';
+} from '../subdomain.constants';
 
 export class SubdomainAvailabilityQueryDto {
   @ApiProperty({

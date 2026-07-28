@@ -1,4 +1,5 @@
 import { Module, VersioningType } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { getModelToken } from '@nestjs/mongoose';
 import { writeFileSync } from 'node:fs';
@@ -13,6 +14,7 @@ import { buildOpenApiDocument } from '../src/swagger';
   providers: [
     TenantsService,
     { provide: getModelToken(Business.name), useValue: {} },
+    { provide: ConfigService, useValue: { getOrThrow: () => 'example.com' } },
   ],
 })
 class OpenApiModule {}

@@ -7,7 +7,7 @@
         <mxCell id="c2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;arcSize=4;" vertex="1" parent="1">
           <mxGeometry x="60" y="40" width="300" height="350" as="geometry" />
         </mxCell>
-        <mxCell id="c3" value="barberia-paco.tuplataforma.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=center;fontColor=#5f6368;fontSize=11;" vertex="1" parent="1">
+        <mxCell id="c3" value="barberia-paco.jpasoftware.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=center;fontColor=#5f6368;fontSize=11;" vertex="1" parent="1">
           <mxGeometry x="60" y="40" width="300" height="28" as="geometry" />
         </mxCell>
         <mxCell id="c4" value="Reserva pendiente de confirmación." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fef7e0;strokeColor=#f9ab00;align=left;spacingLeft=10;fontColor=#b06000;" vertex="1" parent="1">

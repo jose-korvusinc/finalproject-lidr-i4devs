@@ -98,7 +98,7 @@ describe('TenantRegistration outcome', () => {
       name: 'Barberia Paco',
       subdomain: 'barberia-paco',
       status: 'active',
-      portalUrl: 'https://barberia-paco.yourplatform.com',
+      portalUrl: 'https://barberia-paco.jpasoftware.com',
     };
     const register = vi.fn<(...args: unknown[]) => Observable<TenantSummary>>(() => of(summary));
     const { fixture, component, root, apiDouble } = await setup(register);
@@ -119,9 +119,9 @@ describe('TenantRegistration outcome', () => {
       subdomain: 'barberia-paco',
     });
 
-    expect(root.textContent).toContain('https://barberia-paco.yourplatform.com');
+    expect(root.textContent).toContain('https://barberia-paco.jpasoftware.com');
     const link = Array.from(root.querySelectorAll('a')).find(
-      (anchor) => anchor.getAttribute('href') === 'https://barberia-paco.yourplatform.com',
+      (anchor) => anchor.getAttribute('href') === 'https://barberia-paco.jpasoftware.com',
     );
     expect(link).toBeTruthy();
   });

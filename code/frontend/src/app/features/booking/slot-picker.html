@@ -1,7 +1,7 @@
 <section class="slot-picker">
   <h2 class="slot-picker__title" i18n="@@booking.slots.title">Choose a time</h2>
 
-  <div class="slot-picker__date">
+  <div class="field slot-picker__date">
     <label for="slot-picker-date" i18n="@@booking.slots.dateLabel">Date</label>
     <input
       id="slot-picker-date"
@@ -13,22 +13,32 @@
   </div>
 
   @if (loading()) {
-    <p class="slot-picker__loading" role="status" aria-busy="true" i18n="@@booking.slots.loading">
+    <p
+      class="notice slot-picker__loading"
+      role="status"
+      aria-busy="true"
+      i18n="@@booking.slots.loading"
+    >
       Loading available times
     </p>
   } @else if (error()) {
-    <p class="slot-picker__error" role="alert" i18n="@@booking.slots.error">
+    <p class="notice notice--error slot-picker__error" role="alert" i18n="@@booking.slots.error">
       We could not load the available times. Please try again.
     </p>
   } @else if (!slots().length) {
-    <p class="slot-picker__empty" role="status" aria-live="polite" i18n="@@booking.slots.empty">
+    <p
+      class="notice slot-picker__empty"
+      role="status"
+      aria-live="polite"
+      i18n="@@booking.slots.empty"
+    >
       No times available. Try another date or professional.
     </p>
   } @else {
     <ul class="slot-picker__options">
       @for (slot of slots(); track slot.startsAt) {
         <li>
-          <button type="button" class="slot-picker__option" (click)="chooseSlot(slot)">
+          <button type="button" class="option slot-picker__option" (click)="chooseSlot(slot)">
             {{ slot.startsAt | date: 'shortTime' }}
           </button>
         </li>

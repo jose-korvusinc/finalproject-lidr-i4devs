@@ -7,7 +7,7 @@
         <mxCell id="hu1-win" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="40" y="40" width="460" height="440" as="geometry" />
         </mxCell>
-        <mxCell id="hu1-bar" value="registro.tuplataforma.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=left;spacingLeft=12;fontColor=#5f6368;fontSize=12;" vertex="1" parent="1">
+        <mxCell id="hu1-bar" value="registro.jpasoftware.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=left;spacingLeft=12;fontColor=#5f6368;fontSize=12;" vertex="1" parent="1">
           <mxGeometry x="40" y="40" width="460" height="30" as="geometry" />
         </mxCell>
         <mxCell id="hu1-h" value="Crear tu negocio" style="text;html=1;align=left;verticalAlign=middle;fontSize=18;fontStyle=1;fontColor=#202124;" vertex="1" parent="1">
@@ -31,7 +31,7 @@
         <mxCell id="hu1-i3" value="barberia-paco" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;align=left;spacingLeft=8;fontColor=#202124;" vertex="1" parent="1">
           <mxGeometry x="64" y="288" width="270" height="34" as="geometry" />
         </mxCell>
-        <mxCell id="hu1-suf" value=".tuplataforma.com" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#5f6368;" vertex="1" parent="1">
+        <mxCell id="hu1-suf" value=".jpasoftware.com" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#5f6368;" vertex="1" parent="1">
           <mxGeometry x="342" y="288" width="134" height="34" as="geometry" />
         </mxCell>
         <mxCell id="hu1-hint" value="El subdominio debe ser único entre todos los negocios." style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontStyle=2;fontColor=#9aa0a6;" vertex="1" parent="1">

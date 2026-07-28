@@ -1,4 +1,5 @@
 import { ConflictException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
 import { CreateTenantDto } from './dto/create-tenant.dto';
@@ -21,21 +22,28 @@ const createTenant = (
 ): Promise<TenantResponseDto> =>
   (service as CreatableTenantsService).create(dto);
 
+const buildService = async (
+  baseDomain: string,
+  modelMock: BusinessModelMock,
+): Promise<TenantsService> => {
+  const moduleRef: TestingModule = await Test.createTestingModule({
+    providers: [
+      TenantsService,
+      { provide: getModelToken(Business.name), useValue: modelMock },
+      { provide: ConfigService, useValue: { getOrThrow: () => baseDomain } },
+    ],
+  }).compile();
+
+  return moduleRef.get(TenantsService);
+};
+
 describe('TenantsService', () => {
   let service: TenantsService;
   let modelMock: BusinessModelMock;
 
   beforeEach(async () => {
     modelMock = { exists: jest.fn(), create: jest.fn() };
-
-    const moduleRef: TestingModule = await Test.createTestingModule({
-      providers: [
-        TenantsService,
-        { provide: getModelToken(Business.name), useValue: modelMock },
-      ],
-    }).compile();
-
-    service = moduleRef.get(TenantsService);
+    service = await buildService('jpasoftware.com', modelMock);
   });
 
   describe('isSubdomainAvailable', () => {
@@ -54,6 +62,18 @@ describe('TenantsService', () => {
 
       expect(available).toBe(false);
     });
+
+    it.each([['registro'], ['www'], ['api'], ['admin'], ['app']])(
+      'reports the reserved subdomain %s as unavailable without querying the database',
+      async (subdomain) => {
+        modelMock.exists.mockResolvedValue(null);
+
+        const available = await service.isSubdomainAvailable(subdomain);
+
+        expect(available).toBe(false);
+        expect(modelMock.exists).not.toHaveBeenCalled();
+      },
+    );
 
     it('filters by the requested subdomain with a minimal existence check', async () => {
       modelMock.exists.mockResolvedValue(null);
@@ -92,7 +112,16 @@ describe('TenantsService', () => {
       expect(result.name).toBe('Barberia Paco');
       expect(result.subdomain).toBe('barberia-paco');
       expect(result.status).toBe('active');
-      expect(result.portalUrl).toBe('https://barberia-paco.yourplatform.com');
+      expect(result.portalUrl).toBe('https://barberia-paco.jpasoftware.com');
+    });
+
+    it('derives the portal url from the configured base domain', async () => {
+      const stagingService = await buildService('staging.example', modelMock);
+      modelMock.create.mockResolvedValue(persistedDoc);
+
+      const result = await createTenant(stagingService, dto);
+
+      expect(result.portalUrl).toBe('https://barberia-paco.staging.example');
     });
 
     it('does not expose internal or owner fields in the returned dto', async () => {

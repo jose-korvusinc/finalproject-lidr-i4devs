@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+    paths: ["code/**", ".github/workflows/ci.yml"]
+  push:
+    branches-ignore: [main]
+    paths: ["code/**", ".github/workflows/ci.yml"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: code/backend/package-lock.json
+
+      - name: Install, lint, test and build
+        working-directory: code/backend
+        run: |
+          npm ci
+          npm run lint
+          npm test
+          npm run build
+
+  frontend:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: code/frontend/package-lock.json
+
+      - name: Install, test and build
+        working-directory: code/frontend
+        run: |
+          npm ci
+          npm test -- --watch=false
+          npm run build

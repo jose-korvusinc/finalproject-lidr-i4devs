@@ -7,7 +7,7 @@
         <mxCell id="c2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="40" y="40" width="460" height="440" as="geometry" />
         </mxCell>
-        <mxCell id="c3" value="registro.tuplataforma.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=left;spacingLeft=12;fontColor=#5f6368;fontSize=12;" vertex="1" parent="1">
+        <mxCell id="c3" value="registro.jpasoftware.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=left;spacingLeft=12;fontColor=#5f6368;fontSize=12;" vertex="1" parent="1">
           <mxGeometry x="40" y="40" width="460" height="30" as="geometry" />
         </mxCell>
         <mxCell id="c4" value="Crear tu negocio" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;fontColor=#202124;" vertex="1" parent="1">
@@ -31,7 +31,7 @@
         <mxCell id="c10" value="barberia-paco" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#9aa0a6;align=left;spacingLeft=8;fontColor=#202124;" vertex="1" parent="1">
           <mxGeometry x="64" y="272" width="270" height="32" as="geometry" />
         </mxCell>
-        <mxCell id="c11" value=".tuplataforma.com" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#5f6368;" vertex="1" parent="1">
+        <mxCell id="c11" value=".jpasoftware.com" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;fontColor=#5f6368;" vertex="1" parent="1">
           <mxGeometry x="342" y="272" width="134" height="32" as="geometry" />
         </mxCell>
         <mxCell id="c12" value="Comprobando disponibilidad del subdominio…" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fef7e0;strokeColor=#f9ab00;align=left;spacingLeft=10;fontColor=#b06000;" vertex="1" parent="1">

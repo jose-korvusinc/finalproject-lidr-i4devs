@@ -10,8 +10,13 @@ function findByPath(list: Routes, path: string): Route {
   return match;
 }
 
+function findAdminChild(path: string): Route {
+  const admin = findByPath(routes, 'admin');
+  return findByPath(admin.children ?? [], path);
+}
+
 async function loadFeatureRoutes(): Promise<Routes> {
-  const catalogRoute = findByPath(routes, 'admin/catalog');
+  const catalogRoute = findAdminChild('catalog');
   expect(typeof catalogRoute.loadChildren).toBe('function');
   const loaded = await catalogRoute.loadChildren!();
   return loaded as Routes;
@@ -32,7 +37,7 @@ describe('catalogRoutes', () => {
 });
 
 describe('root routes', () => {
-  it('wires the catalog feature lazily under "admin/catalog"', async () => {
+  it('wires the catalog feature lazily under the admin shell', async () => {
     const featureRoutes = await loadFeatureRoutes();
 
     expect(Array.isArray(featureRoutes)).toBe(true);
@@ -48,8 +53,8 @@ describe('root routes', () => {
     expect(typeof registerRoute.loadChildren).toBe('function');
   });
 
-  it('keeps the existing schedule route under "admin/schedule"', () => {
-    const scheduleRoute = findByPath(routes, 'admin/schedule');
+  it('keeps the schedule section reachable under the admin shell', () => {
+    const scheduleRoute = findAdminChild('schedule');
 
     expect(typeof scheduleRoute.loadChildren).toBe('function');
   });

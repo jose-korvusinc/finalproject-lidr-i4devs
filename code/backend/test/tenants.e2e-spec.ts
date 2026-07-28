@@ -4,6 +4,7 @@ import {
   ValidationPipe,
   VersioningType,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -32,6 +33,10 @@ describe('Tenants subdomain availability (e2e)', () => {
       providers: [
         TenantsService,
         { provide: getModelToken(Business.name), useValue: modelMock },
+        {
+          provide: ConfigService,
+          useValue: { getOrThrow: () => 'jpasoftware.com' },
+        },
       ],
     }).compile();
 
@@ -72,6 +77,17 @@ describe('Tenants subdomain availability (e2e)', () => {
     const response = await request(app.getHttpServer())
       .get(AVAILABILITY_PATH)
       .query({ subdomain: 'barberia-paco' })
+      .expect(200);
+
+    expect(response.body).toEqual({ available: false });
+  });
+
+  it('reports the reserved registro subdomain as { available: false }', async () => {
+    modelMock.exists.mockResolvedValue(null);
+
+    const response = await request(app.getHttpServer())
+      .get(AVAILABILITY_PATH)
+      .query({ subdomain: 'registro' })
       .expect(200);
 
     expect(response.body).toEqual({ available: false });
@@ -139,7 +155,7 @@ describe('Tenants subdomain availability (e2e)', () => {
         name: 'Barberia Paco',
         subdomain: 'barberia-paco',
         status: 'active',
-        portalUrl: 'https://barberia-paco.yourplatform.com',
+        portalUrl: 'https://barberia-paco.jpasoftware.com',
       });
       expect(body).not.toHaveProperty('_id');
       expect(body).not.toHaveProperty('tenantId');
@@ -157,6 +173,18 @@ describe('Tenants subdomain availability (e2e)', () => {
         .send(validBody)
         .expect(409);
     });
+
+    it.each([['registro'], ['www'], ['api'], ['admin'], ['app']])(
+      'rejects the reserved subdomain %s with 400 without creating anything',
+      async (subdomain) => {
+        await request(app.getHttpServer())
+          .post(REGISTER_PATH)
+          .send({ ...validBody, subdomain })
+          .expect(400);
+
+        expect(modelMock.create).not.toHaveBeenCalled();
+      },
+    );
 
     it('rejects a body missing the subdomain with 400', async () => {
       await request(app.getHttpServer())

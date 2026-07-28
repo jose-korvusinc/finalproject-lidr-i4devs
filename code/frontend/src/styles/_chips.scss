@@ -1,0 +1,7 @@
+.chip {
+  padding: var(--space-xs) var(--space-md);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+}

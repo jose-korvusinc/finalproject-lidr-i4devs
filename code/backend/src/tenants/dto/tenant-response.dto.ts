@@ -41,7 +41,7 @@ export class TenantResponseDto {
 
   @ApiProperty({
     description: 'Public portal URL of the tenant',
-    example: 'https://barberia-paco.yourplatform.com',
+    example: 'https://barberia-paco.jpasoftware.com',
   })
   @Expose()
   portalUrl: string;

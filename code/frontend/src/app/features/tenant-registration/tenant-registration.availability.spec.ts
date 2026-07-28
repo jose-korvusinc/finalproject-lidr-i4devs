@@ -71,7 +71,9 @@ describe('TenantRegistration subdomain availability', () => {
 
   async function setup(availability: Observable<boolean>) {
     const apiDouble: ApiDouble = {
-      checkSubdomain: vi.fn<(subdomain: string) => Observable<boolean>>().mockReturnValue(availability),
+      checkSubdomain: vi
+        .fn<(subdomain: string) => Observable<boolean>>()
+        .mockReturnValue(availability),
       register: vi.fn<(...args: unknown[]) => Observable<unknown>>(),
     };
 

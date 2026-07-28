@@ -6,7 +6,7 @@
         <li>
           <button
             type="button"
-            class="booking-selection__option"
+            class="option booking-selection__option"
             [class.is-selected]="serviceId() === service.id"
             [attr.aria-pressed]="serviceId() === service.id"
             (click)="chooseService(service.id)"
@@ -26,7 +26,7 @@
           <li>
             <button
               type="button"
-              class="booking-selection__option"
+              class="option booking-selection__option"
               [class.is-selected]="employeeId() === employee.id"
               [attr.aria-pressed]="employeeId() === employee.id"
               (click)="chooseEmployee(employee.id)"
@@ -41,7 +41,7 @@
 
   <button
     type="button"
-    class="booking-selection__continue"
+    class="button button--primary booking-selection__continue"
     [disabled]="!canContinue()"
     (click)="continue()"
     i18n="@@booking.selection.continue"

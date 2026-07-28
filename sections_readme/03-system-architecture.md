@@ -41,7 +41,7 @@ A continuación se describen los componentes principales del sistema, agrupados 
 
 #### Contenedores (C2)
 
-- **Reverse Proxy** *(Nginx)*: punto de entrada del sistema. Acepta enrutamiento wildcard (`*.tuplataforma.com`), resuelve el subdominio del tenant, sirve los recursos estáticos de la SPA y proxia las llamadas al API. Es la pieza que habilita el acceso público por subdominio.
+- **Reverse Proxy** *(Nginx)*: punto de entrada del sistema. Acepta enrutamiento wildcard (`*.jpasoftware.com`), resuelve el subdominio del tenant, sirve los recursos estáticos de la SPA y proxia las llamadas al API. Es la pieza que habilita el acceso público por subdominio. Un conjunto de subdominios está **reservado** para la plataforma y **no** resuelve tenant (`registro`, `www`, `api`, `admin`, `app`): en particular `registro.jpasoftware.com` sirve el alta de negocio en su ruta raíz, y esos slugs se rechazan al registrar (fuente de verdad: `code/backend/src/tenants/subdomain.constants.ts`, reflejada en el frontend en `core/registration-host.ts`).
 - **Web Application** *(Angular 22, FullCalendar.io)*: SPA única que ofrece tanto el backoffice (panel de administración/empleado con calendario interactivo) como el widget público de reservas. Consume el API vía JSON/HTTPS.
 - **API Application** *(NestJS 11, TypeScript, OpenAPI)*: núcleo de la lógica de negocio. Gestiona reservas, cálculo de disponibilidad, verificación OTP, notificaciones y la resolución de contexto multitenant. Expone una API REST documentada con OpenAPI.
 - **Operational Database** *(MongoDB 8.3)*: base de datos documental con enfoque *Shared Database/Collection*. Persiste negocios, servicios, empleados, horarios y citas, con el campo `tenant_id` indexado para garantizar el aislamiento de datos entre tenants.
@@ -183,7 +183,7 @@ las historias de usuario seleccionadas (HU1–HU4). Reproduce la pila de contene
 **Nodos y artefactos:**
 
 - **Client Device** *(navegador móvil/escritorio)*: ejecuta la **SPA Angular 22** (backoffice + widget público de reservas).
-- **Edge / Reverse Proxy** *(Nginx)*: resuelve el enrutamiento wildcard `*.yourplatform.com`, identifica el subdominio del tenant, sirve los estáticos de la SPA y proxia el API.
+- **Edge / Reverse Proxy** *(Nginx)*: resuelve el enrutamiento wildcard `*.jpasoftware.com`, identifica el subdominio del tenant, sirve los estáticos de la SPA y proxia el API.
 - **Application Server** *(runtime Node.js)*: aloja la **API NestJS 11** (OpenAPI), que inyecta el `tenant_id` en cada petición.
 - **MongoDB 8.3 Cluster**: base documental *Shared DB* con el campo `tenant_id` indexado que garantiza el aislamiento entre tenants.
 - **Redis** *(Cache & Temporal Store)*: mantiene los bloqueos temporales de huecos (`SlotLocking`) y, en HU5, los códigos OTP con TTL.

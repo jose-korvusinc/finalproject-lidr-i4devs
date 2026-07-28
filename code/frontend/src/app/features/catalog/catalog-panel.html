@@ -1,21 +1,31 @@
 <section class="catalog-panel">
   @if (loadState() === 'loading') {
-    <p class="catalog-panel__status" role="status" aria-busy="true" i18n="@@catalog.loading">
+    <p class="notice catalog-panel__status" role="status" aria-busy="true" i18n="@@catalog.loading">
       Loading catalog…
     </p>
   } @else if (loadState() === 'error') {
-    <p class="catalog-panel__error" role="alert" aria-live="assertive" i18n="@@catalog.loadError">
+    <p
+      class="notice notice--error catalog-panel__error"
+      role="alert"
+      aria-live="assertive"
+      i18n="@@catalog.loadError"
+    >
       The catalog could not be loaded. Please try again.
     </p>
   } @else {
     @if (saveState() === 'saving') {
-      <p class="catalog-panel__status" role="status" aria-busy="true" i18n="@@catalog.saving">
+      <p
+        class="notice catalog-panel__status"
+        role="status"
+        aria-busy="true"
+        i18n="@@catalog.saving"
+      >
         Saving changes…
       </p>
     }
     @if (saveState() === 'saved') {
       <p
-        class="catalog-panel__confirmation"
+        class="notice notice--success catalog-panel__confirmation"
         role="status"
         aria-live="polite"
         i18n="@@catalog.saved"
@@ -24,7 +34,12 @@
       </p>
     }
     @if (saveState() === 'error') {
-      <p class="catalog-panel__error" role="alert" aria-live="assertive" i18n="@@catalog.saveError">
+      <p
+        class="notice notice--error catalog-panel__error"
+        role="alert"
+        aria-live="assertive"
+        i18n="@@catalog.saveError"
+      >
         The change could not be saved. Please try again.
       </p>
     }

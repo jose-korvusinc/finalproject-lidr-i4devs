@@ -10,8 +10,13 @@ function findByPath(list: Routes, path: string): Route {
   return match;
 }
 
+function findAdminChild(path: string): Route {
+  const admin = findByPath(routes, 'admin');
+  return findByPath(admin.children ?? [], path);
+}
+
 async function loadFeatureRoutes(): Promise<Routes> {
-  const scheduleRoute = findByPath(routes, 'admin/schedule');
+  const scheduleRoute = findAdminChild('schedule');
   expect(typeof scheduleRoute.loadChildren).toBe('function');
   const loaded = await scheduleRoute.loadChildren!();
   return loaded as Routes;
@@ -32,7 +37,7 @@ describe('scheduleRoutes', () => {
 });
 
 describe('root routes', () => {
-  it('wires the schedule feature lazily under "admin/schedule"', async () => {
+  it('wires the schedule feature lazily under the admin shell', async () => {
     const featureRoutes = await loadFeatureRoutes();
 
     expect(Array.isArray(featureRoutes)).toBe(true);

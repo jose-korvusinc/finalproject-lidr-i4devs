@@ -18,7 +18,7 @@ node "Client Device\n(mobile / desktop browser)" as client {
 }
 
 node "Edge / Reverse Proxy" as edge {
-  artifact "Nginx\n(wildcard *.yourplatform.com,\nresolves tenant subdomain)" as nginx
+  artifact "Nginx\n(wildcard *.jpasoftware.com,\nresolves tenant subdomain)" as nginx
 }
 
 node "Application Server\n(Node.js runtime)" as appserver {

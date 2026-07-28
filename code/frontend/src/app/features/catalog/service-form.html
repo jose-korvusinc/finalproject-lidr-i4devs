@@ -76,7 +76,7 @@
 
     <button
       type="submit"
-      class="service-form__save"
+      class="button button--primary service-form__save"
       [disabled]="saveDisabled()"
       i18n="@@catalog.service.save"
     >
@@ -91,7 +91,7 @@
           <span class="service-form__item-name">{{ s.name }}</span>
           <button
             type="button"
-            class="service-form__edit"
+            class="button button--ghost service-form__edit"
             (click)="onEdit(s)"
             i18n="@@catalog.service.edit"
           >
@@ -99,7 +99,7 @@
           </button>
           <button
             type="button"
-            class="service-form__deactivate"
+            class="button button--ghost service-form__deactivate"
             (click)="onDeactivate(s)"
             i18n="@@catalog.service.deactivate"
           >

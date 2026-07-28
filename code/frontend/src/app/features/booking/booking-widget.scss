@@ -1,9 +1,16 @@
-.booking-widget {
-  display: block;
+@use '../../../styles/notices';
 
-  &__status,
-  &__confirmation,
-  &__error {
-    margin: 0 0 1rem;
-  }
+:host {
+  display: block;
+  color: var(--text);
+  background: radial-gradient(30rem 24rem at 100% 0%, var(--brand-soft), transparent 60%);
+}
+
+.booking-widget {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  max-width: 32rem;
+  margin-inline: auto;
+  padding: var(--space-lg);
 }

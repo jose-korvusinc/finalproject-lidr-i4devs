@@ -141,6 +141,6 @@ describe('TenantRegistration', () => {
   it('shows the subdomain suffix next to the field', async () => {
     const { root } = await setup();
 
-    expect(root.textContent).toContain('.yourplatform.com');
+    expect(root.textContent).toContain('.jpasoftware.com');
   });
 });

@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { isReservedSubdomain } from './registration-host';
 
 export function resolveTenantSlug(hostname: string): string | null {
   const labels = hostname.split('.');
@@ -10,7 +11,7 @@ export function resolveTenantSlug(hostname: string): string | null {
     return null;
   }
   const [first] = labels;
-  return first === 'www' ? null : first;
+  return isReservedSubdomain(first) ? null : first;
 }
 
 @Injectable({ providedIn: 'root' })

@@ -123,8 +123,17 @@
           },
           "subdomain": {
             "type": "string",
-            "description": "Globally unique tenant subdomain slug",
+            "description": "Globally unique tenant subdomain slug. Platform-reserved slugs are rejected.",
             "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "not": {
+              "enum": [
+                "registro",
+                "www",
+                "api",
+                "admin",
+                "app"
+              ]
+            },
             "example": "barberia-paco"
           }
         },
@@ -164,7 +173,7 @@
           "portalUrl": {
             "type": "string",
             "description": "Public portal URL of the tenant",
-            "example": "https://barberia-paco.yourplatform.com"
+            "example": "https://barberia-paco.jpasoftware.com"
           }
         },
         "required": [

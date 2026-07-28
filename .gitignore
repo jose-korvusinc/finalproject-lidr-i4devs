@@ -1,1 +1,5 @@
 .personal_token_github.txt
+*.pem
+
+*_key
+*_key.pub

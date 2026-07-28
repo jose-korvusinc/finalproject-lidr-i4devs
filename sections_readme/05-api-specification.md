@@ -1,6 +1,6 @@
 [<- Volver al README principal](../readme.md)
 
-## 6. Especificación de la API
+## 5. Especificación de la API
 
 API REST del backend NestJS 11.1. Todas las rutas se sirven bajo el prefijo global `api` y el
 versionado por URI (`/api/v1/...`). La entrada se valida con DTOs (`class-validator`, whitelist
@@ -16,7 +16,7 @@ estricta) y la salida se mapea a DTOs de respuesta (sin exponer `_id`/`tenantId`
 > El documento OpenAPI versionado se genera con `npm run openapi:generate` y se persiste en
 > `code/backend/openapi.json`.
 
-### 6.1. HU1 — Registro de negocio (Tenant)
+### 5.1. HU1 — Registro de negocio (Tenant)
 
 Recurso `tenants` (registro de tenants; público, pre-tenant).
 
@@ -30,6 +30,10 @@ Comprueba si un subdominio está libre (feedback previo al alta). Solo lectura.
 | **Query** | `subdomain` (string, slug `^[a-z0-9]+(?:-[a-z0-9]+)*$`, requerido) |
 | **200** | `SubdomainAvailabilityResponseDto` → `{ "available": boolean }` |
 | **400** | Query ausente o subdominio con formato inválido |
+
+Los **subdominios reservados** de la plataforma (`registro`, `www`, `api`, `admin`, `app`) se
+reportan siempre como `{ "available": false }`, sin consultar la base de datos, para que el
+formulario de alta no ofrezca un slug que después rechazaría el `POST`.
 
 ```http
 GET /api/v1/tenants/subdomain-availability?subdomain=barberia-ana HTTP/1.1
@@ -49,20 +53,21 @@ Da de alta un tenant garantizando subdominio único global.
 | **Body** | `CreateTenantDto` |
 | **201** | `TenantResponseDto` |
 | **409** | Subdominio ya en uso (sin registro parcial) |
-| **400** | Validación fallida (email, slug, propiedad no permitida) |
+| **400** | Validación fallida (email, slug, subdominio reservado, propiedad no permitida) |
 
 ```yaml
 # CreateTenantDto (request body)
 name:       string   # nombre del negocio (requerido)
 ownerEmail: string   # email corporativo, formato email (requerido)
 subdomain:  string   # slug ^[a-z0-9]+(?:-[a-z0-9]+)*$ (requerido)
+                     # reservados (400): registro, www, api, admin, app
 
 # TenantResponseDto (201)
 id:        string
 name:      string
 subdomain: string
 status:    string    # TenantStatus: "active" | "suspended"
-portalUrl: string    # https://<subdomain>.yourplatform.com
+portalUrl: string    # https://<subdomain>.jpasoftware.com
 ```
 
 ```http
@@ -78,7 +83,7 @@ Content-Type: application/json
   "name": "Barbería Paco",
   "subdomain": "barberia-paco",
   "status": "active",
-  "portalUrl": "https://barberia-paco.yourplatform.com"
+  "portalUrl": "https://barberia-paco.jpasoftware.com"
 }
 ```
 
@@ -90,7 +95,7 @@ Respuesta de conflicto (subdominio ocupado):
 
 ---
 
-### 6.2. HU2 — Horario semanal del negocio (Working hours)
+### 5.2. HU2 — Horario semanal del negocio (Working hours)
 
 Recurso `working-hours` (reglas de horario semanal del tenant; *tenant-scoped*).
 
@@ -118,7 +123,7 @@ breakEnd:     string?  # fin del descanso HH:mm 24h (opcional)
 
 ```http
 GET /api/v1/working-hours HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 ```
 
 ```json
@@ -163,7 +168,7 @@ days:
 
 ```http
 PUT /api/v1/working-hours HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 {
@@ -183,7 +188,7 @@ Content-Type: application/json
 ]
 ```
 
-### 6.3. HU3 — Catálogo de servicios (Services)
+### 5.3. HU3 — Catálogo de servicios (Services)
 
 Recurso `services` (servicios que ofrece el negocio; *tenant-scoped*). El filtro por `tenantId` lo
 impone el contexto de tenant de forma transversal (nunca se acepta del cliente). El precio viaja
@@ -221,7 +226,7 @@ durationMinutes: integer  # requerido; entero positivo
 
 ```http
 POST /api/v1/services HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 { "name": "Massage", "price": "40.00", "durationMinutes": 60 }
@@ -276,7 +281,7 @@ tenant; **nunca** se acepta del cuerpo.
 
 ```http
 PATCH /api/v1/services/665f1b2c9c1e4a0012ab34cd HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 { "name": "Deluxe haircut", "price": "30.00", "durationMinutes": 45 }
@@ -302,7 +307,7 @@ devuelve **404** (aislamiento entre tenants), no 403. El `tenantId` lo impone el
 
 ```http
 DELETE /api/v1/services/665f1b2c9c1e4a0012ab34cd HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 ```
 
 ```json
@@ -311,7 +316,7 @@ Host: acme.yourplatform.com
 
 ---
 
-### 6.4. HU3 — Empleados (Employees)
+### 5.4. HU3 — Empleados (Employees)
 
 Recurso `employees` (profesionales del negocio que prestan los servicios; *tenant-scoped*). El
 filtro por `tenantId` lo impone el contexto de tenant de forma transversal (nunca se acepta del
@@ -353,7 +358,7 @@ serviceIds: string[]  # opcional (por defecto []); cada elemento un Mongo id de 
 
 ```http
 POST /api/v1/employees HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 { "name": "Grace Hopper", "email": "grace@acme.test", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
@@ -409,7 +414,7 @@ reasignación. El `tenantId` lo impone el contexto de tenant; **nunca** se acept
 
 ```http
 PATCH /api/v1/employees/665f1b2c9c1e4a0012ab9999 HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 { "name": "Grace M. Hopper", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
@@ -421,7 +426,7 @@ Content-Type: application/json
 
 ---
 
-### 6.5. HU4 — Disponibilidad de citas (Availability)
+### 5.5. HU4 — Disponibilidad de citas (Availability)
 
 Recurso de solo lectura que calcula los **huecos libres** de un empleado para un servicio en un día
 concreto (*tenant-scoped*). El motor parte del horario semanal del negocio (`working-hours`),
@@ -460,7 +465,7 @@ date:       string    # requerido; día objetivo en formato ISO 8601 YYYY-MM-DD
 
 ```http
 GET /api/v1/availability?serviceId=665f1b2c9c1e4a0012ab0001&employeeId=665f1b2c9c1e4a0012ab0002&date=2026-07-10 HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 ```
 
 ```json
@@ -472,7 +477,7 @@ Host: acme.yourplatform.com
 
 ---
 
-### 6.6. HU4 — Reserva de cita (Bookings)
+### 5.6. HU4 — Reserva de cita (Bookings)
 
 Crea una **reserva** que bloquea de forma atómica un hueco de un empleado (*tenant-scoped*). El
 servicio carga el `Service` (para derivar `endsAt` de la duración) y el `Employee` (que debe prestar
@@ -516,7 +521,7 @@ customer:                      # datos de contacto del cliente
 
 ```http
 POST /api/v1/bookings HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 {

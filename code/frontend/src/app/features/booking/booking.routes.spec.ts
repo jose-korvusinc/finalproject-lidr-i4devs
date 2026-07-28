@@ -11,6 +11,11 @@ function findByPath(list: Routes, path: string): Route {
   return match;
 }
 
+function findAdminChild(path: string): Route {
+  const admin = findByPath(routes, 'admin');
+  return findByPath(admin.children ?? [], path);
+}
+
 async function loadFeatureRoutes(): Promise<Routes> {
   const bookingRoute = findByPath(routes, 'booking');
   expect(typeof bookingRoute.loadChildren).toBe('function');
@@ -47,14 +52,14 @@ describe('root routes', () => {
     expect(typeof registerRoute.loadChildren).toBe('function');
   });
 
-  it('keeps the existing schedule route under "admin/schedule"', () => {
-    const scheduleRoute = findByPath(routes, 'admin/schedule');
+  it('keeps the schedule section reachable under the admin shell', () => {
+    const scheduleRoute = findAdminChild('schedule');
 
     expect(typeof scheduleRoute.loadChildren).toBe('function');
   });
 
-  it('keeps the existing catalog route under "admin/catalog"', () => {
-    const catalogRoute = findByPath(routes, 'admin/catalog');
+  it('keeps the catalog section reachable under the admin shell', () => {
+    const catalogRoute = findAdminChild('catalog');
 
     expect(typeof catalogRoute.loadChildren).toBe('function');
   });

@@ -1,6 +1,6 @@
 [<- Volver al README principal](../readme.md)
 
-## 12. Manual de usuario
+## 11. Manual de usuario
 
 > Este manual está pensado para **cualquier persona**, tenga o no conocimientos de informática.
 > No hace falta saber nada técnico: solo seguir los pasos y las imágenes. Si algo no te sale a la
@@ -9,7 +9,7 @@
 
 ---
 
-### 12.1. ¿Qué es esta aplicación y para quién es?
+### 11.1. ¿Qué es esta aplicación y para quién es?
 
 Imagina que tienes un negocio pequeño donde la gente pide cita: una **barbería**, una **peluquería**,
 una **clínica**, un **centro de estética**, una **consultoría**… Esta plataforma te da tu propia
@@ -23,18 +23,18 @@ Hay **dos tipos de personas** que usan la aplicación, y cada una tiene su propi
 | 🧑‍💼 **El dueño del negocio** (o quien lo gestiona) | Das de alta tu negocio, pones tus horarios, tus servicios y tu equipo | El **panel de administración** (el "backoffice") |
 | 🙋 **El cliente** que quiere una cita | Eliges servicio, profesional, día y hora, y dejas tus datos | La **página pública de reservas** (el "widget") |
 
-En este manual verás **las dos partes**, en orden: primero cómo preparar tu negocio (secciones 12.3
-a 12.5) y luego cómo reserva un cliente (sección 12.6).
+En este manual verás **las dos partes**, en orden: primero cómo preparar tu negocio (secciones 11.3
+a 11.5) y luego cómo reserva un cliente (sección 11.6).
 
 ---
 
-### 12.2. Lo primero: cómo se entra a cada sitio
+### 11.2. Lo primero: cómo se entra a cada sitio
 
 Cada negocio tiene su **propia dirección web** con su nombre delante. Por ejemplo, si tu barbería se
 llama *Barbería Paco*, tu dirección será algo como:
 
 ```
-barberia-paco.yourplatform.com
+barberia-paco.jpasoftware.com
 ```
 
 Ese nombre de delante (`barberia-paco`) se llama **subdominio**, y es tu "dirección" única en la
@@ -45,25 +45,30 @@ Dentro de esa dirección, cada pantalla tiene su propia página:
 
 | Para qué sirve | A dónde vas | Quién la usa |
 | :--- | :--- | :--- |
-| Registrar un negocio nuevo | `/register` | El dueño (la primera vez) |
+| Registrar un negocio nuevo | `https://registro.jpasoftware.com` | El dueño (la primera vez) |
 | Configurar horarios | `/admin/schedule` | El dueño |
 | Servicios y equipo | `/admin/catalog` | El dueño |
 | Reservar una cita | `/booking` | El cliente final |
 
+> El alta de negocio es la excepción: tiene **su propia dirección**, `registro.jpasoftware.com`, y no
+> cuelga del subdominio de ningún negocio (todavía no tienes uno). El resto de páginas sí van dentro
+> del subdominio de tu negocio.
+
 > 💡 **Nota práctica:** en un ordenador de pruebas la aplicación se abre en `http://localhost:4200`
 > y detrás funciona un servidor en `http://localhost:3000`. En el uso real, cada negocio entra por su
-> subdominio (`tunegocio.yourplatform.com`). Añadiendo al final la página que quieras (por ejemplo
+> subdominio (`tunegocio.jpasoftware.com`). Añadiendo al final la página que quieras (por ejemplo
 > `/admin/schedule`) llegas a cada apartado.
 
 ---
 
 ## PARTE A — Para el dueño del negocio
 
-### 12.3. HU1 · Dar de alta tu negocio
+### 11.3. HU1 · Dar de alta tu negocio
 
 Es el **primer paso de todos**. Aquí creas tu espacio en la plataforma. Solo se hace **una vez**.
 
-**Cómo llegar:** entra en la página `/register`.
+**Cómo llegar:** entra en **`https://registro.jpasoftware.com`**. Esa es la dirección del alta; te
+lleva directamente al formulario, sin tener que buscar nada más.
 
 **Verás un formulario con tres casillas para rellenar:**
 
@@ -73,7 +78,7 @@ Es el **primer paso de todos**. Aquí creas tu espacio en la plataforma. Solo se
 2. **Correo del negocio** *(Corporate email)* — tu email. Tiene que ser un email de verdad, con su
    arroba (por ejemplo `paco@barberia-paco.com`).
 3. **Subdominio** *(Subdomain)* — el nombre corto que quieres para tu dirección web. A su derecha
-   verás fijo el texto `.yourplatform.com`, así que tú solo escribes la parte de delante.
+   verás fijo el texto `.jpasoftware.com`, así que tú solo escribes la parte de delante.
    - Usa **minúsculas, números y guiones**. Nada de espacios, mayúsculas ni acentos. Por ejemplo:
      `barberia-paco` ✅ (no `Barbería Paco` ❌).
 
@@ -103,7 +108,7 @@ Verás el mensaje *"Your workspace is ready"* (Tu espacio está listo) y un **en
 
 ---
 
-### 12.4. HU2 · Configurar tus horarios
+### 11.4. HU2 · Configurar tus horarios
 
 Aquí le dices a la plataforma **qué días abres y a qué horas**. Esto es importante porque el sistema
 **solo ofrecerá citas dentro de tu horario**: si cierras los domingos, ningún cliente podrá reservar
@@ -146,7 +151,7 @@ Verás *"Schedule saved."* (Horario guardado). ¡Listo! El buscador de huecos ya
 
 ---
 
-### 12.5. HU3 · Tus servicios y tu equipo
+### 11.5. HU3 · Tus servicios y tu equipo
 
 Aquí montas **qué ofreces** (los servicios) y **quién los hace** (los empleados). Los clientes solo
 podrán reservar servicios que tengan a alguien asignado, así que este paso es clave.
@@ -158,7 +163,7 @@ creado nada, aparecerá vacía:
 
 ![Panel de catálogo vacío](../system_architecture/user_stories_view/hu3/01-catalog-panel.png)
 
-#### 12.5.1. Crear un servicio
+#### 11.5.1. Crear un servicio
 
 En el formulario de servicio rellena:
 
@@ -183,7 +188,7 @@ Cada servicio de la lista tiene dos botones:
 > deja de aparecer en la lista de servicios activos y en la página de reservas, **pero las citas que
 > ya existían con ese servicio se conservan intactas**. Así nunca pierdes el histórico de tu negocio.
 
-#### 12.5.2. Crear un empleado
+#### 11.5.2. Crear un empleado
 
 En el formulario de empleado rellena:
 
@@ -196,7 +201,7 @@ En el formulario de empleado rellena:
 
 Pulsa **"Save employee"** (Guardar empleado) y se añadirá a la lista.
 
-#### 12.5.3. La conexión servicio ↔ empleado (¡importante!)
+#### 11.5.3. La conexión servicio ↔ empleado (¡importante!)
 
 Esas casillas que marcas al crear un empleado son la clave de todo el sistema:
 
@@ -219,13 +224,13 @@ solo se desactiva, y sus citas siguen guardadas.
 
 ## PARTE B — Para el cliente que reserva
 
-### 12.6. HU4 · Reservar una cita desde el móvil
+### 11.6. HU4 · Reservar una cita desde el móvil
 
 Esta es la parte que ve **tu cliente**. Está pensada para el **móvil** y para hacerse en **muy pocos
 pasos**, sin crear ninguna cuenta ni contraseña.
 
 **Cómo llegar:** el cliente entra en la página `/booking` de tu negocio (por ejemplo
-`barberia-paco.yourplatform.com/booking`). Normalmente le pasas ese enlace o lo pones en tus redes.
+`barberia-paco.jpasoftware.com/booking`). Normalmente le pasas ese enlace o lo pones en tus redes.
 
 Es un asistente que va **paso a paso**:
 
@@ -287,7 +292,7 @@ elige otra). Y te vuelve a mostrar los huecos para que **elijas otra hora** sin 
 
 ---
 
-### 12.7. ¿Y si algo va mal? (preguntas frecuentes)
+### 11.7. ¿Y si algo va mal? (preguntas frecuentes)
 
 **"No me deja pulsar el botón de Crear / Guardar / Continuar."**
 El botón se queda apagado cuando falta algún dato o hay algo mal escrito. Repasa las casillas: casi
@@ -295,8 +300,9 @@ siempre es un email sin arroba, una hora de cierre anterior a la de apertura, o 
 mayúsculas o espacios.
 
 **"Me dice que el subdominio ya está cogido."**
-Ese nombre lo tiene otro negocio. Elige otro (puedes añadir tu ciudad o un número, por ejemplo
-`barberia-paco-madrid`). El sistema te dirá al momento si está libre.
+Ese nombre lo tiene otro negocio, o es uno de los que la plataforma se reserva para sí misma
+(`registro`, `www`, `api`, `admin` y `app`). Elige otro (puedes añadir tu ciudad o un número, por
+ejemplo `barberia-paco-madrid`). El sistema te dirá al momento si está libre.
 
 **"He configurado los horarios pero a mis clientes no les aparece ninguna hora."**
 Repasa tres cosas, en este orden:
@@ -319,12 +325,12 @@ Ese paso protege tu agenda de reservas falsas.
 
 ---
 
-### 12.8. Mini-glosario (por si acaso)
+### 11.8. Mini-glosario (por si acaso)
 
 | Palabra | Qué significa, en fácil |
 | :--- | :--- |
 | **Tenant / negocio** | Cada empresa que usa la plataforma con su propio espacio y su propia dirección web. |
-| **Subdominio** | El nombre corto de tu dirección web (`tunegocio`.yourplatform.com). |
+| **Subdominio** | El nombre corto de tu dirección web (`tunegocio`.jpasoftware.com). |
 | **Backoffice / panel** | La parte privada donde el dueño configura horarios, servicios y equipo. |
 | **Widget de reserva** | La página pública donde el cliente pide su cita. |
 | **Hueco / slot** | Un espacio de tiempo libre en la agenda donde cabe una cita. |

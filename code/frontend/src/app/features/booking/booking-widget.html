@@ -20,7 +20,7 @@
     @case ('contact') {
       @if (submitState() === 'submitting') {
         <p
-          class="booking-widget__status"
+          class="notice booking-widget__status"
           role="status"
           aria-live="polite"
           aria-busy="true"
@@ -31,7 +31,7 @@
       }
       @if (submitState() === 'error') {
         <p
-          class="booking-widget__error"
+          class="notice notice--error booking-widget__error"
           role="alert"
           aria-live="assertive"
           i18n="@@booking.submitError"
@@ -43,7 +43,7 @@
     }
     @case ('confirmed') {
       <p
-        class="booking-widget__confirmation"
+        class="notice notice--success booking-widget__confirmation"
         role="status"
         aria-live="polite"
         i18n="@@booking.confirmed"
@@ -52,7 +52,12 @@
       </p>
     }
     @case ('conflict') {
-      <p class="booking-widget__error" role="alert" aria-live="assertive" i18n="@@booking.conflict">
+      <p
+        class="notice notice--error booking-widget__error"
+        role="alert"
+        aria-live="assertive"
+        i18n="@@booking.conflict"
+      >
         That time slot was just taken. Please choose another one.
       </p>
       <app-slot-picker

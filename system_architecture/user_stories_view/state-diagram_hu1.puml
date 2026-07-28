@@ -18,7 +18,7 @@ validating --> rejected : System→Admin: subdomainConflict\n[subdomain taken]
 
 rejected --> data : Admin→System: correctSubdomain
 
-created --> [*] : System→Admin: accessEnabled(my-business.yourplatform.com)
+created --> [*] : System→Admin: accessEnabled(my-business.jpasoftware.com)
 
 note right of created
   Multitenant isolation:

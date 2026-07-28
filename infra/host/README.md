@@ -22,7 +22,7 @@ indicada en `NODE_VERSION` desde el nvm del usuario `deploy`:
 
 ```ini
 Environment=NODE_VERSION=22
-ExecStart=/home/deploy/.nvm/nvm-exec node /srv/api/dist/main.js
+ExecStart=/home/deploy/.nvm/nvm-exec node /srv/api/dist/src/main.js
 ```
 
 Requisitos: `deploy` tiene nvm instalado y una versión 22.x (`nvm install 22`). Si cambias el major,

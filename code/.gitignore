@@ -1,0 +1,6 @@
+mongo-data/
+
+# Environment (keep the template, ignore real secrets)
+.env
+.env.*
+!.env.example

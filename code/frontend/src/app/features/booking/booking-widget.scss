@@ -1,0 +1,9 @@
+.booking-widget {
+  display: block;
+
+  &__status,
+  &__confirmation,
+  &__error {
+    margin: 0 0 1rem;
+  }
+}

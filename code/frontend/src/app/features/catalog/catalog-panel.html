@@ -1,0 +1,48 @@
+<section class="catalog-panel">
+  @if (loadState() === 'loading') {
+    <p class="catalog-panel__status" role="status" aria-busy="true" i18n="@@catalog.loading">
+      Loading catalog…
+    </p>
+  } @else if (loadState() === 'error') {
+    <p class="catalog-panel__error" role="alert" aria-live="assertive" i18n="@@catalog.loadError">
+      The catalog could not be loaded. Please try again.
+    </p>
+  } @else {
+    @if (saveState() === 'saving') {
+      <p class="catalog-panel__status" role="status" aria-busy="true" i18n="@@catalog.saving">
+        Saving changes…
+      </p>
+    }
+    @if (saveState() === 'saved') {
+      <p
+        class="catalog-panel__confirmation"
+        role="status"
+        aria-live="polite"
+        i18n="@@catalog.saved"
+      >
+        Changes saved.
+      </p>
+    }
+    @if (saveState() === 'error') {
+      <p class="catalog-panel__error" role="alert" aria-live="assertive" i18n="@@catalog.saveError">
+        The change could not be saved. Please try again.
+      </p>
+    }
+
+    <app-service-form
+      [services]="services()"
+      [initialService]="editingService()"
+      (save)="onSaveService($event)"
+      (edit)="onEditService($event)"
+      (deactivate)="onDeactivateService($event)"
+    />
+
+    <app-employee-form
+      [employees]="employees()"
+      [availableServices]="services()"
+      [initialEmployee]="editingEmployee()"
+      (save)="onSaveEmployee($event)"
+      (edit)="onEditEmployee($event)"
+    />
+  }
+</section>

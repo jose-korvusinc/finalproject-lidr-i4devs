@@ -1,0 +1,180 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/tenants/subdomain-availability": {
+      "get": {
+        "description": "Public pre-tenant endpoint that reports whether a subdomain slug is free to register.",
+        "operationId": "TenantsController_checkSubdomainAvailability_v1",
+        "parameters": [
+          {
+            "name": "subdomain",
+            "required": true,
+            "in": "query",
+            "description": "Tenant subdomain slug to check for availability",
+            "schema": {
+              "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+              "example": "barberia-ana",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Subdomain availability result",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubdomainAvailabilityResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Missing subdomain query or invalid slug format"
+          }
+        },
+        "summary": "Check tenant subdomain availability",
+        "tags": [
+          "tenants"
+        ]
+      }
+    },
+    "/api/v1/tenants": {
+      "post": {
+        "description": "Public pre-tenant endpoint that registers a business tenant with a globally unique subdomain.",
+        "operationId": "TenantsController_create_v1",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTenantDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Tenant registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TenantResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation failed (email, slug, or forbidden property)"
+          },
+          "409": {
+            "description": "Subdomain already taken"
+          }
+        },
+        "summary": "Register a tenant",
+        "tags": [
+          "tenants"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Bookings API",
+    "description": "Multitenant SaaS booking platform backend. Routes are served under the global prefix \"api\" with URI versioning (/api/v1/...).",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "tenants",
+      "description": "Tenant registration (public, pre-tenant)"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "SubdomainAvailabilityResponseDto": {
+        "type": "object",
+        "properties": {
+          "available": {
+            "type": "boolean",
+            "description": "Whether the subdomain is free to register",
+            "example": true
+          }
+        },
+        "required": [
+          "available"
+        ]
+      },
+      "CreateTenantDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Business display name",
+            "example": "Barberia Paco"
+          },
+          "ownerEmail": {
+            "type": "string",
+            "description": "Owner contact email",
+            "format": "email",
+            "example": "paco@barberia-paco.test"
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Globally unique tenant subdomain slug",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "example": "barberia-paco"
+          }
+        },
+        "required": [
+          "name",
+          "ownerEmail",
+          "subdomain"
+        ]
+      },
+      "TenantResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Tenant identifier",
+            "example": "665f1b2c9c1e4a0012ab34cd"
+          },
+          "name": {
+            "type": "string",
+            "description": "Business display name",
+            "example": "Barberia Paco"
+          },
+          "subdomain": {
+            "type": "string",
+            "description": "Globally unique tenant subdomain slug",
+            "example": "barberia-paco"
+          },
+          "status": {
+            "type": "string",
+            "description": "Tenant lifecycle status",
+            "enum": [
+              "active",
+              "suspended"
+            ],
+            "example": "active"
+          },
+          "portalUrl": {
+            "type": "string",
+            "description": "Public portal URL of the tenant",
+            "example": "https://barberia-paco.yourplatform.com"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "subdomain",
+          "status",
+          "portalUrl"
+        ]
+      }
+    }
+  }
+}

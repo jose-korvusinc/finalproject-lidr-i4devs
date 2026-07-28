@@ -1,0 +1,114 @@
+<section class="service-form">
+  <form class="service-form__form" (submit)="$event.preventDefault(); onSave()">
+    @let nameField = form.name;
+    @let nameInvalid = nameField().touched() && nameField().invalid();
+    <div class="field">
+      <label for="service-name" i18n="@@catalog.service.name.label">Service name</label>
+      <input
+        type="text"
+        id="service-name"
+        [formField]="nameField"
+        [attr.aria-invalid]="nameInvalid ? 'true' : null"
+        [attr.aria-describedby]="nameInvalid ? 'service-name-error' : null"
+      />
+      @if (nameInvalid) {
+        <p
+          id="service-name-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@catalog.service.name.error"
+        >
+          Enter a service name
+        </p>
+      }
+    </div>
+
+    @let priceField = form.price;
+    @let priceInvalid = priceField().touched() && priceField().invalid();
+    <div class="field">
+      <label for="service-price" i18n="@@catalog.service.price.label">Price</label>
+      <input
+        type="text"
+        id="service-price"
+        [formField]="priceField"
+        [attr.aria-invalid]="priceInvalid ? 'true' : null"
+        [attr.aria-describedby]="priceInvalid ? 'service-price-error' : null"
+      />
+      @if (priceInvalid) {
+        <p
+          id="service-price-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@catalog.service.price.error"
+        >
+          Enter a valid price
+        </p>
+      }
+    </div>
+
+    @let durationField = form.durationMinutes;
+    @let durationInvalid = durationField().touched() && durationField().invalid();
+    <div class="field">
+      <label for="service-duration" i18n="@@catalog.service.duration.label"
+        >Duration in minutes</label
+      >
+      <input
+        type="number"
+        id="service-duration"
+        [formField]="durationField"
+        [attr.aria-invalid]="durationInvalid ? 'true' : null"
+        [attr.aria-describedby]="durationInvalid ? 'service-duration-error' : null"
+      />
+      @if (durationInvalid) {
+        <p
+          id="service-duration-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@catalog.service.duration.error"
+        >
+          Enter a duration greater than zero minutes
+        </p>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="service-form__save"
+      [disabled]="saveDisabled()"
+      i18n="@@catalog.service.save"
+    >
+      Save service
+    </button>
+  </form>
+
+  @if (services().length) {
+    <ul class="service-form__list">
+      @for (s of services(); track s.id) {
+        <li class="service-form__item">
+          <span class="service-form__item-name">{{ s.name }}</span>
+          <button
+            type="button"
+            class="service-form__edit"
+            (click)="onEdit(s)"
+            i18n="@@catalog.service.edit"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            class="service-form__deactivate"
+            (click)="onDeactivate(s)"
+            i18n="@@catalog.service.deactivate"
+          >
+            Deactivate
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="service-form__empty" role="status" i18n="@@catalog.service.empty">No services yet</p>
+  }
+</section>

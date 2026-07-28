@@ -1,0 +1,71 @@
+@startuml classes_design_dtos
+' =====================================================================
+' Design Classes — package "API — DTOs (validation)" (HU1-HU4)
+' Detail of classes_design.puml. Request/response contracts validated
+' by NestJS ValidationPipe. Enums come from the Domain package.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+skinparam linetype ortho
+
+title Design Classes — API DTOs · HU1–HU4
+
+package "API — DTOs (validation)" {
+  class RegisterBusinessDto <<DTO>> {
+    + name: string
+    + ownerEmail: string
+    + subdomain: string
+  }
+  class WorkingHoursConfigDto <<DTO>> {
+    + rules: DayRuleDto[]
+  }
+  class DayRuleDto <<DTO>> {
+    + weekday: Weekday
+    + isWorkingDay: boolean
+    + openTime: string
+    + closeTime: string
+    + breakStart: string
+    + breakEnd: string
+  }
+  class CreateServiceDto <<DTO>> {
+    + name: string
+    + price: number
+    + durationMinutes: number
+  }
+  class CreateEmployeeDto <<DTO>> {
+    + name: string
+    + email: string
+  }
+  class AssignServiceDto <<DTO>> {
+    + serviceId: string
+    + employeeId: string
+  }
+  class AvailabilityQueryDto <<DTO>> {
+    + serviceId: string
+    + employeeId: string
+    + day: Date
+  }
+  class CreateBookingDto <<DTO>> {
+    + serviceId: string
+    + employeeId: string
+    + slotStart: Date
+    + customer: CustomerDto
+  }
+  class CustomerDto <<DTO>> {
+    + name: string
+    + email: string
+    + phone: string
+  }
+}
+
+' ---- external reference (Domain package) ----
+enum Weekday <<from Domain>> {
+}
+
+' ---- intra-package composition ----
+WorkingHoursConfigDto *-- "1..*" DayRuleDto
+CreateBookingDto *-- "1" CustomerDto
+DayRuleDto ..> Weekday : reuses
+@enduml

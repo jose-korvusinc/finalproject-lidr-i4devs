@@ -1,0 +1,89 @@
+@startuml sequence_hu4_public-booking
+' =====================================================================
+' Sequence Diagram (RUP Logical/Process View) - HU4
+' Scenario: Public booking (main flow + concurrency conflict + invalid
+' data). Ends by leaving the slot Pending and handing off to OTP (HU5).
+' Refines state-diagram_hu4.puml. Stack: Angular -> NestJS -> MongoDB/Redis.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+
+title Sequence — HU4: Public Booking (availability, slot lock, pending + OTP hand-off)
+
+actor "End Customer" as customer
+boundary "PublicBookingWidgetComponent\n(Angular)" as ui
+control "PublicBookingController\n(NestJS)" as ctrl
+control "BookingService" as svc
+control "AvailabilityEngineService" as engine
+control "SlotLockService" as lock
+entity "AppointmentRepository" as arepo
+entity "CustomerRepository" as crepo
+database "MongoDB" as db
+database "Redis\n(SlotLocking)" as redis
+control "OtpVerificationService\n<<HU5 frontier>>" as otp
+
+== Query availability ==
+customer -> ui : openWidget + selectServiceAndEmployee
+activate ui
+ui -> ctrl : GET /availability\nAvailabilityQueryDto
+activate ctrl
+ctrl -> svc : findAvailability(q)
+activate svc
+svc -> engine : computeSlots(serviceId, employeeId, day)
+activate engine
+engine -> db : read working hours + booked appointments
+db --> engine : rules + appointments
+engine --> svc : TimeSlot[]
+deactivate engine
+svc --> ctrl : TimeSlot[]
+ctrl --> ui : 200 OK (slots)
+deactivate svc
+ui --> customer : showSlots [response < 200 ms]
+deactivate ctrl
+
+== Choose slot + submit data ==
+customer -> ui : chooseSlot + submitData(name, email, phone)
+ui -> ctrl : POST /bookings\nCreateBookingDto
+activate ctrl
+
+alt invalid data (e.g. bad email format)
+  ctrl --> ui : 400 Bad Request\n(ValidationPipe on CreateBookingDto)
+  ui --> customer : validationError (no slot locked)
+else valid data
+  ctrl -> svc : createPendingBooking(dto)
+  activate svc
+  svc -> lock : lock(slotKey, ttl)
+  activate lock
+  lock -> redis : SET slotKey NX EX ttl
+  redis --> lock : acquired | nil
+  lock --> svc : locked (true|false)
+  deactivate lock
+
+  alt slot free (lock acquired)
+    svc -> crepo : upsertCustomer(tenantId, data)
+    crepo -> db : upsert
+    svc -> arepo : create(Appointment{ status: PENDING })
+    arepo -> db : insert
+    db --> arepo : ok
+    svc -> otp : startVerification(appointmentId)
+    note right of otp : Begins HU5 OTP flow (out of HU4 scope)
+    svc --> ctrl : AppointmentDto (Pending)
+    ctrl --> ui : 201 Created (pending)
+    ui --> customer : booking pending — check email for code
+  else slot locked by another customer (concurrency)
+    svc --> ctrl : throw ConflictException
+    ctrl --> ui : 409 Conflict (slotUnavailable)
+    ui --> customer : slot no longer available — choose another
+  end
+  deactivate svc
+end
+deactivate ctrl
+deactivate ui
+
+note over redis
+  Temporary slot lock (TTL) prevents double-booking
+  during the pending verification window.
+end note
+@enduml

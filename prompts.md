@@ -6,8 +6,9 @@
 3. [Arquitectura del sistema](sections_prompts/03-system-architecture.md)
 4. [Modelo de datos](sections_prompts/04-data-model.md)
 5. [Especificación de la API](sections_prompts/05-api-specification.md)
-6. [Tickets de trabajo](sections_prompts/06-work-tickets.md)
-7. [Pull requests](sections_prompts/07-pull-requests.md)
+6. [Sistema agéntico](sections_prompts/06-agentic-system.md)
+7. [Tickets de trabajo](sections_prompts/07-work-tickets.md)
+8. [Pull requests](sections_prompts/08-pull-requests.md)
 
 ---
 
@@ -53,12 +54,18 @@
 
 ---
 
-### 6. Tickets de Trabajo
+### 6. Sistema agéntico
 
-[Ver prompts de tickets de trabajo](sections_prompts/06-work-tickets.md)
+[Ver prompts de sistema agéntico](sections_prompts/06-agentic-system.md)
 
 ---
 
-### 7. Pull Requests
+### 7. Tickets de Trabajo
 
-[Ver prompts de pull requests](sections_prompts/07-pull-requests.md)
+[Ver prompts de tickets de trabajo](sections_prompts/07-work-tickets.md)
+
+---
+
+### 8. Pull Requests
+
+[Ver prompts de pull requests](sections_prompts/08-pull-requests.md)

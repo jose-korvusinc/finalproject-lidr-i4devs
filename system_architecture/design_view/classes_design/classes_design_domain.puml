@@ -1,0 +1,113 @@
+@startuml classes_design_domain
+' =====================================================================
+' Design Classes — package "Domain Documents (MongoDB)" (HU1-HU4)
+' Detail of classes_design.puml. Names identical to domain_model.puml.
+' DESIGN level: types, visibility and multiplicities.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+skinparam linetype ortho
+
+title Design Classes — Domain Documents (MongoDB) · HU1–HU4
+
+package "Domain Documents (MongoDB)" {
+  class Business <<document>> {
+    + tenantId: string
+    + name: string
+    + subdomain: string
+    + status: TenantStatus
+    + createdAt: Date
+  }
+  class BusinessOwner <<document>> {
+    + name: string
+    + email: string
+  }
+  class WorkingHours <<document>> {
+    + tenantId: string
+    + weekday: Weekday
+    + isWorkingDay: boolean
+    + openTime: string
+    + closeTime: string
+    + breakStart: string
+    + breakEnd: string
+  }
+  class Service <<document>> {
+    + tenantId: string
+    + name: string
+    + price: number
+    + durationMinutes: number
+    + active: boolean
+  }
+  class Employee <<document>> {
+    + tenantId: string
+    + name: string
+    + email: string
+    + serviceIds: string[]
+  }
+  class Customer <<document>> {
+    + tenantId: string
+    + name: string
+    + email: string
+    + phone: string
+  }
+  class Appointment <<document>> {
+    + tenantId: string
+    + serviceId: string
+    + employeeId: string
+    + customerId: string
+    + startTime: Date
+    + endTime: Date
+    + status: BookingStatus
+  }
+  class TimeSlot <<value object>> {
+    + start: Date
+    + end: Date
+    + employeeId: string
+    + available: boolean
+  }
+
+  enum TenantStatus {
+    ACTIVE
+    SUSPENDED
+  }
+  enum Weekday {
+    MON
+    TUE
+    WED
+    THU
+    FRI
+    SAT
+    SUN
+  }
+  enum BookingStatus {
+    PENDING
+    CONFIRMED
+    CANCELLED
+  }
+}
+
+note bottom of Appointment
+  HU4 only creates appointments in PENDING state
+  (CONFIRMED / CANCELLED belong to HU5 and later).
+end note
+
+' ---- Domain relationships (with multiplicities) ----
+BusinessOwner "1" --> "1" Business : owns
+Business "1" --> "1..*" Employee : employs
+Business "1" --> "1..*" Service : offers
+Business "1" --> "1..*" WorkingHours : defines
+Employee "1..*" -- "1..*" Service : is qualified for
+WorkingHours "1" --> "0..*" TimeSlot : delimits availability of
+Employee "1" --> "0..*" TimeSlot : is available in
+Customer "1" --> "0..*" Appointment : books
+Appointment "0..*" --> "1" Service : is for
+Appointment "0..*" --> "1" Employee : is attended by
+Appointment "1" --> "1" TimeSlot : occupies
+
+' ---- Typed enum usage ----
+Business ..> TenantStatus
+WorkingHours ..> Weekday
+Appointment ..> BookingStatus
+@enduml

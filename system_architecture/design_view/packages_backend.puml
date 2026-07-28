@@ -1,0 +1,77 @@
+@startuml packages_backend
+' =====================================================================
+' Package Diagram (RUP Development View) - code organization
+' Scope: HU1-HU4. Shows layered dependencies (no cycles) across the
+' Angular frontend and the NestJS backend. Frontend depends on the
+' backend only through the REST contract.
+' =====================================================================
+skinparam shadowing false
+skinparam defaultFontName "Helvetica"
+skinparam backgroundColor White
+skinparam ArrowColor #333333
+left to right direction
+
+title Packages — Frontend/Backend organization (HU1–HU4)
+
+package "frontend (Angular 22)" as frontend {
+  package "features" as features {
+    [tenant-registration]
+    [schedule-configuration]
+    [catalog-management]
+    [public-booking-widget]
+  }
+  package "core" as core {
+    [api-client]
+    [tenant-context]
+  }
+}
+
+package "backend (NestJS 11)" as backend {
+  package "presentation\n(controllers)" as presentation {
+    [business.controller]
+    [working-hours.controller]
+    [catalog.controller]
+    [public-booking.controller]
+  }
+  package "application\n(services)" as application {
+    [business.service]
+    [working-hours.service]
+    [catalog.service]
+    [booking.service]
+    [availability-engine.service]
+    [slot-lock.service]
+  }
+  package "domain\n(schemas & contracts)" as domain {
+    [documents (Business, WorkingHours, Service, Employee, Customer, Appointment)]
+    [repository interfaces]
+  }
+  package "infrastructure\n(persistence)" as infrastructure {
+    [mongoose repositories]
+    [redis slot store]
+  }
+  package "common\n(cross-cutting)" as common {
+    [tenant-context.middleware]
+    [dtos + validation]
+  }
+}
+
+' --- Frontend internal dependencies ---
+features ..> core
+
+' --- Frontend -> Backend only via REST contract ---
+frontend ..> presentation : REST / HTTPS
+
+' --- Backend layered dependencies (acyclic) ---
+presentation ..> application
+presentation ..> common
+application ..> domain
+application ..> common
+infrastructure ..> domain
+application ..> infrastructure : via repository interfaces (DIP)
+
+note bottom of domain
+  Domain depends on nothing; infrastructure and
+  application depend on it (Dependency Inversion).
+  No cyclic dependencies between packages.
+end note
+@enduml

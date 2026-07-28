@@ -1,0 +1,51 @@
+<section class="booking-selection">
+  <fieldset class="booking-selection__group">
+    <legend i18n="@@booking.selection.serviceLegend">Choose a service</legend>
+    <ul class="booking-selection__options">
+      @for (service of services(); track service.id) {
+        <li>
+          <button
+            type="button"
+            class="booking-selection__option"
+            [class.is-selected]="serviceId() === service.id"
+            [attr.aria-pressed]="serviceId() === service.id"
+            (click)="chooseService(service.id)"
+          >
+            {{ service.name }}
+          </button>
+        </li>
+      }
+    </ul>
+  </fieldset>
+
+  @if (serviceId()) {
+    <fieldset class="booking-selection__group">
+      <legend i18n="@@booking.selection.employeeLegend">Choose a professional</legend>
+      <ul class="booking-selection__options">
+        @for (employee of eligibleEmployees(); track employee.id) {
+          <li>
+            <button
+              type="button"
+              class="booking-selection__option"
+              [class.is-selected]="employeeId() === employee.id"
+              [attr.aria-pressed]="employeeId() === employee.id"
+              (click)="chooseEmployee(employee.id)"
+            >
+              {{ employee.name }}
+            </button>
+          </li>
+        }
+      </ul>
+    </fieldset>
+  }
+
+  <button
+    type="button"
+    class="booking-selection__continue"
+    [disabled]="!canContinue()"
+    (click)="continue()"
+    i18n="@@booking.selection.continue"
+  >
+    Continue
+  </button>
+</section>

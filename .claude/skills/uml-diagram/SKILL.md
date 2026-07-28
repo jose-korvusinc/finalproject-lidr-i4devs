@@ -47,10 +47,10 @@ Pregunta SOLO lo imprescindible si falta algo esencial:
    - `sections_readme/05-api-specification.md` (operaciones, contratos),
    - `sections_readme/03-system-architecture.md` (componentes, despliegue, C4),
    - `sections_readme/02-user-stories.md` (actores y casos de uso),
-   - y el código relevante (`backend/` NestJS, `frontend/` Angular) cuando exista.
+   - y el código relevante (`code/backend/` NestJS, `code/frontend/` Angular) cuando exista.
 4. **Generar el `.puml`** aplicando la plantilla y el bloque de estilo base de
    `plantuml-syntax.md` (skinparam común, alias cortos, multiplicidades, etiquetas en
-   español, `title` descriptivo).
+   inglés, `title` descriptivo).
 5. **Respetar "una intención por diagrama"**: si el alcance es grande, proponer dividirlo.
 6. **Guardar el archivo** en la carpeta de la vista correspondiente bajo
    `system_architecture/` (crear subcarpeta si no existe):
@@ -61,14 +61,16 @@ Pregunta SOLO lo imprescindible si falta algo esencial:
    | Clases, Objetos | Lógica | `system_architecture/domain_model/` |
    | Secuencia, Comunicación, Estados | Lógica/Proceso | `system_architecture/design_view/` |
    | Actividad | Proceso | `system_architecture/design_view/` |
-   | Componentes, Paquetes | Desarrollo | `system_architecture/implementation_view/` |
+   | Componentes, Paquetes | Desarrollo | `system_architecture/design_view/` |
    | Despliegue | Física | `system_architecture/deploy_view/` |
 
-   Nomenclatura del archivo: `<tipo>_<tema>.puml` (p. ej. `clases_reserva.puml`,
-   `secuencia_reservar_cita.puml`).
-7. **Validar y renderizar**: si hay `plantuml` disponible (Java + Graphviz), renderizar a
-   `.png` junto al `.puml`. Si no, indicar el comando exacto y no fallar por ello:
-   `plantuml -tpng system_architecture/<vista>/<archivo>.puml`
+   Nomenclatura del archivo: `<tipo>_<tema>.puml` (p. ej. `classes_reservation.puml`,
+   `sequence_book-appointment.puml`).
+7. **Validar y renderizar**: para exportar el `.puml` a imagen, usa la skill `uml-export`
+   (`.claude/skills/uml-export/SKILL.md`), que autodetecta el motor de render (plantuml CLI,
+   Docker o el jar de la extensión) y deja el `.png` junto al `.puml`. No falles si no hay
+   motor: la propia skill indica el comando a ejecutar. Ejemplo:
+   `.claude/skills/uml-export/scripts/render-plantuml.sh system_architecture/<vista>/<archivo>.puml`
 8. **Devolver al usuario**: ruta del `.puml`, el bloque PlantUML generado y la vista/fase
    RUP a la que pertenece.
 
@@ -76,7 +78,7 @@ Pregunta SOLO lo imprescindible si falta algo esencial:
 
 - [ ] Empieza con `@startuml`, termina con `@enduml` y tiene `title`.
 - [ ] Contiene elementos de UNA sola vista 4+1 (no mezcla preocupaciones).
-- [ ] Nombres en español y consistentes con el modelo de datos y el código.
+- [ ] Nombres en inglés y consistentes con el modelo de datos y el código.
 - [ ] Sintaxis conforme a `plantuml-syntax.md` (relaciones, estereotipos, fragmentos).
 - [ ] Trazable a un caso de uso o requisito si es un diagrama de diseño.
 - [ ] Nivel de detalle acorde a la fase (análisis sin tipos / diseño con tipos).

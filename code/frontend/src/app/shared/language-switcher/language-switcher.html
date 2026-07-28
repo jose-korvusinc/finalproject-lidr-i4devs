@@ -1,0 +1,53 @@
+<nav class="language-switcher" aria-label="Language" i18n-aria-label="@@languageSwitcher.label">
+  <a
+    class="language-switcher__option"
+    [class.is-active]="activeLocale === 'es'"
+    [attr.aria-current]="activeLocale === 'es' ? 'true' : null"
+    href="/"
+    hreflang="es"
+    aria-label="Switch to Spanish"
+    i18n-aria-label="@@languageSwitcher.spanish"
+  >
+    <span class="language-switcher__flag" aria-hidden="true">
+      <svg viewBox="0 0 3 2" width="24" height="16" role="img" focusable="false">
+        <rect width="3" height="2" fill="#c60b1e" />
+        <rect y="0.5" width="3" height="1" fill="#ffc400" />
+      </svg>
+    </span>
+    <span class="language-switcher__code">ES</span>
+  </a>
+
+  <a
+    class="language-switcher__option"
+    [class.is-active]="activeLocale === 'en'"
+    [attr.aria-current]="activeLocale === 'en' ? 'true' : null"
+    href="/en/"
+    hreflang="en"
+    aria-label="Switch to English"
+    i18n-aria-label="@@languageSwitcher.english"
+  >
+    <span class="language-switcher__flag" aria-hidden="true">
+      <svg viewBox="0 0 60 30" width="24" height="16" role="img" focusable="false">
+        <clipPath id="languageSwitcherUk"><rect width="60" height="30" /></clipPath>
+        <clipPath id="languageSwitcherUkDiagonal">
+          <path
+            d="M30,15 L60,0 V0 H30 z M30,15 L60,30 V30 H30 z M30,15 L0,30 V30 H30 z M30,15 L0,0 V0 H30 z"
+          />
+        </clipPath>
+        <g clip-path="url(#languageSwitcherUk)">
+          <rect width="60" height="30" fill="#012169" />
+          <path d="M0,0 L60,30 M60,0 L0,30" stroke="#ffffff" stroke-width="6" />
+          <path
+            d="M0,0 L60,30 M60,0 L0,30"
+            clip-path="url(#languageSwitcherUkDiagonal)"
+            stroke="#c8102e"
+            stroke-width="4"
+          />
+          <path d="M30,0 V30 M0,15 H60" stroke="#ffffff" stroke-width="10" />
+          <path d="M30,0 V30 M0,15 H60" stroke="#c8102e" stroke-width="6" />
+        </g>
+      </svg>
+    </span>
+    <span class="language-switcher__code">EN</span>
+  </a>
+</nav>

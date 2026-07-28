@@ -1,0 +1,38 @@
+<section class="schedule-panel">
+  @if (loadState() === 'loading') {
+    <p class="schedule-panel__status" role="status" aria-busy="true" i18n="@@schedule.loading">
+      Loading schedule…
+    </p>
+  } @else if (loadState() === 'error') {
+    <p class="schedule-panel__error" role="alert" aria-live="assertive" i18n="@@schedule.loadError">
+      The schedule could not be loaded. Please try again.
+    </p>
+  } @else {
+    @if (saveState() === 'saving') {
+      <p class="schedule-panel__status" role="status" aria-busy="true" i18n="@@schedule.saving">
+        Saving schedule…
+      </p>
+    }
+    @if (saveState() === 'saved') {
+      <p
+        class="schedule-panel__confirmation"
+        role="status"
+        aria-live="polite"
+        i18n="@@schedule.saved"
+      >
+        Schedule saved.
+      </p>
+    }
+    @if (saveState() === 'error') {
+      <p
+        class="schedule-panel__error"
+        role="alert"
+        aria-live="assertive"
+        i18n="@@schedule.saveError"
+      >
+        The schedule could not be saved. Please try again.
+      </p>
+    }
+    <app-schedule-form [initialSchedule]="days()" (save)="onSave($event)" />
+  }
+</section>

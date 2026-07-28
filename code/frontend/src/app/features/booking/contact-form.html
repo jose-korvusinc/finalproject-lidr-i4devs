@@ -1,0 +1,84 @@
+<section class="contact-form">
+  <form class="contact-form__form" (submit)="$event.preventDefault(); onConfirm()">
+    @let nameField = form.name;
+    @let nameInvalid = nameField().touched() && nameField().invalid();
+    <div class="field">
+      <label for="contact-name" i18n="@@booking.contact.name.label">Full name</label>
+      <input
+        type="text"
+        id="contact-name"
+        [formField]="nameField"
+        [attr.aria-invalid]="nameInvalid ? 'true' : null"
+        [attr.aria-describedby]="nameInvalid ? 'contact-name-error' : null"
+      />
+      @if (nameInvalid) {
+        <p
+          id="contact-name-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@booking.contact.name.error"
+        >
+          Enter your full name
+        </p>
+      }
+    </div>
+
+    @let emailField = form.email;
+    @let emailInvalid = emailField().touched() && emailField().invalid();
+    <div class="field">
+      <label for="contact-email" i18n="@@booking.contact.email.label">Email</label>
+      <input
+        type="email"
+        id="contact-email"
+        [formField]="emailField"
+        [attr.aria-invalid]="emailInvalid ? 'true' : null"
+        [attr.aria-describedby]="emailInvalid ? 'contact-email-error' : null"
+      />
+      @if (emailInvalid) {
+        <p
+          id="contact-email-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@booking.contact.email.error"
+        >
+          Enter a valid email address
+        </p>
+      }
+    </div>
+
+    @let phoneField = form.phone;
+    @let phoneInvalid = phoneField().touched() && phoneField().invalid();
+    <div class="field">
+      <label for="contact-phone" i18n="@@booking.contact.phone.label">Phone number</label>
+      <input
+        type="tel"
+        id="contact-phone"
+        [formField]="phoneField"
+        [attr.aria-invalid]="phoneInvalid ? 'true' : null"
+        [attr.aria-describedby]="phoneInvalid ? 'contact-phone-error' : null"
+      />
+      @if (phoneInvalid) {
+        <p
+          id="contact-phone-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@booking.contact.phone.error"
+        >
+          Enter a valid phone number
+        </p>
+      }
+    </div>
+
+    <button
+      type="submit"
+      class="contact-form__confirm"
+      [disabled]="saveDisabled()"
+      i18n="@@booking.contact.confirm"
+    >
+      Confirm
+    </button>
+  </form>
+</section>

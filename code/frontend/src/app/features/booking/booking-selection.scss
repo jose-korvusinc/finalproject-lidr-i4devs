@@ -1,0 +1,47 @@
+.booking-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  &__group {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__option {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+
+    &.is-selected {
+      font-weight: 700;
+    }
+  }
+
+  &__continue {
+    align-self: stretch;
+    padding: 0.75rem 1rem;
+  }
+
+  @media (min-width: 48rem) {
+    &__options {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    &__continue {
+      align-self: flex-end;
+    }
+  }
+}

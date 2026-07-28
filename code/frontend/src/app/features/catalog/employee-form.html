@@ -1,0 +1,92 @@
+<section class="employee-form">
+  <form class="employee-form__form" (submit)="$event.preventDefault(); onSave()">
+    @let nameField = form.name;
+    @let nameInvalid = nameField().touched() && nameField().invalid();
+    <div class="field">
+      <label for="employee-name" i18n="@@catalog.employee.name.label">Employee name</label>
+      <input
+        type="text"
+        id="employee-name"
+        [formField]="nameField"
+        [attr.aria-invalid]="nameInvalid ? 'true' : null"
+        [attr.aria-describedby]="nameInvalid ? 'employee-name-error' : null"
+      />
+      @if (nameInvalid) {
+        <p
+          id="employee-name-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@catalog.employee.name.error"
+        >
+          Enter an employee name
+        </p>
+      }
+    </div>
+
+    @let emailField = form.email;
+    @let emailInvalid = emailField().touched() && emailField().invalid();
+    <div class="field">
+      <label for="employee-email" i18n="@@catalog.employee.email.label">Email</label>
+      <input
+        type="email"
+        id="employee-email"
+        [formField]="emailField"
+        [attr.aria-invalid]="emailInvalid ? 'true' : null"
+        [attr.aria-describedby]="emailInvalid ? 'employee-email-error' : null"
+      />
+      @if (emailInvalid) {
+        <p
+          id="employee-email-error"
+          class="field__error"
+          role="alert"
+          aria-live="polite"
+          i18n="@@catalog.employee.email.error"
+        >
+          Enter a valid email address
+        </p>
+      }
+    </div>
+
+    <fieldset class="employee-form__services">
+      <legend i18n="@@catalog.employee.services.label">Assigned services</legend>
+      @for (s of availableServices(); track s.id) {
+        <label class="employee-form__service">
+          <input type="checkbox" [checked]="isAssigned(s.id)" (change)="toggleService(s.id)" />
+          <span>{{ s.name }}</span>
+        </label>
+      }
+    </fieldset>
+
+    <button
+      type="submit"
+      class="employee-form__save"
+      [disabled]="saveDisabled()"
+      i18n="@@catalog.employee.save"
+    >
+      Save employee
+    </button>
+  </form>
+
+  @if (employees().length) {
+    <ul class="employee-form__list">
+      @for (e of employees(); track e.id) {
+        <li class="employee-form__item">
+          <span class="employee-form__item-name">{{ e.name }}</span>
+          <button
+            type="button"
+            class="employee-form__edit"
+            (click)="onEdit(e)"
+            i18n="@@catalog.employee.edit"
+          >
+            Edit
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <p class="employee-form__empty" role="status" i18n="@@catalog.employee.empty">
+      No employees yet
+    </p>
+  }
+</section>

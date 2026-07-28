@@ -1,6 +1,15 @@
 import { Routes } from '@angular/router';
+import { registrationHostGuard } from './core/registration-host.guard';
 
 export const routes: Routes = [
+  {
+    path: '',
+    canMatch: [registrationHostGuard],
+    loadChildren: () =>
+      import('./features/tenant-registration/tenant-registration.routes').then(
+        (m) => m.tenantRegistrationRoutes,
+      ),
+  },
   {
     path: '',
     loadChildren: () => import('./features/home/home.routes').then((m) => m.homeRoutes),

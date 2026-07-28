@@ -1,9 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
 import {
+  IsEmail,
+  IsNotEmpty,
+  IsNotIn,
+  IsString,
+  Matches,
+} from 'class-validator';
+import {
+  RESERVED_SUBDOMAINS,
   SUBDOMAIN_PATTERN,
   SUBDOMAIN_PATTERN_SOURCE,
-} from './subdomain.constants';
+} from '../subdomain.constants';
 
 export class CreateTenantDto {
   @ApiProperty({
@@ -23,11 +30,14 @@ export class CreateTenantDto {
   ownerEmail: string;
 
   @ApiProperty({
-    description: 'Globally unique tenant subdomain slug',
+    description:
+      'Globally unique tenant subdomain slug. Platform-reserved slugs are rejected.',
     pattern: SUBDOMAIN_PATTERN_SOURCE,
+    not: { enum: [...RESERVED_SUBDOMAINS] },
     example: 'barberia-paco',
   })
   @IsString()
   @Matches(SUBDOMAIN_PATTERN)
+  @IsNotIn([...RESERVED_SUBDOMAINS])
   subdomain: string;
 }

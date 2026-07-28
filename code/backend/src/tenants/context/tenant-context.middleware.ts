@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { NextFunction, Request, Response } from 'express';
 import { Model } from 'mongoose';
 import { Business, BusinessDocument } from '../schemas/business.schema';
+import { isReservedSubdomain } from '../subdomain.constants';
 import { tenantStorage } from './tenant-context.storage';
 
 @Injectable()
@@ -29,7 +30,9 @@ export class TenantContextMiddleware implements NestMiddleware {
 
   private isReservedHost(hostname: string, label: string): boolean {
     return (
-      hostname === 'localhost' || label === 'www' || this.isIpAddress(hostname)
+      hostname === 'localhost' ||
+      isReservedSubdomain(label) ||
+      this.isIpAddress(hostname)
     );
   }
 

@@ -10,6 +10,7 @@ import {
   BusinessDocument,
   TenantStatus,
 } from './schemas/business.schema';
+import { isReservedSubdomain } from './subdomain.constants';
 
 @Injectable()
 export class TenantsService {
@@ -20,6 +21,9 @@ export class TenantsService {
   ) {}
 
   async isSubdomainAvailable(subdomain: string): Promise<boolean> {
+    if (isReservedSubdomain(subdomain)) {
+      return false;
+    }
     const existing = await this.businessModel.exists({ subdomain });
     return !existing;
   }

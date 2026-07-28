@@ -123,8 +123,17 @@
           },
           "subdomain": {
             "type": "string",
-            "description": "Globally unique tenant subdomain slug",
+            "description": "Globally unique tenant subdomain slug. Platform-reserved slugs are rejected.",
             "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "not": {
+              "enum": [
+                "registro",
+                "www",
+                "api",
+                "admin",
+                "app"
+              ]
+            },
             "example": "barberia-paco"
           }
         },

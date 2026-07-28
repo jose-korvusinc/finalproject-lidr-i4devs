@@ -105,6 +105,16 @@ describe('WorkingHourDto', () => {
       });
       expect(hasErrorOn(errors, 'breakStart')).toBe(true);
     });
+
+    it('rejects an empty break string: absent means omitted, not ""', async () => {
+      const errors = await validatePayload({
+        ...validWorkingDay,
+        breakStart: '',
+        breakEnd: '',
+      });
+      expect(hasErrorOn(errors, 'breakStart')).toBe(true);
+      expect(hasErrorOn(errors, 'breakEnd')).toBe(true);
+    });
   });
 
   describe('range invariants', () => {

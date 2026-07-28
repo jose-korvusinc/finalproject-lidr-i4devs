@@ -190,6 +190,49 @@ describe('ScheduleForm', () => {
     }
   });
 
+  it('omits the break fields instead of emitting empty strings when the day has no break', async () => {
+    const { fixture, component, root } = await setup([
+      { weekday: 'mon', isWorkingDay: true, openTime: '09:00', closeTime: '18:00' },
+      offDay('tue'),
+      offDay('wed'),
+      offDay('thu'),
+      offDay('fri'),
+      offDay('sat'),
+      offDay('sun'),
+    ]);
+
+    let emitted: WeeklyScheduleDay[] | undefined;
+    component.save.subscribe((value) => (emitted = value));
+
+    expect(component.saveDisabled()).toBe(false);
+    buttonByName(root, /save/i)!.click();
+    await settle(fixture);
+
+    const monday = emitted!.find((day) => day.weekday === 'mon');
+    expect(monday).toEqual({
+      weekday: 'mon',
+      isWorkingDay: true,
+      openTime: '09:00',
+      closeTime: '18:00',
+    });
+    expect(monday).not.toHaveProperty('breakStart');
+    expect(monday).not.toHaveProperty('breakEnd');
+  });
+
+  it('omits the time fields of a non-working day', async () => {
+    const { fixture, component, root } = await setup(ALL_OFF_WEEK);
+
+    let emitted: WeeklyScheduleDay[] | undefined;
+    component.save.subscribe((value) => (emitted = value));
+
+    buttonByName(root, /save/i)!.click();
+    await settle(fixture);
+
+    for (const day of emitted!) {
+      expect(day).toEqual({ weekday: day.weekday, isWorkingDay: false });
+    }
+  });
+
   it('reports an accessible error and disables Save when the break falls outside working hours', async () => {
     const { fixture, root } = await setup([
       {

@@ -122,7 +122,7 @@ jobs:
           SSH_USER: ${{ vars.SSH_USER }}
         run: |
           ssh -i key.pem "$SSH_USER@$SSH_HOST" 'bash -euo pipefail -s' <<'EOF'
-            sudo systemctl is-active --quiet api
+            systemctl is-active --quiet api
             for i in $(seq 1 15); do
               code="$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/ || true)"
               if [ -n "$code" ] && [ "$code" != "000" ]; then

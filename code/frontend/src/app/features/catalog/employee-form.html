@@ -60,7 +60,7 @@
 
     <button
       type="submit"
-      class="employee-form__save"
+      class="button button--primary employee-form__save"
       [disabled]="saveDisabled()"
       i18n="@@catalog.employee.save"
     >
@@ -75,7 +75,7 @@
           <span class="employee-form__item-name">{{ e.name }}</span>
           <button
             type="button"
-            class="employee-form__edit"
+            class="button button--ghost employee-form__edit"
             (click)="onEdit(e)"
             i18n="@@catalog.employee.edit"
           >

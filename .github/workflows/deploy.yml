@@ -52,7 +52,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Open port 22 for this runner
         id: sg
@@ -77,7 +77,7 @@ jobs:
       - name: Render backend env file
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
-          MONGODB_DB: ${{ secrets.MONGODB_DB }}
+          MONGODB_DB: ${{ vars.MONGODB_DB }}
         run: |
           install -m 600 /dev/null api.env
           {
@@ -89,8 +89,8 @@ jobs:
 
       - name: Copy artifacts and env to the host
         env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ vars.SSH_HOST }}
+          SSH_USER: ${{ vars.SSH_USER }}
         run: |
           rsync -az --delete -e "ssh -i key.pem" \
             code/frontend/dist/frontend/browser/ "$SSH_USER@$SSH_HOST:/var/www/app/"
@@ -103,8 +103,8 @@ jobs:
 
       - name: Install prod deps and reload services
         env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ vars.SSH_HOST }}
+          SSH_USER: ${{ vars.SSH_USER }}
         run: |
           ssh -i key.pem "$SSH_USER@$SSH_HOST" 'bash -euo pipefail -s' <<'EOF'
             export NVM_DIR="$HOME/.nvm"
@@ -118,8 +118,8 @@ jobs:
 
       - name: Verify deployment
         env:
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ vars.SSH_HOST }}
+          SSH_USER: ${{ vars.SSH_USER }}
         run: |
           ssh -i key.pem "$SSH_USER@$SSH_HOST" 'bash -euo pipefail -s' <<'EOF'
             sudo systemctl is-active --quiet api

@@ -1,1 +1,6 @@
 .personal_token_github.txt
+*.pem
+
+# SSH deploy keys (never commit)
+deploy_ci_key
+deploy_ci_key.pub

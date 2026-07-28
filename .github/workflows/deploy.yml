@@ -1,0 +1,151 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [main]
+    paths: ["code/**", ".github/workflows/deploy.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: |
+            code/backend/package-lock.json
+            code/frontend/package-lock.json
+
+      - name: Build and test backend
+        working-directory: code/backend
+        run: |
+          npm ci
+          npm run lint
+          npm test
+          npm run build
+
+      - name: Build and test frontend
+        working-directory: code/frontend
+        run: |
+          npm ci
+          npm test -- --watch=false
+          npm run build
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@e6de054238d6b7531b4efff3b6587d9aade6a06c # v6.2.3
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Open port 22 for this runner
+        id: sg
+        env:
+          SECURITY_GROUP_ID: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+        run: |
+          RUNNER_IP="$(curl -fsS https://checkip.amazonaws.com)"
+          echo "runner_ip=$RUNNER_IP" >> "$GITHUB_OUTPUT"
+          aws ec2 authorize-security-group-ingress \
+            --group-id "$SECURITY_GROUP_ID" --protocol tcp --port 22 --cidr "${RUNNER_IP}/32"
+
+      - name: Prepare SSH key and known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          install -m 600 /dev/null key.pem
+          printf '%s' "$SSH_PRIVATE_KEY" > key.pem
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
+
+      - name: Render backend env file
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          MONGODB_DB: ${{ secrets.MONGODB_DB }}
+        run: |
+          install -m 600 /dev/null api.env
+          {
+            printf 'MONGODB_URI=%s\n' "$MONGODB_URI"
+            printf 'MONGODB_DB=%s\n' "$MONGODB_DB"
+            printf 'NODE_ENV=production\n'
+            printf 'PORT=3000\n'
+          } > api.env
+
+      - name: Copy artifacts and env to the host
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          rsync -az --delete -e "ssh -i key.pem" \
+            code/frontend/dist/frontend/browser/ "$SSH_USER@$SSH_HOST:/var/www/app/"
+          rsync -az --delete -e "ssh -i key.pem" \
+            code/backend/dist/ "$SSH_USER@$SSH_HOST:/srv/api/dist/"
+          rsync -az -e "ssh -i key.pem" \
+            code/backend/package.json code/backend/package-lock.json "$SSH_USER@$SSH_HOST:/srv/api/"
+          rsync -az --chmod=600 -e "ssh -i key.pem" \
+            api.env "$SSH_USER@$SSH_HOST:/etc/bookings-api/api.env"
+
+      - name: Install prod deps and reload services
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          ssh -i key.pem "$SSH_USER@$SSH_HOST" 'bash -euo pipefail -s' <<'EOF'
+            export NVM_DIR="$HOME/.nvm"
+            . "$NVM_DIR/nvm.sh"
+            nvm use 22
+            cd /srv/api
+            npm ci --omit=dev
+            sudo systemctl restart api
+            sudo systemctl reload nginx
+          EOF
+
+      - name: Verify deployment
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          ssh -i key.pem "$SSH_USER@$SSH_HOST" 'bash -euo pipefail -s' <<'EOF'
+            sudo systemctl is-active --quiet api
+            for i in $(seq 1 15); do
+              code="$(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/ || true)"
+              if [ -n "$code" ] && [ "$code" != "000" ]; then
+                echo "API responding on :3000 (HTTP $code)"
+                exit 0
+              fi
+              sleep 2
+            done
+            echo "API did not respond on :3000"
+            exit 1
+          EOF
+
+      - name: Revoke port 22
+        if: always()
+        env:
+          SECURITY_GROUP_ID: ${{ secrets.AWS_SECURITY_GROUP_ID }}
+          RUNNER_IP: ${{ steps.sg.outputs.runner_ip }}
+        run: |
+          if [ -n "${RUNNER_IP:-}" ]; then
+            aws ec2 revoke-security-group-ingress \
+              --group-id "$SECURITY_GROUP_ID" --protocol tcp --port 22 --cidr "${RUNNER_IP}/32" || true
+          fi
+
+      - name: Cleanup
+        if: always()
+        run: rm -f key.pem api.env

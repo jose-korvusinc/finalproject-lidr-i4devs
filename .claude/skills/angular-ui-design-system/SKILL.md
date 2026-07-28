@@ -171,17 +171,17 @@ viven en los partials. Mantén la tabla en cero al añadir pantallas nuevas.
 - [ ] Correcta en claro **y** en oscuro.
 - [ ] `ng test` y `ng build` en verde; Prettier sin cambios pendientes.
 
-## 7. Deuda conocida del sistema (decidir antes de dar por cerrado el rediseño)
+## 7. Deuda conocida y decisiones tomadas
 
 Detectado al extraer el sistema; **no lo arregles por tu cuenta sin avisar**, pero tenlo presente:
 
-- **La pantalla de registro no tiene encabezado**: es un formulario suelto, sin `<h1>` ni marca. Es
-  un hueco de accesibilidad (página sin título visible) además de estético, pero añadirlo introduce
-  **texto nuevo**, que exige IDs `i18n` y su traducción en `src/locale/messages.es.xlf`. Decisión de
-  producto: pregunta antes de escribir copy.
-- Las dos excepciones de hex de `.button--light` en oscuro (ahora en `_ui.scss`) merecen su propio
+- Las dos excepciones de hex de `.button--light` en oscuro (en `_buttons.scss`) merecen su propio
   token en lugar de valores literales.
-- El backoffice y el widget siguen sin tokens; hasta adaptarlos convivirán dos estéticas.
 
-Resuelto ya (no lo rehagas): línea base tipográfica y de `body`, `color-scheme: light dark`, anillo
-de foco global y `<title>` de `index.html`.
+**Decidido que NO se hace** (no vuelvas a proponerlo): añadir un encabezado (`<h1>` o marca) a la
+pantalla de registro. Se valoró porque la página no tiene título visible, pero exigía texto nuevo
+con su ID `i18n` y su traducción; el usuario lo descartó.
+
+**Resuelto ya** (no lo rehagas): línea base tipográfica y de `body`, `color-scheme: light dark`,
+anillo de foco global, `<title>` de `index.html`, y la adaptación de las ocho pantallas — el
+frontend está a cero colores en duro.

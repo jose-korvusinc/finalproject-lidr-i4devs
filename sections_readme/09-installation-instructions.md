@@ -73,7 +73,17 @@ MONGODB_URI=mongodb://bookings_app:change_me_app@localhost:27017/bookings?authSo
 MONGODB_DB=bookings
 PORT=3000
 NODE_ENV=development
+TENANT_BASE_DOMAIN=jpasoftware.com
 ```
+
+`MONGODB_URI` y `TENANT_BASE_DOMAIN` son **obligatorias**: el arranque las valida
+(`src/config/env.validation.ts`) y la API **no arranca** si falta alguna o viene vacía
+(`nestjs-architecture.md` §5). `TENANT_BASE_DOMAIN` es el dominio base público con el que se
+construye el `portalUrl` de cada tenant (`https://<subdomain>.<TENANT_BASE_DOMAIN>`), y permite
+apuntar a un dominio distinto por entorno sin tocar código.
+
+> ⚠️ **Al desplegar:** añade `TENANT_BASE_DOMAIN` al `.env` / `EnvironmentFile` de systemd del host
+> **antes** de desplegar esta versión; si no está definida, el servicio de la API no levantará.
 
 Frontend:
 

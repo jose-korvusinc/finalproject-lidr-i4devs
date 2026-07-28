@@ -40,7 +40,7 @@ alt subdomain available
   repo --> svc : Business
   deactivate repo
   svc --> ctrl : BusinessDto
-  ctrl --> ui : 201 Created\n{ accessUrl: my-business.yourplatform.com }
+  ctrl --> ui : 201 Created\n{ accessUrl: my-business.jpasoftware.com }
   ui --> admin : show success + access URL
 else subdomain taken
   svc --> ctrl : throw ConflictException

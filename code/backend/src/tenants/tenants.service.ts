@@ -1,4 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { plainToInstance } from 'class-transformer';
 import { Model } from 'mongoose';
@@ -9,13 +10,13 @@ import {
   BusinessDocument,
   TenantStatus,
 } from './schemas/business.schema';
-import { TENANT_BASE_DOMAIN } from './tenants.constants';
 
 @Injectable()
 export class TenantsService {
   constructor(
     @InjectModel(Business.name)
     private readonly businessModel: Model<BusinessDocument>,
+    private readonly config: ConfigService,
   ) {}
 
   async isSubdomainAvailable(subdomain: string): Promise<boolean> {
@@ -53,7 +54,9 @@ export class TenantsService {
         name: document.name,
         subdomain: document.subdomain,
         status: document.status,
-        portalUrl: `https://${subdomain}.${TENANT_BASE_DOMAIN}`,
+        portalUrl: `https://${subdomain}.${this.config.getOrThrow<string>(
+          'TENANT_BASE_DOMAIN',
+        )}`,
       },
       { excludeExtraneousValues: true },
     );

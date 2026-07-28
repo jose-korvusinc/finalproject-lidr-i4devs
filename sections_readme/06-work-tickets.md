@@ -232,7 +232,7 @@ Es la pieza de entrada del onboarding: el formulario de alta del negocio. Bloque
 1. **Componente de página** `tenant-registration` (standalone por defecto, `OnPush` por defecto) con
    **Signal Forms** (`@angular/forms/signals`): el estado del formulario es un `signal` del modelo y
    la validación se define por esquema.
-2. **Campos:** business name, corporate email, subdomain (mostrado con el sufijo `.yourplatform.com`).
+2. **Campos:** business name, corporate email, subdomain (mostrado con el sufijo `.jpasoftware.com`).
 3. **Validación de formato accesible:** email válido y subdomain como *slug*; errores enlazados con
    `aria-describedby` + `aria-invalid` y anunciados por una live region (`aria-live`). No usar el
    placeholder como etiqueta; todo control con `<label>`.

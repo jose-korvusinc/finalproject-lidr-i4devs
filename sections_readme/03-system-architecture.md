@@ -183,7 +183,7 @@ las historias de usuario seleccionadas (HU1–HU4). Reproduce la pila de contene
 **Nodos y artefactos:**
 
 - **Client Device** *(navegador móvil/escritorio)*: ejecuta la **SPA Angular 22** (backoffice + widget público de reservas).
-- **Edge / Reverse Proxy** *(Nginx)*: resuelve el enrutamiento wildcard `*.yourplatform.com`, identifica el subdominio del tenant, sirve los estáticos de la SPA y proxia el API.
+- **Edge / Reverse Proxy** *(Nginx)*: resuelve el enrutamiento wildcard `*.jpasoftware.com`, identifica el subdominio del tenant, sirve los estáticos de la SPA y proxia el API.
 - **Application Server** *(runtime Node.js)*: aloja la **API NestJS 11** (OpenAPI), que inyecta el `tenant_id` en cada petición.
 - **MongoDB 8.3 Cluster**: base documental *Shared DB* con el campo `tenant_id` indexado que garantiza el aislamiento entre tenants.
 - **Redis** *(Cache & Temporal Store)*: mantiene los bloqueos temporales de huecos (`SlotLocking`) y, en HU5, los códigos OTP con TTL.

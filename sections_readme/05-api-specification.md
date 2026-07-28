@@ -62,7 +62,7 @@ id:        string
 name:      string
 subdomain: string
 status:    string    # TenantStatus: "active" | "suspended"
-portalUrl: string    # https://<subdomain>.yourplatform.com
+portalUrl: string    # https://<subdomain>.jpasoftware.com
 ```
 
 ```http
@@ -78,7 +78,7 @@ Content-Type: application/json
   "name": "Barbería Paco",
   "subdomain": "barberia-paco",
   "status": "active",
-  "portalUrl": "https://barberia-paco.yourplatform.com"
+  "portalUrl": "https://barberia-paco.jpasoftware.com"
 }
 ```
 
@@ -118,7 +118,7 @@ breakEnd:     string?  # fin del descanso HH:mm 24h (opcional)
 
 ```http
 GET /api/v1/working-hours HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 ```
 
 ```json
@@ -163,7 +163,7 @@ days:
 
 ```http
 PUT /api/v1/working-hours HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 {
@@ -221,7 +221,7 @@ durationMinutes: integer  # requerido; entero positivo
 
 ```http
 POST /api/v1/services HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 { "name": "Massage", "price": "40.00", "durationMinutes": 60 }
@@ -276,7 +276,7 @@ tenant; **nunca** se acepta del cuerpo.
 
 ```http
 PATCH /api/v1/services/665f1b2c9c1e4a0012ab34cd HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 { "name": "Deluxe haircut", "price": "30.00", "durationMinutes": 45 }
@@ -302,7 +302,7 @@ devuelve **404** (aislamiento entre tenants), no 403. El `tenantId` lo impone el
 
 ```http
 DELETE /api/v1/services/665f1b2c9c1e4a0012ab34cd HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 ```
 
 ```json
@@ -353,7 +353,7 @@ serviceIds: string[]  # opcional (por defecto []); cada elemento un Mongo id de 
 
 ```http
 POST /api/v1/employees HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 { "name": "Grace Hopper", "email": "grace@acme.test", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
@@ -409,7 +409,7 @@ reasignación. El `tenantId` lo impone el contexto de tenant; **nunca** se acept
 
 ```http
 PATCH /api/v1/employees/665f1b2c9c1e4a0012ab9999 HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 { "name": "Grace M. Hopper", "serviceIds": ["665f1b2c9c1e4a0012ab34cd"] }
@@ -460,7 +460,7 @@ date:       string    # requerido; día objetivo en formato ISO 8601 YYYY-MM-DD
 
 ```http
 GET /api/v1/availability?serviceId=665f1b2c9c1e4a0012ab0001&employeeId=665f1b2c9c1e4a0012ab0002&date=2026-07-10 HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 ```
 
 ```json
@@ -516,7 +516,7 @@ customer:                      # datos de contacto del cliente
 
 ```http
 POST /api/v1/bookings HTTP/1.1
-Host: acme.yourplatform.com
+Host: acme.jpasoftware.com
 Content-Type: application/json
 
 {

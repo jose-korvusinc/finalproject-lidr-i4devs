@@ -78,11 +78,14 @@ jobs:
         env:
           MONGODB_URI: ${{ secrets.MONGODB_URI }}
           MONGODB_DB: ${{ vars.MONGODB_DB }}
+          TENANT_BASE_DOMAIN: ${{ vars.TENANT_BASE_DOMAIN }}
         run: |
+          : "${TENANT_BASE_DOMAIN:?missing environment variable TENANT_BASE_DOMAIN}"
           install -m 600 /dev/null api.env
           {
             printf 'MONGODB_URI=%s\n' "$MONGODB_URI"
             printf 'MONGODB_DB=%s\n' "$MONGODB_DB"
+            printf 'TENANT_BASE_DOMAIN=%s\n' "$TENANT_BASE_DOMAIN"
             printf 'NODE_ENV=production\n'
             printf 'PORT=3000\n'
           } > api.env

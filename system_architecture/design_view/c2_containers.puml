@@ -17,7 +17,7 @@ System_Ext(googleCalendar, "Google Calendar", "Employee's external calendar.")
 System_Ext(emailProvider, "Email Provider", "Email sending service.")
 
 System_Boundary(platform, "Booking & Appointments SaaS Platform") {
-    Container(reverseProxy, "Reverse Proxy", "Nginx", "Wildcard routing (*.yourplatform.com), resolves the tenant subdomain, serves the SPA and proxies the API.")
+    Container(reverseProxy, "Reverse Proxy", "Nginx", "Wildcard routing (*.jpasoftware.com), resolves the tenant subdomain, serves the SPA and proxies the API.")
     Container(webApp, "Web Application", "Angular 22, FullCalendar.io", "SPA providing the backoffice (admin/employee panel, drag&drop calendar) and the public booking widget.")
     Container(api, "API Application", "NestJS 11 (TypeScript), OpenAPI", "Business logic: bookings, availability, OTP, notifications and multitenant context resolution.")
     ContainerDb(mongo, "Operational Database", "MongoDB 8.3", "Shared Database/Collection with indexed tenant_id: businesses, services, employees, working hours, appointments.")

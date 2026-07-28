@@ -191,7 +191,7 @@ escritura del frontend (#10).
 - **Exposición mínima**: `TenantResponseDto` (`@Exclude` clase + `@Expose`) vía
   `excludeExtraneousValues`; nunca se filtran `_id`, `tenantId`, `owner`, `schemaVersion`.
 - **Decisiones MVP**: `owner.name = dto.name` (el formulario HU1 no capta nombre de dueño por
-  separado) y `portalUrl = https://<subdomain>.yourplatform.com` (constante `TENANT_BASE_DOMAIN`;
+  separado) y `portalUrl = https://<subdomain>.jpasoftware.com` (constante `TENANT_BASE_DOMAIN`;
   candidata a variable de entorno por entorno).
 
 **Trazabilidad.** HU1 · TENANT_CREATED / REGISTRATION_REJECTED (`nestjs-architecture.md` §2/§4,

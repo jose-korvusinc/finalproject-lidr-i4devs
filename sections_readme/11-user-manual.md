@@ -34,7 +34,7 @@ Cada negocio tiene su **propia dirección web** con su nombre delante. Por ejemp
 llama *Barbería Paco*, tu dirección será algo como:
 
 ```
-barberia-paco.yourplatform.com
+barberia-paco.jpasoftware.com
 ```
 
 Ese nombre de delante (`barberia-paco`) se llama **subdominio**, y es tu "dirección" única en la
@@ -52,7 +52,7 @@ Dentro de esa dirección, cada pantalla tiene su propia página:
 
 > 💡 **Nota práctica:** en un ordenador de pruebas la aplicación se abre en `http://localhost:4200`
 > y detrás funciona un servidor en `http://localhost:3000`. En el uso real, cada negocio entra por su
-> subdominio (`tunegocio.yourplatform.com`). Añadiendo al final la página que quieras (por ejemplo
+> subdominio (`tunegocio.jpasoftware.com`). Añadiendo al final la página que quieras (por ejemplo
 > `/admin/schedule`) llegas a cada apartado.
 
 ---
@@ -73,7 +73,7 @@ Es el **primer paso de todos**. Aquí creas tu espacio en la plataforma. Solo se
 2. **Correo del negocio** *(Corporate email)* — tu email. Tiene que ser un email de verdad, con su
    arroba (por ejemplo `paco@barberia-paco.com`).
 3. **Subdominio** *(Subdomain)* — el nombre corto que quieres para tu dirección web. A su derecha
-   verás fijo el texto `.yourplatform.com`, así que tú solo escribes la parte de delante.
+   verás fijo el texto `.jpasoftware.com`, así que tú solo escribes la parte de delante.
    - Usa **minúsculas, números y guiones**. Nada de espacios, mayúsculas ni acentos. Por ejemplo:
      `barberia-paco` ✅ (no `Barbería Paco` ❌).
 
@@ -225,7 +225,7 @@ Esta es la parte que ve **tu cliente**. Está pensada para el **móvil** y para 
 pasos**, sin crear ninguna cuenta ni contraseña.
 
 **Cómo llegar:** el cliente entra en la página `/booking` de tu negocio (por ejemplo
-`barberia-paco.yourplatform.com/booking`). Normalmente le pasas ese enlace o lo pones en tus redes.
+`barberia-paco.jpasoftware.com/booking`). Normalmente le pasas ese enlace o lo pones en tus redes.
 
 Es un asistente que va **paso a paso**:
 
@@ -324,7 +324,7 @@ Ese paso protege tu agenda de reservas falsas.
 | Palabra | Qué significa, en fácil |
 | :--- | :--- |
 | **Tenant / negocio** | Cada empresa que usa la plataforma con su propio espacio y su propia dirección web. |
-| **Subdominio** | El nombre corto de tu dirección web (`tunegocio`.yourplatform.com). |
+| **Subdominio** | El nombre corto de tu dirección web (`tunegocio`.jpasoftware.com). |
 | **Backoffice / panel** | La parte privada donde el dueño configura horarios, servicios y equipo. |
 | **Widget de reserva** | La página pública donde el cliente pide su cita. |
 | **Hueco / slot** | Un espacio de tiempo libre en la agenda donde cabe una cita. |

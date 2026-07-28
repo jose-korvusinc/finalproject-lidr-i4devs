@@ -164,7 +164,7 @@
           "portalUrl": {
             "type": "string",
             "description": "Public portal URL of the tenant",
-            "example": "https://barberia-paco.yourplatform.com"
+            "example": "https://barberia-paco.jpasoftware.com"
           }
         },
         "required": [

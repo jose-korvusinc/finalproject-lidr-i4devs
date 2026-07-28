@@ -63,7 +63,7 @@ describe('TenantRegistrationApi', () => {
       name: 'Barberia Paco',
       subdomain: 'barberia-paco',
       status: 'active',
-      portalUrl: 'https://barberia-paco.yourplatform.com',
+      portalUrl: 'https://barberia-paco.jpasoftware.com',
     };
 
     let emitted: unknown;

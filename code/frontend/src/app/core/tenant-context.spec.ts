@@ -6,7 +6,7 @@ describe('resolveTenantSlug', () => {
   });
 
   it('supports hyphenated tenant slugs', () => {
-    expect(resolveTenantSlug('barberia-paco.yourplatform.com')).toBe('barberia-paco');
+    expect(resolveTenantSlug('barberia-paco.jpasoftware.com')).toBe('barberia-paco');
   });
 
   it('returns null for the www subdomain', () => {

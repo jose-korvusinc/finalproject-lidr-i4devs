@@ -7,7 +7,7 @@
         <mxCell id="c2" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#333333;" vertex="1" parent="1">
           <mxGeometry x="40" y="40" width="460" height="360" as="geometry" />
         </mxCell>
-        <mxCell id="c3" value="registro.tuplataforma.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=left;spacingLeft=12;fontColor=#5f6368;fontSize=12;" vertex="1" parent="1">
+        <mxCell id="c3" value="registro.jpasoftware.com" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f1f3f4;strokeColor=#333333;align=left;spacingLeft=12;fontColor=#5f6368;fontSize=12;" vertex="1" parent="1">
           <mxGeometry x="40" y="40" width="460" height="30" as="geometry" />
         </mxCell>
         <mxCell id="c4" value="¡Negocio creado! Tu espacio aislado ya está activo." style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e6f4ea;strokeColor=#34a853;align=left;spacingLeft=10;fontColor=#137333;" vertex="1" parent="1">
@@ -16,7 +16,7 @@
         <mxCell id="c5" value="Barbería Paco" style="text;html=1;align=left;verticalAlign=middle;fontSize=17;fontStyle=1;fontColor=#202124;" vertex="1" parent="1">
           <mxGeometry x="64" y="148" width="412" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="c6" value="Portal: barberia-paco.tuplataforma.com" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#202124;" vertex="1" parent="1">
+        <mxCell id="c6" value="Portal: barberia-paco.jpasoftware.com" style="text;html=1;align=left;verticalAlign=middle;fontSize=12;fontColor=#202124;" vertex="1" parent="1">
           <mxGeometry x="64" y="184" width="412" height="20" as="geometry" />
         </mxCell>
         <mxCell id="c7" value="tenant_id: t_8f3a91  ·  Plan: Free" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8f9fa;strokeColor=#9aa0a6;align=left;spacingLeft=12;fontColor=#202124;" vertex="1" parent="1">

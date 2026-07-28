@@ -28,7 +28,7 @@
   <nav class="topbar__nav" aria-label="Primary">
     <app-language-switcher />
     <a class="button button--ghost" routerLink="/login" i18n="@@home.nav.login">Log in</a>
-    <a class="button button--primary" routerLink="/register" i18n="@@home.nav.register">
+    <a class="button button--primary" [href]="registerHref" i18n="@@home.nav.register">
       Create my business
     </a>
   </nav>
@@ -46,7 +46,7 @@
         from their phone and your data stays only yours.
       </p>
       <div class="hero__actions">
-        <a class="button button--primary" routerLink="/register" i18n="@@home.hero.primary">
+        <a class="button button--primary" [href]="registerHref" i18n="@@home.hero.primary">
           Create my business
         </a>
         <a class="button button--ghost" routerLink="/login" i18n="@@home.hero.secondary">
@@ -290,7 +290,7 @@
     <p class="cta-band__text" i18n="@@home.cta.text">
       Set up your booking page today. It is free to get started.
     </p>
-    <a class="button button--light" routerLink="/register" i18n="@@home.cta.action">
+    <a class="button button--light" [href]="registerHref" i18n="@@home.cta.action">
       Create my business
     </a>
   </section>
@@ -314,7 +314,7 @@
     <span class="brand__name">Reservia</span>
   </div>
   <nav class="footer__links" aria-label="Footer">
-    <a routerLink="/register" i18n="@@home.footer.register">Get started</a>
+    <a [href]="registerHref" i18n="@@home.footer.register">Get started</a>
     <a routerLink="/login" i18n="@@home.footer.login">Log in</a>
   </nav>
   <p class="footer__copy" i18n="@@home.footer.copyright">

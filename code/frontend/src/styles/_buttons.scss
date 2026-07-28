@@ -32,21 +32,6 @@
   color: var(--brand-strong);
 }
 
-.chip {
-  padding: var(--space-xs) var(--space-md);
-  background: var(--surface);
-  border: 1px solid var(--surface-border);
-  border-radius: var(--radius-pill);
-  font-weight: 600;
-}
-
-.section-title {
-  margin: 0 0 var(--space-lg);
-  font-size: 1.6rem;
-  font-weight: 800;
-  text-align: center;
-}
-
 @media (prefers-color-scheme: dark) {
   .button--light {
     background: #ffffff;

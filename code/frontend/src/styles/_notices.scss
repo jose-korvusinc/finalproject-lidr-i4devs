@@ -1,0 +1,18 @@
+.notice {
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+}
+
+.notice--error {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.notice--success {
+  background: var(--success-soft);
+  border-color: var(--success);
+}

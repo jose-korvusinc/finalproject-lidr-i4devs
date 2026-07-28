@@ -19,7 +19,7 @@
 *Escenario: Alta exitosa con subdominio disponible*
 * **Dado** que soy un usuario no registrado con datos válidos (nombre del negocio, email corporativo y subdominio deseado)
 * **Cuando** envío el formulario de registro y el subdominio no está en uso
-* **Entonces** el sistema crea el tenant con un `tenant_id` único, persiste los datos asociados y habilita el acceso a `mi-negocio.tuplataforma.com`
+* **Entonces** el sistema crea el tenant con un `tenant_id` único, persiste los datos asociados y habilita el acceso a `mi-negocio.jpasoftware.com`
 
 *Escenario: Subdominio ya ocupado*
 * **Dado** que intento registrar el subdominio `barberia-paco`
@@ -135,7 +135,7 @@
 **Criterios de Aceptación (BDD):**
 
 *Escenario: Flujo de reserva completo hasta verificación*
-* **Dado** que accedo a `barberia-paco.tuplataforma.com/reservar` desde un dispositivo móvil
+* **Dado** que accedo a `barberia-paco.jpasoftware.com/reservar` desde un dispositivo móvil
 * **Cuando** selecciono servicio, empleado, hueco disponible y relleno nombre, email y teléfono válidos
 * **Entonces** el sistema bloquea temporalmente el hueco en estado "Pendiente" e inicia el flujo de verificación OTP (HU5)
 
@@ -458,7 +458,7 @@ Como parte de la documentación de la fase de **Iniciación (Inception)** de RUP
 
 #### 2.7.1 HU1 — Registro de Negocio (Tenant)
 
-Formulario de alta del negocio: nombre, email corporativo y subdominio único (con sufijo `.tuplataforma.com`), más las acciones de cancelar y crear.
+Formulario de alta del negocio: nombre, email corporativo y subdominio único (con sufijo `.jpasoftware.com`), más las acciones de cancelar y crear.
 
 ![Wireframe — HU1: Registro de Negocio](../system_architecture/user_stories_view/wireframe_hu1-tenant-registration.png)
 

@@ -21,13 +21,13 @@ Reminder: Notificación enviada al cliente antes de la cita.
 Tenant: Espacio de trabajo aislado que representa a un negocio dentro de la plataforma SaaS multitenant.
 SuperAdmin: Propietario de la plataforma SaaS con visibilidad global y control de cuentas.
 TenantAdmin: Rol a nivel de plataforma que se corresponde con el BusinessOwner dentro de un tenant.
-Subdomain: URL única por negocio (mi-negocio.tuplataforma.com) que enruta al tenant.
+Subdomain: URL única por negocio (mi-negocio.jpasoftware.com) que enruta al tenant.
 tenant_id: Campo indexado que aísla los datos de cada tenant en la base de datos compartida.
 Multitenancy: Arquitectura donde muchos negocios comparten una infraestructura con datos aislados.
 DataIsolation: Garantía de que un tenant no puede acceder a los datos de otro tenant.
 SubscriptionPlan: Plan comercial que un negocio contrata para usar la plataforma.
 AccountSuspension: Acción del Super-Admin que bloquea los paneles y widgets de un tenant.
-WildcardDNS: Enrutamiento DNS (*.tuplataforma.com) que mapea subdominios dinámicos.
+WildcardDNS: Enrutamiento DNS (*.jpasoftware.com) que mapea subdominios dinámicos.
 
 --- Términos de soporte al flujo de reserva (excluidos por ser detalles técnicos/de software) ---
 BookingWidget: Componente web público mobile-first donde los clientes reservan por sí mismos.

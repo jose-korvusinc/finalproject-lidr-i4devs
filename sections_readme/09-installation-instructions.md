@@ -1,6 +1,6 @@
 [<- Volver al README principal](../readme.md)
 
-## 10. Instrucciones de instalación
+## 9. Instrucciones de instalación
 
 El código de aplicación vive bajo `code/`: backend NestJS 11 (con MongoDB 8.3 vía Mongoose y
 migraciones `migrate-mongo`) en `code/backend`, y frontend Angular 22 en `code/frontend`. La base
@@ -16,7 +16,7 @@ ejecutan **desde la raíz del repositorio** salvo que se indique otra ruta.
 └── sections_readme/
 ```
 
-### 10.1. Herramientas necesarias
+### 9.1. Herramientas necesarias
 
 Para ejecutar el proyecto en un servidor local necesitas:
 
@@ -41,7 +41,7 @@ Cada subproyecto incluye un `.nvmrc` (Node 24); ejecutando `nvm use` dentro de `
 `code/frontend` se selecciona automáticamente esa versión. El CLI de Angular no se instala de
 forma global: se usa el local del proyecto a través de los scripts de npm.
 
-### 10.2. Preparar el entorno (dependencias y configuración)
+### 9.2. Preparar el entorno (dependencias y configuración)
 
 Base de datos (variables del contenedor MongoDB):
 

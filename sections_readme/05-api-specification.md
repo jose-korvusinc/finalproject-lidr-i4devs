@@ -1,6 +1,6 @@
 [<- Volver al README principal](../readme.md)
 
-## 6. Especificación de la API
+## 5. Especificación de la API
 
 API REST del backend NestJS 11.1. Todas las rutas se sirven bajo el prefijo global `api` y el
 versionado por URI (`/api/v1/...`). La entrada se valida con DTOs (`class-validator`, whitelist
@@ -16,7 +16,7 @@ estricta) y la salida se mapea a DTOs de respuesta (sin exponer `_id`/`tenantId`
 > El documento OpenAPI versionado se genera con `npm run openapi:generate` y se persiste en
 > `code/backend/openapi.json`.
 
-### 6.1. HU1 — Registro de negocio (Tenant)
+### 5.1. HU1 — Registro de negocio (Tenant)
 
 Recurso `tenants` (registro de tenants; público, pre-tenant).
 
@@ -90,7 +90,7 @@ Respuesta de conflicto (subdominio ocupado):
 
 ---
 
-### 6.2. HU2 — Horario semanal del negocio (Working hours)
+### 5.2. HU2 — Horario semanal del negocio (Working hours)
 
 Recurso `working-hours` (reglas de horario semanal del tenant; *tenant-scoped*).
 
@@ -183,7 +183,7 @@ Content-Type: application/json
 ]
 ```
 
-### 6.3. HU3 — Catálogo de servicios (Services)
+### 5.3. HU3 — Catálogo de servicios (Services)
 
 Recurso `services` (servicios que ofrece el negocio; *tenant-scoped*). El filtro por `tenantId` lo
 impone el contexto de tenant de forma transversal (nunca se acepta del cliente). El precio viaja
@@ -311,7 +311,7 @@ Host: acme.yourplatform.com
 
 ---
 
-### 6.4. HU3 — Empleados (Employees)
+### 5.4. HU3 — Empleados (Employees)
 
 Recurso `employees` (profesionales del negocio que prestan los servicios; *tenant-scoped*). El
 filtro por `tenantId` lo impone el contexto de tenant de forma transversal (nunca se acepta del
@@ -421,7 +421,7 @@ Content-Type: application/json
 
 ---
 
-### 6.5. HU4 — Disponibilidad de citas (Availability)
+### 5.5. HU4 — Disponibilidad de citas (Availability)
 
 Recurso de solo lectura que calcula los **huecos libres** de un empleado para un servicio en un día
 concreto (*tenant-scoped*). El motor parte del horario semanal del negocio (`working-hours`),
@@ -472,7 +472,7 @@ Host: acme.yourplatform.com
 
 ---
 
-### 6.6. HU4 — Reserva de cita (Bookings)
+### 5.6. HU4 — Reserva de cita (Bookings)
 
 Crea una **reserva** que bloquea de forma atómica un hueco de un empleado (*tenant-scoped*). El
 servicio carga el `Service` (para derivar `endsAt` de la duración) y el `Employee` (que debe prestar

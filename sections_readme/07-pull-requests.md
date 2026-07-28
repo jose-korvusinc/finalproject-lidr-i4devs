@@ -1,6 +1,6 @@
 [<- Volver al README principal](../readme.md)
 
-## 8. Pull Requests
+## 7. Pull Requests
 
 Cada entrega se desarrolla en una rama de feature y se integra mediante Pull Request, con los
 commits organizados en **orden TDD** (tests antes que producción, ver `.claude/rules/tdd-workflow.md`)

@@ -1,6 +1,6 @@
 [<- Volver al README principal](../readme.md)
 
-## 5. Modelo de Datos
+## 4. Modelo de Datos
 
 Modelo de datos **canónico** para MongoDB 8.3 del SaaS multitenant de reservas. Derivado del
 modelo del dominio (`system_architecture/domain_model/domain_model.puml`, `glossary.txt`) y de la

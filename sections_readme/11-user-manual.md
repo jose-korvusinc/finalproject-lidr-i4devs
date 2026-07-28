@@ -1,6 +1,6 @@
 [<- Volver al README principal](../readme.md)
 
-## 12. Manual de usuario
+## 11. Manual de usuario
 
 > Este manual está pensado para **cualquier persona**, tenga o no conocimientos de informática.
 > No hace falta saber nada técnico: solo seguir los pasos y las imágenes. Si algo no te sale a la
@@ -9,7 +9,7 @@
 
 ---
 
-### 12.1. ¿Qué es esta aplicación y para quién es?
+### 11.1. ¿Qué es esta aplicación y para quién es?
 
 Imagina que tienes un negocio pequeño donde la gente pide cita: una **barbería**, una **peluquería**,
 una **clínica**, un **centro de estética**, una **consultoría**… Esta plataforma te da tu propia
@@ -23,12 +23,12 @@ Hay **dos tipos de personas** que usan la aplicación, y cada una tiene su propi
 | 🧑‍💼 **El dueño del negocio** (o quien lo gestiona) | Das de alta tu negocio, pones tus horarios, tus servicios y tu equipo | El **panel de administración** (el "backoffice") |
 | 🙋 **El cliente** que quiere una cita | Eliges servicio, profesional, día y hora, y dejas tus datos | La **página pública de reservas** (el "widget") |
 
-En este manual verás **las dos partes**, en orden: primero cómo preparar tu negocio (secciones 12.3
-a 12.5) y luego cómo reserva un cliente (sección 12.6).
+En este manual verás **las dos partes**, en orden: primero cómo preparar tu negocio (secciones 11.3
+a 11.5) y luego cómo reserva un cliente (sección 11.6).
 
 ---
 
-### 12.2. Lo primero: cómo se entra a cada sitio
+### 11.2. Lo primero: cómo se entra a cada sitio
 
 Cada negocio tiene su **propia dirección web** con su nombre delante. Por ejemplo, si tu barbería se
 llama *Barbería Paco*, tu dirección será algo como:
@@ -59,7 +59,7 @@ Dentro de esa dirección, cada pantalla tiene su propia página:
 
 ## PARTE A — Para el dueño del negocio
 
-### 12.3. HU1 · Dar de alta tu negocio
+### 11.3. HU1 · Dar de alta tu negocio
 
 Es el **primer paso de todos**. Aquí creas tu espacio en la plataforma. Solo se hace **una vez**.
 
@@ -103,7 +103,7 @@ Verás el mensaje *"Your workspace is ready"* (Tu espacio está listo) y un **en
 
 ---
 
-### 12.4. HU2 · Configurar tus horarios
+### 11.4. HU2 · Configurar tus horarios
 
 Aquí le dices a la plataforma **qué días abres y a qué horas**. Esto es importante porque el sistema
 **solo ofrecerá citas dentro de tu horario**: si cierras los domingos, ningún cliente podrá reservar
@@ -146,7 +146,7 @@ Verás *"Schedule saved."* (Horario guardado). ¡Listo! El buscador de huecos ya
 
 ---
 
-### 12.5. HU3 · Tus servicios y tu equipo
+### 11.5. HU3 · Tus servicios y tu equipo
 
 Aquí montas **qué ofreces** (los servicios) y **quién los hace** (los empleados). Los clientes solo
 podrán reservar servicios que tengan a alguien asignado, así que este paso es clave.
@@ -158,7 +158,7 @@ creado nada, aparecerá vacía:
 
 ![Panel de catálogo vacío](../system_architecture/user_stories_view/hu3/01-catalog-panel.png)
 
-#### 12.5.1. Crear un servicio
+#### 11.5.1. Crear un servicio
 
 En el formulario de servicio rellena:
 
@@ -183,7 +183,7 @@ Cada servicio de la lista tiene dos botones:
 > deja de aparecer en la lista de servicios activos y en la página de reservas, **pero las citas que
 > ya existían con ese servicio se conservan intactas**. Así nunca pierdes el histórico de tu negocio.
 
-#### 12.5.2. Crear un empleado
+#### 11.5.2. Crear un empleado
 
 En el formulario de empleado rellena:
 
@@ -196,7 +196,7 @@ En el formulario de empleado rellena:
 
 Pulsa **"Save employee"** (Guardar empleado) y se añadirá a la lista.
 
-#### 12.5.3. La conexión servicio ↔ empleado (¡importante!)
+#### 11.5.3. La conexión servicio ↔ empleado (¡importante!)
 
 Esas casillas que marcas al crear un empleado son la clave de todo el sistema:
 
@@ -219,7 +219,7 @@ solo se desactiva, y sus citas siguen guardadas.
 
 ## PARTE B — Para el cliente que reserva
 
-### 12.6. HU4 · Reservar una cita desde el móvil
+### 11.6. HU4 · Reservar una cita desde el móvil
 
 Esta es la parte que ve **tu cliente**. Está pensada para el **móvil** y para hacerse en **muy pocos
 pasos**, sin crear ninguna cuenta ni contraseña.
@@ -287,7 +287,7 @@ elige otra). Y te vuelve a mostrar los huecos para que **elijas otra hora** sin 
 
 ---
 
-### 12.7. ¿Y si algo va mal? (preguntas frecuentes)
+### 11.7. ¿Y si algo va mal? (preguntas frecuentes)
 
 **"No me deja pulsar el botón de Crear / Guardar / Continuar."**
 El botón se queda apagado cuando falta algún dato o hay algo mal escrito. Repasa las casillas: casi
@@ -319,7 +319,7 @@ Ese paso protege tu agenda de reservas falsas.
 
 ---
 
-### 12.8. Mini-glosario (por si acaso)
+### 11.8. Mini-glosario (por si acaso)
 
 | Palabra | Qué significa, en fácil |
 | :--- | :--- |

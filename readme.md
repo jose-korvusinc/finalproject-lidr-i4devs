@@ -6,13 +6,12 @@
 3. [Arquitectura del sistema](sections_readme/03-system-architecture.md)
 4. [Modelo de datos](sections_readme/04-data-model.md)
 5. [Especificación de la API](sections_readme/05-api-specification.md)
-6. [Sistema agéntico](sections_readme/06-agentic-system.md)
-7. [Tickets de trabajo](sections_readme/07-work-tickets.md)
-8. [Pull requests](sections_readme/08-pull-requests.md)
-9. [Diseño y experiencia de usuario](sections_readme/09-user-experience-design.md)
-10. [Instrucciones de instalación](sections_readme/10-installation-instructions.md)
-11. [Prompts utilizados](sections_readme/11-used-prompts.md)
-12. [Manual de usuario](sections_readme/12-user-manual.md)
+6. [Tickets de trabajo](sections_readme/06-work-tickets.md)
+7. [Pull requests](sections_readme/07-pull-requests.md)
+8. [Diseño y experiencia de usuario](sections_readme/08-user-experience-design.md)
+9. [Instrucciones de instalación](sections_readme/09-installation-instructions.md)
+10. [Prompts utilizados](sections_readme/10-used-prompts.md)
+11. [Manual de usuario](sections_readme/11-user-manual.md)
 
 ---
 
@@ -64,42 +63,36 @@ Este proyecto es una plataforma SaaS multitenant de gestión de citas que permit
 
 ---
 
-## 6. Sistema agéntico
+## 6. Tickets de Trabajo
 
-[Ver sistema agéntico](sections_readme/06-agentic-system.md)
-
----
-
-## 7. Tickets de Trabajo
-
-[Ver tickets de trabajo](sections_readme/07-work-tickets.md)
+[Ver tickets de trabajo](sections_readme/06-work-tickets.md)
 
 ---
 
-## 8. Pull Requests
+## 7. Pull Requests
 
-[Ver pull requests](sections_readme/08-pull-requests.md)
-
----
-
-## 9. Diseño y experiencia de usuario
-
-[Ver diseño y experiencia de usuario](sections_readme/09-user-experience-design.md)
+[Ver pull requests](sections_readme/07-pull-requests.md)
 
 ---
 
-## 10. Instrucciones de instalación
+## 8. Diseño y experiencia de usuario
 
-[Ver instrucciones de instalación](sections_readme/10-installation-instructions.md)
-
----
-
-## 11. Prompts Utilizados
-
-[Ver prompts utilizados](sections_readme/11-used-prompts.md)
+[Ver diseño y experiencia de usuario](sections_readme/08-user-experience-design.md)
 
 ---
 
-## 12. Manual de usuario
+## 9. Instrucciones de instalación
 
-[Ver manual de usuario](sections_readme/12-user-manual.md)
+[Ver instrucciones de instalación](sections_readme/09-installation-instructions.md)
+
+---
+
+## 10. Prompts Utilizados
+
+[Ver prompts utilizados](sections_readme/10-used-prompts.md)
+
+---
+
+## 11. Manual de usuario
+
+[Ver manual de usuario](sections_readme/11-user-manual.md)

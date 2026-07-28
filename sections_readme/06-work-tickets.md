@@ -1,6 +1,6 @@
 [<- Volver al README principal](../readme.md)
 
-## 7. Tickets de Trabajo
+## 6. Tickets de Trabajo
 
 Los tickets de trabajo se generan descomponiendo cada **historia de usuario** en issues pequeñas,
 verticales y trazables (estilo JIRA), separadas por capa (**frontend** Angular / **backend** NestJS)

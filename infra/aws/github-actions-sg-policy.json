@@ -14,7 +14,7 @@
         "ec2:AuthorizeSecurityGroupIngress",
         "ec2:RevokeSecurityGroupIngress"
       ],
-      "Resource": "arn:aws:ec2:eu-west-1:<ACCOUNT_ID>:security-group/sg-037918f573b8c95d7"
+      "Resource": "arn:aws:ec2:eu-west-1:<ACCOUNT_ID>:security-group/sg-001c29a1c1de39128"
     }
   ]
 }

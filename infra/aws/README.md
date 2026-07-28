@@ -15,14 +15,14 @@ larga vida). Es el par AWS del pipeline descrito en las rules `.claude/rules/git
 
 > **Placeholder**: ambos ficheros usan `<ACCOUNT_ID>` en lugar del número de cuenta AWS real (12
 > dígitos), que **no se commitea**. Sustitúyelo al aplicar. Valores concretos de este entorno:
-> región `eu-west-1`, security group `sg-037918f573b8c95d7`.
+> región `eu-west-1`, security group `sg-001c29a1c1de39128`.
 
 ## Valores del entorno
 
 | Concepto | Valor |
 | :--- | :--- |
 | Región | `eu-west-1` |
-| Security group | `sg-037918f573b8c95d7` |
+| Security group | `sg-001c29a1c1de39128` |
 | OIDC provider URL | `https://token.actions.githubusercontent.com` |
 | OIDC audience | `sts.amazonaws.com` |
 | Nombre del rol | `github-actions-ec2-deploy` |
@@ -69,7 +69,7 @@ el código). El account ID real solo vive en AWS y en el secreto `AWS_ROLE_ARN`,
 | :--- | :--- |
 | `AWS_ROLE_ARN` | `arn:aws:iam::<ACCOUNT_ID>:role/github-actions-ec2-deploy` |
 | `AWS_REGION` | `eu-west-1` |
-| `AWS_SECURITY_GROUP_ID` | `sg-037918f573b8c95d7` |
+| `AWS_SECURITY_GROUP_ID` | `sg-001c29a1c1de39128` |
 | `SSH_PRIVATE_KEY`, `SSH_HOST`, `SSH_USER`, `SSH_KNOWN_HOSTS` | Acceso SSH al EC2 (ver `aws-ec2-ssh-deployment.md`) |
 | `MONGODB_URI`, `MONGODB_DB` | Entorno de la app backend (se renderiza a `/etc/bookings-api/api.env` en el host) |
 
@@ -77,6 +77,6 @@ el código). El account ID real solo vive en AWS y en el secreto `AWS_ROLE_ARN`,
 
 - La confianza del rol está atada al environment `production`: un job que **no** declare
   `environment: production` (o de otro repo) **no** puede asumir el rol.
-- El rol solo puede tocar el security group `sg-037918f573b8c95d7`; el puerto 22 se abre a la IP del
+- El rol solo puede tocar el security group `sg-001c29a1c1de39128`; el puerto 22 se abre a la IP del
   runner durante el despliegue y se revoca con `if: always()`.
 - No se usan claves de acceso AWS de larga vida (solo OIDC). No commitees el account ID ni secretos.

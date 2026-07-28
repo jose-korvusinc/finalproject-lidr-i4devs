@@ -1,0 +1,59 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 0.7rem var(--space-sm);
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: var(--radius-md);
+}
+
+.field input::placeholder {
+  color: var(--text-muted);
+}
+
+.field input[aria-invalid='true'] {
+  border-color: var(--danger);
+}
+
+.field__group {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.field__suffix {
+  white-space: nowrap;
+  color: var(--text-muted);
+}
+
+.field__error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.875rem;
+}
+
+.field__status {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+}
+
+.field__status--available {
+  color: var(--success);
+}
+
+.field__status--taken {
+  color: var(--danger);
+}

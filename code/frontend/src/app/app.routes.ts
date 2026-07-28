@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { registrationHostGuard } from './core/registration-host.guard';
+import { tenantRootGuard } from './core/tenant-root.guard';
 
 export const routes: Routes = [
   {
@@ -9,6 +10,12 @@ export const routes: Routes = [
       import('./features/tenant-registration/tenant-registration.routes').then(
         (m) => m.tenantRegistrationRoutes,
       ),
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    canMatch: [tenantRootGuard],
+    children: [],
   },
   {
     path: '',

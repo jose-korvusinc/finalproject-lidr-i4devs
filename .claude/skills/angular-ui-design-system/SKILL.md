@@ -19,9 +19,9 @@ componente, contratos de API ni tests de comportamiento.
    nunca se escribe un hex suelto en una feature. Incluye además la capa base (reset de
    `box-sizing`, `body` con `--font-sans`/`--bg`/`--text`, `color-scheme: light dark`, controles de
    formulario heredando la fuente y el **anillo de foco global**).
-2. **Primitivas compartidas**: `code/frontend/src/styles/_ui.scss` (botón, chip, título de sección)
-   y `code/frontend/src/styles/_forms.scss` (campo, etiqueta, input, error, estado). Se consumen
-   desde el SCSS del componente con `@use '../../../styles/ui';`.
+2. **Primitivas compartidas**: partials en `code/frontend/src/styles/`, **uno por primitiva**:
+   `_buttons.scss`, `_chips.scss`, `_titles.scss`, `_options.scss`, `_notices.scss`, `_forms.scss`.
+   Se consumen desde el SCSS del componente con `@use '../../../styles/buttons';`.
 3. **Implementación de referencia**: `code/frontend/src/app/features/home/home.scss` y
    `home.html` — de ahí salió el ritmo visual descrito abajo. Ante cualquier duda de "cómo se ve
    esto", **mira la landing antes de inventar**.
@@ -87,9 +87,11 @@ Extraídas de la landing. Reprodúcelas **por composición, no copiando el CSS**
 
 | Primitiva | Clases | Notas |
 | :--- | :--- | :--- |
-| Botón | `.button` + `.button--primary` / `--ghost` / `--light` | `_ui.scss`. `--radius-pill`, peso 600, borde de 2px transparente, `:disabled` al 60 % |
-| Chip | `.chip` | `_ui.scss` |
-| Título de sección | `.section-title` | `_ui.scss` |
+| Botón | `.button` + `.button--primary` / `--ghost` / `--light` | `_buttons.scss`. `--radius-pill`, peso 600, borde de 2px transparente, `:disabled` al 60 % |
+| Chip | `.chip` | `_chips.scss`. Etiqueta no interactiva |
+| Opción seleccionable | `.option` | `_options.scss`. Botón de lista (servicio, profesional, hora). El estado activo se pinta con `[aria-pressed='true']`, así que **la accesibilidad y el estilo no se pueden desincronizar** |
+| Aviso | `.notice` + `.notice--error` / `--success` | `_notices.scss`. Para mensajes de estado, error y confirmación |
+| Título de sección | `.section-title` | `_titles.scss` |
 | Campo de formulario | `.field`, `.field__group`, `.field__suffix`, `.field__error`, `.field__status(--available/--taken)` | `_forms.scss`. El input se estiliza por descendencia (`.field input`) |
 | Tarjeta | `.step` (sobre `--surface` con sombra) / `.feature-card` (sobre `--bg-alt`) | Aún local en `home.scss`: son composiciones propias de la landing |
 | Cuadro de icono | `.step__icon` / `.feature-card__icon` | Ídem |
@@ -99,14 +101,19 @@ Extraídas de la landing. Reprodúcelas **por composición, no copiando el CSS**
 desde el SCSS del componente, que mantiene el ámbito encapsulado:
 
 ```scss
-@use '../../../styles/ui';
+@use '../../../styles/buttons';
 @use '../../../styles/forms';
 ```
 
 **No** las promuevas a `styles.scss` como CSS global: la rule de plantillas reserva lo global a
-tokens y reset, y un `.button` global se filtraría a toda la app. El precio de este enfoque es que
-el CSS de la primitiva se duplica en cada componente que la usa; por eso los partials se mantienen
-pequeños y hay que vigilar el budget `anyComponentStyle` (4 kB de aviso, 8 kB de error).
+tokens y reset, y un `.button` global se filtraría a toda la app.
+
+**Por qué un partial por primitiva.** Con `@use`, el CSS se inlinea en el componente, así que un
+partial "cajón de sastre" engorda a todo el que lo importe. Pasó de verdad: agrupar botón, chip,
+título, opción y aviso en un solo `_ui.scss` disparó `home.scss` a 4,67 kB y **rompió el budget
+`anyComponentStyle`** (4 kB de aviso, 8 kB de error). Importa solo lo que uses; si necesitas una
+primitiva nueva, créale su propio fichero en vez de ampliar uno existente. Y **nunca** subas el
+budget para que quepa: es la señal de que estás importando de más.
 
 ## 3. Procedimiento para adaptar una pantalla
 
@@ -129,19 +136,21 @@ pequeños y hay que vigilar el budget `anyComponentStyle` (4 kB de aviso, 8 kB d
 
 Recuento de colores en duro frente a uso de tokens por hoja de estilo:
 
-| Pantalla | Hex en duro | Tokens | Estado |
-| :--- | ---: | ---: | :--- |
-| `styles.scss` (línea base) | 0 | — | ✅ hecha: tipografía, `body`, `color-scheme`, foco global |
-| `features/home` | 0 | 60 | ✅ referencia; consume `_ui.scss` |
-| `features/tenant-registration` | 0 | 27 | ✅ adaptada; consume `_ui.scss` + `_forms.scss` |
-| `shared/language-switcher` | 0 | 8 | ✅ alineada |
-| `features/auth/login` | 24 | 32 | ⚠️ mezcla ambos sistemas |
-| `features/schedule` (form y panel) | 1 | 0 | ❌ sin tokens |
-| `features/catalog` (panel, service, employee) | 3 | 0 | ❌ sin tokens |
-| `features/booking` (widget, selection, slot-picker, contact-form) | 1 | 0 | ❌ sin tokens |
+| Pantalla | Hex en duro | Estado |
+| :--- | ---: | :--- |
+| `styles.scss` (línea base) | 0 | ✅ tipografía, `body`, `color-scheme`, foco global |
+| `features/home` | 0 | ✅ referencia; usa `buttons`, `chips`, `titles` |
+| `features/tenant-registration` | 0 | ✅ usa `buttons`, `forms` |
+| `features/booking` (widget, selection, slot-picker, contact-form) | 0 | ✅ usa `buttons`, `options`, `notices`, `forms` |
+| `shared/language-switcher` | 0 | ✅ alineada |
+| `features/auth/login` | 24 | ⚠️ mezcla ambos sistemas |
+| `features/schedule` (form y panel) | 1 | ❌ sin tokens ni primitivas |
+| `features/catalog` (panel, service, employee) | 3 | ❌ sin tokens ni primitivas |
 
-Prioridad restante: **widget de reserva** (lo ve el cliente final, mobile-first estricto) →
-**backoffice** (horarios y catálogo) → **login**.
+Mide con: `grep -oE "#[0-9a-fA-F]{3,8}" <fichero>.scss | wc -l`. El objetivo de cada pantalla es
+**cero**; los tokens ya no se cuentan por fichero porque las primitivas viven en los partials.
+
+Prioridad restante: **backoffice** (horarios y catálogo) → **login**.
 
 ## 5. Reglas no negociables
 

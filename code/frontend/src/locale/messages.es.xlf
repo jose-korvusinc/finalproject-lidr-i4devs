@@ -1002,6 +1002,54 @@
           <context context-type="linenumber">26,27</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="admin.nav.label" datatype="html">
+        <source>Business sections</source>
+        <target>Secciones del negocio</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/admin-layout.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="admin.nav.schedule" datatype="html">
+        <source>Working hours</source>
+        <target>Configurar horarios</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/admin-layout.html</context>
+          <context context-type="linenumber">3,10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="admin.nav.catalog" datatype="html">
+        <source>Services and team</source>
+        <target>Servicios y equipo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/admin-layout.html</context>
+          <context context-type="linenumber">11,18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="admin.share.action" datatype="html">
+        <source>Copy and share your booking page</source>
+        <target>Copia y comparte tu página de reserva</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/admin-layout.html</context>
+          <context context-type="linenumber">23,30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="admin.share.copied" datatype="html">
+        <source>Link copied. Paste it wherever your clients will see it.</source>
+        <target>Enlace copiado. Pégalo donde lo vean tus clientes.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/admin-layout.html</context>
+          <context context-type="linenumber">34,36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="admin.share.error" datatype="html">
+        <source>The link could not be copied. Copy it from the address bar instead.</source>
+        <target>No se pudo copiar el enlace. Cópialo desde la barra de direcciones.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/layout/admin-layout.html</context>
+          <context context-type="linenumber">38,45</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

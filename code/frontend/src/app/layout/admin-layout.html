@@ -1,0 +1,51 @@
+<div class="admin-layout">
+  <nav class="admin-nav" aria-label="Business sections" i18n-aria-label="@@admin.nav.label">
+    <a
+      class="admin-nav__link"
+      routerLink="/admin/schedule"
+      routerLinkActive="is-active"
+      ariaCurrentWhenActive="page"
+      i18n="@@admin.nav.schedule"
+    >
+      Working hours
+    </a>
+    <a
+      class="admin-nav__link"
+      routerLink="/admin/catalog"
+      routerLinkActive="is-active"
+      ariaCurrentWhenActive="page"
+      i18n="@@admin.nav.catalog"
+    >
+      Services and team
+    </a>
+  </nav>
+
+  <div class="admin-share">
+    <button
+      type="button"
+      class="button button--primary admin-share__button"
+      (click)="copyBookingUrl()"
+      i18n="@@admin.share.action"
+    >
+      Copy and share your booking page
+    </button>
+
+    @if (shareState() === 'copied') {
+      <p class="admin-share__feedback" role="status" aria-live="polite" i18n="@@admin.share.copied">
+        Link copied. Paste it wherever your clients will see it.
+      </p>
+    }
+    @if (shareState() === 'error') {
+      <p
+        class="admin-share__feedback admin-share__feedback--error"
+        role="alert"
+        aria-live="assertive"
+        i18n="@@admin.share.error"
+      >
+        The link could not be copied. Copy it from the address bar instead.
+      </p>
+    }
+  </div>
+
+  <router-outlet />
+</div>

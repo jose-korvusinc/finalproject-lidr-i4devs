@@ -41,6 +41,25 @@ function minutes(value: string): number {
   return Number(hours) * 60 + Number(mins);
 }
 
+function toPayload(days: ScheduleDayModel[]): WeeklyScheduleDay[] {
+  return days.map((day) => {
+    const payload: WeeklyScheduleDay = {
+      weekday: day.weekday,
+      isWorkingDay: day.isWorkingDay,
+    };
+    if (!day.isWorkingDay) {
+      return payload;
+    }
+    payload.openTime = day.openTime;
+    payload.closeTime = day.closeTime;
+    if (day.breakStart !== '' && day.breakEnd !== '') {
+      payload.breakStart = day.breakStart;
+      payload.breakEnd = day.breakEnd;
+    }
+    return payload;
+  });
+}
+
 @Component({
   selector: 'app-schedule-form',
   imports: [FormField],
@@ -109,6 +128,6 @@ export class ScheduleForm {
     if (this.form().invalid()) {
       return;
     }
-    this.save.emit(this.model());
+    this.save.emit(toPayload(this.model()));
   }
 }

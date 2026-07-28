@@ -53,6 +53,16 @@ describe('TenantContextMiddleware', () => {
     expect(store?.tenantId).toBeUndefined();
   });
 
+  it.each([['registro'], ['api'], ['admin'], ['app']])(
+    'does not resolve a tenant for the reserved %s subdomain',
+    async (label) => {
+      const store = await runMiddleware(`${label}.jpasoftware.com`);
+
+      expect(store?.tenantId).toBeUndefined();
+      expect(modelMock.findOne).not.toHaveBeenCalled();
+    },
+  );
+
   it('does not resolve a tenant for a bare localhost host', async () => {
     const store = await runMiddleware('localhost');
 

@@ -13,6 +13,17 @@ describe('resolveTenantSlug', () => {
     expect(resolveTenantSlug('www.app.com')).toBeNull();
   });
 
+  it.each(['registro', 'api', 'admin', 'app'])(
+    'returns null for the reserved %s subdomain',
+    (label) => {
+      expect(resolveTenantSlug(`${label}.jpasoftware.com`)).toBeNull();
+    },
+  );
+
+  it('still resolves a slug that merely contains a reserved word', () => {
+    expect(resolveTenantSlug('registro-paco.jpasoftware.com')).toBe('registro-paco');
+  });
+
   it('returns null for an apex host with two labels', () => {
     expect(resolveTenantSlug('app.com')).toBeNull();
   });

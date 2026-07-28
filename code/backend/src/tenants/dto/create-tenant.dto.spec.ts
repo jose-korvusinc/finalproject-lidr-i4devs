@@ -62,6 +62,22 @@ describe('CreateTenantDto', () => {
       });
       expect(hasErrorOn(errors, 'subdomain')).toBe(false);
     });
+
+    it.each([['registro'], ['www'], ['api'], ['admin'], ['app']])(
+      'rejects the reserved subdomain %s',
+      async (subdomain) => {
+        const errors = await validatePayload({ ...validPayload, subdomain });
+        expect(hasErrorOn(errors, 'subdomain')).toBe(true);
+      },
+    );
+
+    it('accepts a slug that merely contains a reserved word', async () => {
+      const errors = await validatePayload({
+        ...validPayload,
+        subdomain: 'registro-paco',
+      });
+      expect(hasErrorOn(errors, 'subdomain')).toBe(false);
+    });
   });
 
   describe('name', () => {

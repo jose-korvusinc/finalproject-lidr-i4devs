@@ -63,6 +63,18 @@ describe('TenantsService', () => {
       expect(available).toBe(false);
     });
 
+    it.each([['registro'], ['www'], ['api'], ['admin'], ['app']])(
+      'reports the reserved subdomain %s as unavailable without querying the database',
+      async (subdomain) => {
+        modelMock.exists.mockResolvedValue(null);
+
+        const available = await service.isSubdomainAvailable(subdomain);
+
+        expect(available).toBe(false);
+        expect(modelMock.exists).not.toHaveBeenCalled();
+      },
+    );
+
     it('filters by the requested subdomain with a minimal existence check', async () => {
       modelMock.exists.mockResolvedValue(null);
 

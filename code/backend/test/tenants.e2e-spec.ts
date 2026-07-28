@@ -82,6 +82,17 @@ describe('Tenants subdomain availability (e2e)', () => {
     expect(response.body).toEqual({ available: false });
   });
 
+  it('reports the reserved registro subdomain as { available: false }', async () => {
+    modelMock.exists.mockResolvedValue(null);
+
+    const response = await request(app.getHttpServer())
+      .get(AVAILABILITY_PATH)
+      .query({ subdomain: 'registro' })
+      .expect(200);
+
+    expect(response.body).toEqual({ available: false });
+  });
+
   it('rejects a request without the subdomain query with 400', async () => {
     await request(app.getHttpServer()).get(AVAILABILITY_PATH).expect(400);
   });
@@ -162,6 +173,18 @@ describe('Tenants subdomain availability (e2e)', () => {
         .send(validBody)
         .expect(409);
     });
+
+    it.each([['registro'], ['www'], ['api'], ['admin'], ['app']])(
+      'rejects the reserved subdomain %s with 400 without creating anything',
+      async (subdomain) => {
+        await request(app.getHttpServer())
+          .post(REGISTER_PATH)
+          .send({ ...validBody, subdomain })
+          .expect(400);
+
+        expect(modelMock.create).not.toHaveBeenCalled();
+      },
+    );
 
     it('rejects a body missing the subdomain with 400', async () => {
       await request(app.getHttpServer())

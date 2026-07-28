@@ -143,14 +143,13 @@ Recuento de colores en duro frente a uso de tokens por hoja de estilo:
 | `features/tenant-registration` | 0 | ✅ usa `buttons`, `forms` |
 | `features/booking` (widget, selection, slot-picker, contact-form) | 0 | ✅ usa `buttons`, `options`, `notices`, `forms` |
 | `shared/language-switcher` | 0 | ✅ alineada |
-| `features/auth/login` | 24 | ⚠️ mezcla ambos sistemas |
-| `features/schedule` (form y panel) | 1 | ❌ sin tokens ni primitivas |
-| `features/catalog` (panel, service, employee) | 3 | ❌ sin tokens ni primitivas |
+| `features/schedule` (form y panel) | 0 | ✅ usa `buttons`, `forms`, `notices` |
+| `features/catalog` (panel, service, employee) | 0 | ✅ usa `buttons`, `forms`, `notices` |
+| `features/auth/login` | 0 | ✅ usa `buttons`, `forms`; ya no duplica los tokens |
 
 Mide con: `grep -oE "#[0-9a-fA-F]{3,8}" <fichero>.scss | wc -l`. El objetivo de cada pantalla es
-**cero**; los tokens ya no se cuentan por fichero porque las primitivas viven en los partials.
-
-Prioridad restante: **backoffice** (horarios y catálogo) → **login**.
+**cero**, y **ya se cumple en todas**; los tokens no se cuentan por fichero porque las primitivas
+viven en los partials. Mantén la tabla en cero al añadir pantallas nuevas.
 
 ## 5. Reglas no negociables
 

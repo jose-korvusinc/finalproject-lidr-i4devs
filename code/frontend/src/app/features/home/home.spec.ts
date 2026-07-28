@@ -66,6 +66,29 @@ describe('Home', () => {
     expect(hrefs).toContain('/login');
   });
 
+  it('offers the log in call to action as disabled while auth is not implemented', async () => {
+    const { root } = await setup();
+
+    const loginButtons = Array.from(root.querySelectorAll('button')).filter((button) =>
+      /log in/i.test(button.textContent ?? ''),
+    );
+
+    expect(loginButtons).toHaveLength(2);
+    for (const button of loginButtons) {
+      expect(button.disabled).toBe(true);
+    }
+  });
+
+  it('does not offer the log in call to action as a navigable link', async () => {
+    const { root } = await setup();
+
+    const navigableLogin = Array.from(root.querySelectorAll('a')).filter(
+      (link) => link.getAttribute('href') === '/login' && /button/.test(link.className),
+    );
+
+    expect(navigableLogin).toHaveLength(0);
+  });
+
   it('passes a basic accessibility check', async () => {
     const { root } = await setup();
 

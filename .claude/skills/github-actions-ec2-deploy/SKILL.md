@@ -175,7 +175,7 @@ jobs:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         run: |
           install -m 600 /dev/null key.pem
-          printf '%s' "$SSH_PRIVATE_KEY" > key.pem
+          printf '%s\n' "$SSH_PRIVATE_KEY" > key.pem
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
           printf '%s\n' "$SSH_KNOWN_HOSTS" >> ~/.ssh/known_hosts
       - name: Render backend env file (600)

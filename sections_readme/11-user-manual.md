@@ -45,10 +45,14 @@ Dentro de esa dirección, cada pantalla tiene su propia página:
 
 | Para qué sirve | A dónde vas | Quién la usa |
 | :--- | :--- | :--- |
-| Registrar un negocio nuevo | `/register` | El dueño (la primera vez) |
+| Registrar un negocio nuevo | `https://registro.jpasoftware.com` | El dueño (la primera vez) |
 | Configurar horarios | `/admin/schedule` | El dueño |
 | Servicios y equipo | `/admin/catalog` | El dueño |
 | Reservar una cita | `/booking` | El cliente final |
+
+> El alta de negocio es la excepción: tiene **su propia dirección**, `registro.jpasoftware.com`, y no
+> cuelga del subdominio de ningún negocio (todavía no tienes uno). El resto de páginas sí van dentro
+> del subdominio de tu negocio.
 
 > 💡 **Nota práctica:** en un ordenador de pruebas la aplicación se abre en `http://localhost:4200`
 > y detrás funciona un servidor en `http://localhost:3000`. En el uso real, cada negocio entra por su
@@ -63,7 +67,8 @@ Dentro de esa dirección, cada pantalla tiene su propia página:
 
 Es el **primer paso de todos**. Aquí creas tu espacio en la plataforma. Solo se hace **una vez**.
 
-**Cómo llegar:** entra en la página `/register`.
+**Cómo llegar:** entra en **`https://registro.jpasoftware.com`**. Esa es la dirección del alta; te
+lleva directamente al formulario, sin tener que buscar nada más.
 
 **Verás un formulario con tres casillas para rellenar:**
 
@@ -295,8 +300,9 @@ siempre es un email sin arroba, una hora de cierre anterior a la de apertura, o 
 mayúsculas o espacios.
 
 **"Me dice que el subdominio ya está cogido."**
-Ese nombre lo tiene otro negocio. Elige otro (puedes añadir tu ciudad o un número, por ejemplo
-`barberia-paco-madrid`). El sistema te dirá al momento si está libre.
+Ese nombre lo tiene otro negocio, o es uno de los que la plataforma se reserva para sí misma
+(`registro`, `www`, `api`, `admin` y `app`). Elige otro (puedes añadir tu ciudad o un número, por
+ejemplo `barberia-paco-madrid`). El sistema te dirá al momento si está libre.
 
 **"He configurado los horarios pero a mis clientes no les aparece ninguna hora."**
 Repasa tres cosas, en este orden:

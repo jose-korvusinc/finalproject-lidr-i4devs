@@ -31,6 +31,10 @@ Comprueba si un subdominio está libre (feedback previo al alta). Solo lectura.
 | **200** | `SubdomainAvailabilityResponseDto` → `{ "available": boolean }` |
 | **400** | Query ausente o subdominio con formato inválido |
 
+Los **subdominios reservados** de la plataforma (`registro`, `www`, `api`, `admin`, `app`) se
+reportan siempre como `{ "available": false }`, sin consultar la base de datos, para que el
+formulario de alta no ofrezca un slug que después rechazaría el `POST`.
+
 ```http
 GET /api/v1/tenants/subdomain-availability?subdomain=barberia-ana HTTP/1.1
 ```
@@ -49,13 +53,14 @@ Da de alta un tenant garantizando subdominio único global.
 | **Body** | `CreateTenantDto` |
 | **201** | `TenantResponseDto` |
 | **409** | Subdominio ya en uso (sin registro parcial) |
-| **400** | Validación fallida (email, slug, propiedad no permitida) |
+| **400** | Validación fallida (email, slug, subdominio reservado, propiedad no permitida) |
 
 ```yaml
 # CreateTenantDto (request body)
 name:       string   # nombre del negocio (requerido)
 ownerEmail: string   # email corporativo, formato email (requerido)
 subdomain:  string   # slug ^[a-z0-9]+(?:-[a-z0-9]+)*$ (requerido)
+                     # reservados (400): registro, www, api, admin, app
 
 # TenantResponseDto (201)
 id:        string

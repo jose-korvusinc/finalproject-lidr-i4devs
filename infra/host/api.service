@@ -9,7 +9,7 @@ Group=deploy
 WorkingDirectory=/srv/api
 EnvironmentFile=/etc/bookings-api/api.env
 Environment=NODE_VERSION=22
-ExecStart=/home/deploy/.nvm/nvm-exec node /srv/api/dist/main.js
+ExecStart=/home/deploy/.nvm/nvm-exec node /srv/api/dist/src/main.js
 Restart=on-failure
 RestartSec=3
 
